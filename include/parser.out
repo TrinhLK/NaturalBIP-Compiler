@@ -1,0 +1,819 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> start
+Rule 1     start -> VARORDER COLON variableList
+Rule 2     start -> VARIABLE ASSIGNOP expression
+Rule 3     start -> MAINEXP COLON expression
+Rule 4     start -> empty
+Rule 5     expression -> LPAREN expression RPAREN
+Rule 6     expression -> NOTOP expression
+Rule 7     expression -> expression ANDOP expression
+Rule 8     expression -> expression OROP expression
+Rule 9     expression -> expression XOROP expression
+Rule 10    expression -> expression IMPLIESOP expression
+Rule 11    expression -> expression EQOP expression
+Rule 12    expression -> EXISTS VARIABLE DOT LPAREN expression RPAREN
+Rule 13    expression -> EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+Rule 14    expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+Rule 15    expression -> VARIABLE
+Rule 16    expression -> CONST
+Rule 17    empty -> <empty>
+Rule 18    variableList -> VARIABLE variableList
+Rule 19    variableList -> VARIABLE
+
+Terminals, with rules where they appear
+
+ANDOP                : 7
+ASSIGNOP             : 2 14
+COLON                : 1 3 14
+CONST                : 16
+DOT                  : 12 13
+EQOP                 : 11
+EXISTS               : 12
+EXISTS_EXCL          : 13
+IMPLIESOP            : 10
+LBRAC                : 14
+LPAREN               : 5 12 13
+MAINEXP              : 3
+NOTOP                : 6
+OROP                 : 8
+RBRAC                : 14
+RPAREN               : 5 12 13
+VARIABLE             : 2 12 14 15 18 19
+VARORDER             : 1
+XOROP                : 9
+error                : 
+
+Nonterminals, with rules where they appear
+
+empty                : 4
+expression           : 2 3 5 6 7 7 8 8 9 9 10 10 11 11 12 13
+start                : 0
+variableList         : 1 13 14 14 18
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . start
+    (1) start -> . VARORDER COLON variableList
+    (2) start -> . VARIABLE ASSIGNOP expression
+    (3) start -> . MAINEXP COLON expression
+    (4) start -> . empty
+    (17) empty -> .
+
+    VARORDER        shift and go to state 2
+    VARIABLE        shift and go to state 3
+    MAINEXP         shift and go to state 4
+    $end            reduce using rule 17 (empty -> .)
+
+    start                          shift and go to state 1
+    empty                          shift and go to state 5
+
+state 1
+
+    (0) S' -> start .
+
+
+
+state 2
+
+    (1) start -> VARORDER . COLON variableList
+
+    COLON           shift and go to state 6
+
+
+state 3
+
+    (2) start -> VARIABLE . ASSIGNOP expression
+
+    ASSIGNOP        shift and go to state 7
+
+
+state 4
+
+    (3) start -> MAINEXP . COLON expression
+
+    COLON           shift and go to state 8
+
+
+state 5
+
+    (4) start -> empty .
+
+    $end            reduce using rule 4 (start -> empty .)
+
+
+state 6
+
+    (1) start -> VARORDER COLON . variableList
+    (18) variableList -> . VARIABLE variableList
+    (19) variableList -> . VARIABLE
+
+    VARIABLE        shift and go to state 10
+
+    variableList                   shift and go to state 9
+
+state 7
+
+    (2) start -> VARIABLE ASSIGNOP . expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 12
+
+state 8
+
+    (3) start -> MAINEXP COLON . expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 18
+
+state 9
+
+    (1) start -> VARORDER COLON variableList .
+
+    $end            reduce using rule 1 (start -> VARORDER COLON variableList .)
+
+
+state 10
+
+    (18) variableList -> VARIABLE . variableList
+    (19) variableList -> VARIABLE .
+    (18) variableList -> . VARIABLE variableList
+    (19) variableList -> . VARIABLE
+
+    $end            reduce using rule 19 (variableList -> VARIABLE .)
+    DOT             reduce using rule 19 (variableList -> VARIABLE .)
+    COLON           reduce using rule 19 (variableList -> VARIABLE .)
+    RBRAC           reduce using rule 19 (variableList -> VARIABLE .)
+    VARIABLE        shift and go to state 10
+
+    variableList                   shift and go to state 19
+
+state 11
+
+    (14) expression -> VARIABLE . LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> VARIABLE .
+
+    LBRAC           shift and go to state 20
+    ANDOP           reduce using rule 15 (expression -> VARIABLE .)
+    OROP            reduce using rule 15 (expression -> VARIABLE .)
+    XOROP           reduce using rule 15 (expression -> VARIABLE .)
+    IMPLIESOP       reduce using rule 15 (expression -> VARIABLE .)
+    EQOP            reduce using rule 15 (expression -> VARIABLE .)
+    $end            reduce using rule 15 (expression -> VARIABLE .)
+    RPAREN          reduce using rule 15 (expression -> VARIABLE .)
+
+
+state 12
+
+    (2) start -> VARIABLE ASSIGNOP expression .
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    $end            reduce using rule 2 (start -> VARIABLE ASSIGNOP expression .)
+    ANDOP           shift and go to state 21
+    OROP            shift and go to state 22
+    XOROP           shift and go to state 23
+    IMPLIESOP       shift and go to state 24
+    EQOP            shift and go to state 25
+
+
+state 13
+
+    (5) expression -> LPAREN . expression RPAREN
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 26
+
+state 14
+
+    (6) expression -> NOTOP . expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 27
+
+state 15
+
+    (12) expression -> EXISTS . VARIABLE DOT LPAREN expression RPAREN
+
+    VARIABLE        shift and go to state 28
+
+
+state 16
+
+    (13) expression -> EXISTS_EXCL . variableList DOT LPAREN expression RPAREN
+    (18) variableList -> . VARIABLE variableList
+    (19) variableList -> . VARIABLE
+
+    VARIABLE        shift and go to state 10
+
+    variableList                   shift and go to state 29
+
+state 17
+
+    (16) expression -> CONST .
+
+    ANDOP           reduce using rule 16 (expression -> CONST .)
+    OROP            reduce using rule 16 (expression -> CONST .)
+    XOROP           reduce using rule 16 (expression -> CONST .)
+    IMPLIESOP       reduce using rule 16 (expression -> CONST .)
+    EQOP            reduce using rule 16 (expression -> CONST .)
+    $end            reduce using rule 16 (expression -> CONST .)
+    RPAREN          reduce using rule 16 (expression -> CONST .)
+
+
+state 18
+
+    (3) start -> MAINEXP COLON expression .
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    $end            reduce using rule 3 (start -> MAINEXP COLON expression .)
+    ANDOP           shift and go to state 21
+    OROP            shift and go to state 22
+    XOROP           shift and go to state 23
+    IMPLIESOP       shift and go to state 24
+    EQOP            shift and go to state 25
+
+
+state 19
+
+    (18) variableList -> VARIABLE variableList .
+
+    $end            reduce using rule 18 (variableList -> VARIABLE variableList .)
+    DOT             reduce using rule 18 (variableList -> VARIABLE variableList .)
+    COLON           reduce using rule 18 (variableList -> VARIABLE variableList .)
+    RBRAC           reduce using rule 18 (variableList -> VARIABLE variableList .)
+
+
+state 20
+
+    (14) expression -> VARIABLE LBRAC . variableList COLON ASSIGNOP variableList RBRAC
+    (18) variableList -> . VARIABLE variableList
+    (19) variableList -> . VARIABLE
+
+    VARIABLE        shift and go to state 10
+
+    variableList                   shift and go to state 30
+
+state 21
+
+    (7) expression -> expression ANDOP . expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 31
+
+state 22
+
+    (8) expression -> expression OROP . expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 32
+
+state 23
+
+    (9) expression -> expression XOROP . expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 33
+
+state 24
+
+    (10) expression -> expression IMPLIESOP . expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 34
+
+state 25
+
+    (11) expression -> expression EQOP . expression
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 35
+
+state 26
+
+    (5) expression -> LPAREN expression . RPAREN
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    RPAREN          shift and go to state 36
+    ANDOP           shift and go to state 21
+    OROP            shift and go to state 22
+    XOROP           shift and go to state 23
+    IMPLIESOP       shift and go to state 24
+    EQOP            shift and go to state 25
+
+
+state 27
+
+    (6) expression -> NOTOP expression .
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    ANDOP           reduce using rule 6 (expression -> NOTOP expression .)
+    OROP            reduce using rule 6 (expression -> NOTOP expression .)
+    XOROP           reduce using rule 6 (expression -> NOTOP expression .)
+    IMPLIESOP       reduce using rule 6 (expression -> NOTOP expression .)
+    EQOP            reduce using rule 6 (expression -> NOTOP expression .)
+    $end            reduce using rule 6 (expression -> NOTOP expression .)
+    RPAREN          reduce using rule 6 (expression -> NOTOP expression .)
+
+  ! ANDOP           [ shift and go to state 21 ]
+  ! OROP            [ shift and go to state 22 ]
+  ! XOROP           [ shift and go to state 23 ]
+  ! IMPLIESOP       [ shift and go to state 24 ]
+  ! EQOP            [ shift and go to state 25 ]
+
+
+state 28
+
+    (12) expression -> EXISTS VARIABLE . DOT LPAREN expression RPAREN
+
+    DOT             shift and go to state 37
+
+
+state 29
+
+    (13) expression -> EXISTS_EXCL variableList . DOT LPAREN expression RPAREN
+
+    DOT             shift and go to state 38
+
+
+state 30
+
+    (14) expression -> VARIABLE LBRAC variableList . COLON ASSIGNOP variableList RBRAC
+
+    COLON           shift and go to state 39
+
+
+state 31
+
+    (7) expression -> expression ANDOP expression .
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    ANDOP           reduce using rule 7 (expression -> expression ANDOP expression .)
+    OROP            reduce using rule 7 (expression -> expression ANDOP expression .)
+    XOROP           reduce using rule 7 (expression -> expression ANDOP expression .)
+    IMPLIESOP       reduce using rule 7 (expression -> expression ANDOP expression .)
+    EQOP            reduce using rule 7 (expression -> expression ANDOP expression .)
+    $end            reduce using rule 7 (expression -> expression ANDOP expression .)
+    RPAREN          reduce using rule 7 (expression -> expression ANDOP expression .)
+
+  ! ANDOP           [ shift and go to state 21 ]
+  ! OROP            [ shift and go to state 22 ]
+  ! XOROP           [ shift and go to state 23 ]
+  ! IMPLIESOP       [ shift and go to state 24 ]
+  ! EQOP            [ shift and go to state 25 ]
+
+
+state 32
+
+    (8) expression -> expression OROP expression .
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    OROP            reduce using rule 8 (expression -> expression OROP expression .)
+    XOROP           reduce using rule 8 (expression -> expression OROP expression .)
+    IMPLIESOP       reduce using rule 8 (expression -> expression OROP expression .)
+    EQOP            reduce using rule 8 (expression -> expression OROP expression .)
+    $end            reduce using rule 8 (expression -> expression OROP expression .)
+    RPAREN          reduce using rule 8 (expression -> expression OROP expression .)
+    ANDOP           shift and go to state 21
+
+  ! ANDOP           [ reduce using rule 8 (expression -> expression OROP expression .) ]
+  ! OROP            [ shift and go to state 22 ]
+  ! XOROP           [ shift and go to state 23 ]
+  ! IMPLIESOP       [ shift and go to state 24 ]
+  ! EQOP            [ shift and go to state 25 ]
+
+
+state 33
+
+    (9) expression -> expression XOROP expression .
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    XOROP           reduce using rule 9 (expression -> expression XOROP expression .)
+    IMPLIESOP       reduce using rule 9 (expression -> expression XOROP expression .)
+    EQOP            reduce using rule 9 (expression -> expression XOROP expression .)
+    $end            reduce using rule 9 (expression -> expression XOROP expression .)
+    RPAREN          reduce using rule 9 (expression -> expression XOROP expression .)
+    ANDOP           shift and go to state 21
+    OROP            shift and go to state 22
+
+  ! ANDOP           [ reduce using rule 9 (expression -> expression XOROP expression .) ]
+  ! OROP            [ reduce using rule 9 (expression -> expression XOROP expression .) ]
+  ! XOROP           [ shift and go to state 23 ]
+  ! IMPLIESOP       [ shift and go to state 24 ]
+  ! EQOP            [ shift and go to state 25 ]
+
+
+state 34
+
+    (10) expression -> expression IMPLIESOP expression .
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    EQOP            reduce using rule 10 (expression -> expression IMPLIESOP expression .)
+    $end            reduce using rule 10 (expression -> expression IMPLIESOP expression .)
+    RPAREN          reduce using rule 10 (expression -> expression IMPLIESOP expression .)
+    ANDOP           shift and go to state 21
+    OROP            shift and go to state 22
+    XOROP           shift and go to state 23
+    IMPLIESOP       shift and go to state 24
+
+  ! ANDOP           [ reduce using rule 10 (expression -> expression IMPLIESOP expression .) ]
+  ! OROP            [ reduce using rule 10 (expression -> expression IMPLIESOP expression .) ]
+  ! XOROP           [ reduce using rule 10 (expression -> expression IMPLIESOP expression .) ]
+  ! IMPLIESOP       [ reduce using rule 10 (expression -> expression IMPLIESOP expression .) ]
+  ! EQOP            [ shift and go to state 25 ]
+
+
+state 35
+
+    (11) expression -> expression EQOP expression .
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    $end            reduce using rule 11 (expression -> expression EQOP expression .)
+    RPAREN          reduce using rule 11 (expression -> expression EQOP expression .)
+    ANDOP           shift and go to state 21
+    OROP            shift and go to state 22
+    XOROP           shift and go to state 23
+    IMPLIESOP       shift and go to state 24
+    EQOP            shift and go to state 25
+
+  ! ANDOP           [ reduce using rule 11 (expression -> expression EQOP expression .) ]
+  ! OROP            [ reduce using rule 11 (expression -> expression EQOP expression .) ]
+  ! XOROP           [ reduce using rule 11 (expression -> expression EQOP expression .) ]
+  ! IMPLIESOP       [ reduce using rule 11 (expression -> expression EQOP expression .) ]
+  ! EQOP            [ reduce using rule 11 (expression -> expression EQOP expression .) ]
+
+
+state 36
+
+    (5) expression -> LPAREN expression RPAREN .
+
+    ANDOP           reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    OROP            reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    XOROP           reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    IMPLIESOP       reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    EQOP            reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    $end            reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 5 (expression -> LPAREN expression RPAREN .)
+
+
+state 37
+
+    (12) expression -> EXISTS VARIABLE DOT . LPAREN expression RPAREN
+
+    LPAREN          shift and go to state 40
+
+
+state 38
+
+    (13) expression -> EXISTS_EXCL variableList DOT . LPAREN expression RPAREN
+
+    LPAREN          shift and go to state 41
+
+
+state 39
+
+    (14) expression -> VARIABLE LBRAC variableList COLON . ASSIGNOP variableList RBRAC
+
+    ASSIGNOP        shift and go to state 42
+
+
+state 40
+
+    (12) expression -> EXISTS VARIABLE DOT LPAREN . expression RPAREN
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 43
+
+state 41
+
+    (13) expression -> EXISTS_EXCL variableList DOT LPAREN . expression RPAREN
+    (5) expression -> . LPAREN expression RPAREN
+    (6) expression -> . NOTOP expression
+    (7) expression -> . expression ANDOP expression
+    (8) expression -> . expression OROP expression
+    (9) expression -> . expression XOROP expression
+    (10) expression -> . expression IMPLIESOP expression
+    (11) expression -> . expression EQOP expression
+    (12) expression -> . EXISTS VARIABLE DOT LPAREN expression RPAREN
+    (13) expression -> . EXISTS_EXCL variableList DOT LPAREN expression RPAREN
+    (14) expression -> . VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC
+    (15) expression -> . VARIABLE
+    (16) expression -> . CONST
+
+    LPAREN          shift and go to state 13
+    NOTOP           shift and go to state 14
+    EXISTS          shift and go to state 15
+    EXISTS_EXCL     shift and go to state 16
+    VARIABLE        shift and go to state 11
+    CONST           shift and go to state 17
+
+    expression                     shift and go to state 44
+
+state 42
+
+    (14) expression -> VARIABLE LBRAC variableList COLON ASSIGNOP . variableList RBRAC
+    (18) variableList -> . VARIABLE variableList
+    (19) variableList -> . VARIABLE
+
+    VARIABLE        shift and go to state 10
+
+    variableList                   shift and go to state 45
+
+state 43
+
+    (12) expression -> EXISTS VARIABLE DOT LPAREN expression . RPAREN
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    RPAREN          shift and go to state 46
+    ANDOP           shift and go to state 21
+    OROP            shift and go to state 22
+    XOROP           shift and go to state 23
+    IMPLIESOP       shift and go to state 24
+    EQOP            shift and go to state 25
+
+
+state 44
+
+    (13) expression -> EXISTS_EXCL variableList DOT LPAREN expression . RPAREN
+    (7) expression -> expression . ANDOP expression
+    (8) expression -> expression . OROP expression
+    (9) expression -> expression . XOROP expression
+    (10) expression -> expression . IMPLIESOP expression
+    (11) expression -> expression . EQOP expression
+
+    RPAREN          shift and go to state 47
+    ANDOP           shift and go to state 21
+    OROP            shift and go to state 22
+    XOROP           shift and go to state 23
+    IMPLIESOP       shift and go to state 24
+    EQOP            shift and go to state 25
+
+
+state 45
+
+    (14) expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList . RBRAC
+
+    RBRAC           shift and go to state 48
+
+
+state 46
+
+    (12) expression -> EXISTS VARIABLE DOT LPAREN expression RPAREN .
+
+    ANDOP           reduce using rule 12 (expression -> EXISTS VARIABLE DOT LPAREN expression RPAREN .)
+    OROP            reduce using rule 12 (expression -> EXISTS VARIABLE DOT LPAREN expression RPAREN .)
+    XOROP           reduce using rule 12 (expression -> EXISTS VARIABLE DOT LPAREN expression RPAREN .)
+    IMPLIESOP       reduce using rule 12 (expression -> EXISTS VARIABLE DOT LPAREN expression RPAREN .)
+    EQOP            reduce using rule 12 (expression -> EXISTS VARIABLE DOT LPAREN expression RPAREN .)
+    $end            reduce using rule 12 (expression -> EXISTS VARIABLE DOT LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 12 (expression -> EXISTS VARIABLE DOT LPAREN expression RPAREN .)
+
+
+state 47
+
+    (13) expression -> EXISTS_EXCL variableList DOT LPAREN expression RPAREN .
+
+    ANDOP           reduce using rule 13 (expression -> EXISTS_EXCL variableList DOT LPAREN expression RPAREN .)
+    OROP            reduce using rule 13 (expression -> EXISTS_EXCL variableList DOT LPAREN expression RPAREN .)
+    XOROP           reduce using rule 13 (expression -> EXISTS_EXCL variableList DOT LPAREN expression RPAREN .)
+    IMPLIESOP       reduce using rule 13 (expression -> EXISTS_EXCL variableList DOT LPAREN expression RPAREN .)
+    EQOP            reduce using rule 13 (expression -> EXISTS_EXCL variableList DOT LPAREN expression RPAREN .)
+    $end            reduce using rule 13 (expression -> EXISTS_EXCL variableList DOT LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 13 (expression -> EXISTS_EXCL variableList DOT LPAREN expression RPAREN .)
+
+
+state 48
+
+    (14) expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC .
+
+    ANDOP           reduce using rule 14 (expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC .)
+    OROP            reduce using rule 14 (expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC .)
+    XOROP           reduce using rule 14 (expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC .)
+    IMPLIESOP       reduce using rule 14 (expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC .)
+    EQOP            reduce using rule 14 (expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC .)
+    $end            reduce using rule 14 (expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC .)
+    RPAREN          reduce using rule 14 (expression -> VARIABLE LBRAC variableList COLON ASSIGNOP variableList RBRAC .)
+

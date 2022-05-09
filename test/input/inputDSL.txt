@@ -1,0 +1,48 @@
+P1 = {
+	M: <any:Peer.p> [act:p:register] and <a:Tracker.t> [act:t:log(t,p)], simultaneously;
+}
+
+P2 = {
+	M: <any:Peer.p> [act:p:listen()] ;
+	C: [act:p:~speak];
+}
+
+P3 = {
+	M: <any:Tracker.t> [act:t:broadcast] ;
+	C: <one:Peer.p> [act:p:speak] and <all:Peer.p1> [act:p1:listen] and [cdt:differ(p1,p)] and [cdt:isReg(p1,t)] and [cdt:isReg(p,t)];
+}
+
+P31 = {
+	M: <any:Peer.p> [act:p:listen];
+	C: <a:Tracker.t> [act:t:broadcast] and [cdt:isReg(p,t)];
+}
+
+P32 = {
+	M: <any:Peer.p> [act:p:speak];
+	C: <a:Tracker.t> [act:t:broadcast] and [cdt:isReg(p,t)] 
+		and <all:Peer.p1> ([cdt:differ(p1,p)] 
+		and [cdt:isReg(p1,t)] and [act:p1:~speak]);
+}
+
+P1a = {
+	M: <any:Peer.p> [act:p:listen];
+	C: <a:Tracker.t> [act:t:broadcast] and [cdt:isReg(p,t)];
+}
+
+P2a = {
+	M: <any:Peer.p> [act:p:listen];
+	C: [act:p:~speak]
+}
+
+P2b = {
+	M: <any:Peer.p> [act:p:listen] XOR [act:p:speak];
+}
+
+P3a = {
+	M: <any:Peer.p> [act:p:speak];
+	C: <a:Tracker.t> [act:t:broadcast] and [cdt:isReg(p,t)] 
+		and <all:Peer.p1> ([cdt:differ(p1,p)] 
+		and [cdt:isReg(p1,t)] and [act:p1:~speak]);
+}
+
+Main_Exp : P1a and P2a and P3a

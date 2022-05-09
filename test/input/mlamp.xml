@@ -1,0 +1,215 @@
+<extension name="mlamp">
+
+	<annotations name="policy-backup">
+			<annotation id="mysql-tomcat">(MySQL.start)`-(Tomcat.start)</annotation>
+			<annotation id="tomcat-apache">(Tomcat.start)`-(Apache.start)</annotation>
+			<annotation id="mysql-apache-apps">[(MySQL.start)-(Apache.start)]`-(Apps.start)</annotation>
+			<annotation id="property_1">prop: or (!(>= Apache.Active 1) (>= Tomcat.Active 1))</annotation>
+			<annotation id="property_2">prop: (=> (>= Apache.Active 1) (>= Tomcat.Active 1))</annotation>
+			<annotation id="property_3">prop: (=> (>= Tomcat.Active 1) (>= MySQL.Active 1))</annotation>
+			<annotation id="property_4">prop: (=> (and (>= Apache.Active 1) (>= Tomcat.Error 1)) (>= Tomcat.Active 1))</annotation>
+	</annotations>
+	
+	<annotations name="Specification">
+			
+			<annotation id="mysql-tomcat">(MySQL.start)`-(Tomcat.start)</annotation>
+			<annotation id="tomcat-apache">(Tomcat.start)`-[(Apache.start)-(MySQL.start)]`-(Apps.start)</annotation>
+			<annotation id="property_1">prop: (=> (Apps.Active >= 1) (and (MySQL.Active >= 1) (Apache.Active >= 1) (Tomcat.Active >= 1)))</annotation>
+			<annotation id="property_2">prop: (=> (Apps.Active >= 1) (and (MySQL.Active >= 1) (Apache.Active >= 1) (Tomcat.Active >= 1)))</annotation>
+	</annotations>
+	
+	<class name="VirtualMachine" parent="Resource">
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="vid" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="stop"/>
+			<action name="configure"/>
+			<action name="deploy"/>
+			<action name="none"/>
+			<action name="start"/>
+			<action name="undeploy"/>
+			<place name="Active" initial="false" final="false"/>
+			<place name="Deployed" initial="false" final="false"/>
+			<place name="Inactive" initial="false" final="false"/>
+			<place name="Undeployed" initial="true" final="false"/>
+			<place name="Error" initial="false" final="false"/>
+			<transition from="Active" to="Inactive" action="stop"/>
+			<transition from="Active" to="Undeployed" action="undeploy"/>
+			<transition from="Active" to="Error" action="none"/>
+			<transition from="Deployed" to="Undeployed" action="undeploy"/>
+			<transition from="Deployed" to="Inactive" action="configure"/>
+			<transition from="Deployed" to="Error" action="none"/>
+			<transition from="Inactive" to="Inactive" action="configure"/>
+			<transition from="Inactive" to="Active" action="start"/>
+			<transition from="Inactive" to="Undeployed" action="undeploy"/>
+			<transition from="Inactive" to="Error" action="none"/>
+			<transition from="Undeployed" to="Deployed" action="deploy"/>
+			<transition from="Undeployed" to="Active" action="start"/>
+			<transition from="Undeployed" to="Error" action="none"/>
+			<transition from="Error" to="Active" action="start"/>
+			<transition from="Error" to="Deployed" action="deploy"/>
+	</class>
+	
+	<class name="Tomcat" parent="VirtualMachine">
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="vid" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="stop"/>
+			<action name="configure"/>
+			<action name="deploy"/>
+			<action name="none"/>
+			<action name="start"/>
+			<action name="undeploy"/>
+			<place name="Active" initial="false" final="false"/>
+			<place name="Deployed" initial="false" final="false"/>
+			<place name="Inactive" initial="false" final="false"/>
+			<place name="Undeployed" initial="true" final="false"/>
+			<place name="Error" initial="false" final="false"/>
+			<transition from="Active" to="Inactive" action="stop"/>
+			<transition from="Active" to="Undeployed" action="undeploy"/>
+			<transition from="Active" to="Error" action="none"/>
+			<transition from="Deployed" to="Undeployed" action="undeploy"/>
+			<transition from="Deployed" to="Inactive" action="configure"/>
+			<transition from="Deployed" to="Error" action="none"/>
+			<transition from="Inactive" to="Inactive" action="configure"/>
+			<transition from="Inactive" to="Active" action="start"/>
+			<transition from="Inactive" to="Undeployed" action="undeploy"/>
+			<transition from="Inactive" to="Error" action="none"/>
+			<transition from="Undeployed" to="Deployed" action="deploy"/>
+			<transition from="Undeployed" to="Active" action="start"/>
+			<transition from="Undeployed" to="Error" action="none"/>
+			<transition from="Error" to="Active" action="start"/>
+			<transition from="Error" to="Deployed" action="deploy"/>
+	</class>
+	
+	<class name="Apache" parent="VirtualMachine">
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="vid" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="stop"/>
+			<action name="configure"/>
+			<action name="deploy"/>
+			<action name="none"/>
+			<action name="start"/>
+			<action name="undeploy"/>
+			<place name="Active" initial="false" final="false"/>
+			<place name="Deployed" initial="false" final="false"/>
+			<place name="Inactive" initial="false" final="false"/>
+			<place name="Undeployed" initial="true" final="false"/>
+			<place name="Error" initial="false" final="false"/>
+			<transition from="Active" to="Inactive" action="stop"/>
+			<transition from="Active" to="Undeployed" action="undeploy"/>
+			<transition from="Active" to="Error" action="none"/>
+			<transition from="Deployed" to="Undeployed" action="undeploy"/>
+			<transition from="Deployed" to="Inactive" action="configure"/>
+			<transition from="Deployed" to="Error" action="none"/>
+			<transition from="Inactive" to="Inactive" action="configure"/>
+			<transition from="Inactive" to="Active" action="start"/>
+			<transition from="Inactive" to="Undeployed" action="undeploy"/>
+			<transition from="Inactive" to="Error" action="none"/>
+			<transition from="Undeployed" to="Deployed" action="deploy"/>
+			<transition from="Undeployed" to="Active" action="start"/>
+			<transition from="Undeployed" to="Error" action="none"/>
+			<transition from="Error" to="Active" action="start"/>
+			<transition from="Error" to="Deployed" action="deploy"/>
+	</class>
+	
+	<class name="MySQL" parent="VirtualMachine">
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="vid" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="stop"/>
+			<action name="configure"/>
+			<action name="deploy"/>
+			<action name="none"/>
+			<action name="start"/>
+			<action name="undeploy"/>
+			<place name="Active" initial="false" final="false"/>
+			<place name="Deployed" initial="false" final="false"/>
+			<place name="Inactive" initial="false" final="false"/>
+			<place name="Undeployed" initial="true" final="false"/>
+			<place name="Error" initial="false" final="false"/>
+			<transition from="Active" to="Inactive" action="stop"/>
+			<transition from="Active" to="Undeployed" action="undeploy"/>
+			<transition from="Active" to="Error" action="none"/>
+			<transition from="Deployed" to="Undeployed" action="undeploy"/>
+			<transition from="Deployed" to="Inactive" action="configure"/>
+			<transition from="Deployed" to="Error" action="none"/>
+			<transition from="Inactive" to="Inactive" action="configure"/>
+			<transition from="Inactive" to="Active" action="start"/>
+			<transition from="Inactive" to="Undeployed" action="undeploy"/>
+			<transition from="Inactive" to="Error" action="none"/>
+			<transition from="Undeployed" to="Deployed" action="deploy"/>
+			<transition from="Undeployed" to="Active" action="start"/>
+			<transition from="Undeployed" to="Error" action="none"/>
+			<transition from="Error" to="Active" action="start"/>
+			<transition from="Error" to="Deployed" action="deploy"/>
+	</class>
+	
+	<class name="Apps" parent="VirtualMachine">
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="vid" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="stop"/>
+			<action name="configure"/>
+			<action name="deploy"/>
+			<action name="none"/>
+			<action name="start"/>
+			<action name="undeploy"/>
+			<place name="Active" initial="false" final="false"/>
+			<place name="Deployed" initial="false" final="false"/>
+			<place name="Inactive" initial="false" final="false"/>
+			<place name="Undeployed" initial="true" final="false"/>
+			<place name="Error" initial="false" final="false"/>
+			<transition from="Active" to="Inactive" action="stop"/>
+			<transition from="Active" to="Undeployed" action="undeploy"/>
+			<transition from="Active" to="Error" action="none"/>
+			<transition from="Deployed" to="Undeployed" action="undeploy"/>
+			<transition from="Deployed" to="Inactive" action="configure"/>
+			<transition from="Deployed" to="Error" action="none"/>
+			<transition from="Inactive" to="Inactive" action="configure"/>
+			<transition from="Inactive" to="Active" action="start"/>
+			<transition from="Inactive" to="Undeployed" action="undeploy"/>
+			<transition from="Inactive" to="Error" action="none"/>
+			<transition from="Undeployed" to="Deployed" action="deploy"/>
+			<transition from="Undeployed" to="Active" action="start"/>
+			<transition from="Undeployed" to="Error" action="none"/>
+			<transition from="Error" to="Active" action="start"/>
+			<transition from="Error" to="Deployed" action="deploy"/>
+	</class>
+
+	<class name="Tracker" parent="VirtualMachine">
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="vid" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="broadcast"/>
+			<action name="log"/>
+			<place name="One" initial="false" final="false"/>
+			<transition from="One" to="One" action="log"/>
+			<transition from="One" to="One" action="broadcast"/>
+	</class>
+
+	<class name="Peer" parent="VirtualMachine">
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="vid" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="register"/>
+			<action name="speak"/>
+			<action name="unregister"/>
+			<action name="listen"/>
+			<place name="One" initial="false" final="false"/>
+			<place name="Two" initial="false" final="false"/>
+			<transition from="One" to="Two" action="register"/>
+			<transition from="Two" to="One" action="unregister"/>
+			<transition from="Two" to="Two" action="speak"/>
+			<transition from="Two" to="Two" action="listen"/>
+	</class>
+	
+</extension>

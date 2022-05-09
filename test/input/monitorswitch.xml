@@ -1,0 +1,131 @@
+<extension name="monitorswitch">
+	<class name="Monitor" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<action name="resetMonitor"/>
+			<action name="switchServer"/>
+			<action name="receiveRandomNumberRequest"/>
+			<action name="receiveSwitchConfirm"/>
+			<action name="sendRandomNumberRequest"/>
+			<place name="MonitorInit" initial="true" final="false"/>
+			<place name="SwitchReady" initial="false" final="false"/>
+			<place name="RandomNumberRequestReceived" initial="false" final="false"/>
+			<transition from="MonitorInit" to="SwitchReady" action="receiveSwitchConfirm"/>
+			<transition from="SwitchReady" to="MonitorInit" action="resetMonitor"/>
+			<transition from="SwitchReady" to="RandomNumberRequestReceived" action="receiveRandomNumberRequest"/>
+			<transition from="RandomNumberRequestReceived" to="SwitchReady" action="sendRandomNumberRequest"/>
+			<transition from="RandomNumberRequestReceived" to="SwitchReady" action="switchServer"/>
+	</class>
+	
+	<class name="Switch" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<action name="switchConfirm"/>
+			<action name="removeAllServer"/>
+			<action name="switchServer"/>
+			<action name="addServer"/>
+			<action name="resetSwitch"/>
+			<action name="chooseServer"/>
+			<place name="SwitchInit" initial="true" final="false"/>
+			<place name="SwitchReady" initial="false" final="false"/>
+			<place name="ServerReady" initial="false" final="false"/>
+			<transition from="SwitchInit" to="SwitchReady" action="addServer"/>
+			<transition from="SwitchReady" to="SwitchInit" action="removeAllServer"/>
+			<transition from="SwitchReady" to="ServerReady" action="switchConfirm"/>
+			<transition from="SwitchReady" to="SwitchReady" action="chooseServer"/>
+			<transition from="SwitchReady" to="SwitchReady" action="addServer"/>
+			<transition from="ServerReady" to="SwitchInit" action="resetSwitch"/>
+			<transition from="ServerReady" to="ServerReady" action="switchServer"/>
+	</class>
+	
+	<annotations name="specification">
+			<annotation id="switchServer_3">(Monitor_3.switchServer)-(Switch.switchServer)</annotation>
+			<annotation id="switchConfirm_3">(Monitor_3.receiveSwitchConfirm)-(Switch.switchConfirm)</annotation>
+			<annotation id="addDB_3">(Monitor_3.addDatabase)-(HerokuController.addDatabase)</annotation>
+			<annotation id="data_3">data: String currentReq: Monitor_3-HerokuController</annotation>
+			<annotation id="switchServer_4">(Monitor_4.switchServer)-(Switch.switchServer)</annotation>
+			<annotation id="addDB_4">(Monitor_4.addDatabase)-(HerokuController.addDatabase)</annotation>
+			<annotation id="MAIN">switchServer_3, switchConfirm_3, addDB_3, data_3</annotation>
+			<annotation id="switchConfirm_4">(Monitor_4.receiveSwitchConfirm)-(Switch.switchConfirm)</annotation>
+			<annotation id="switchServer_2">(Monitor_2.switchServer)-(Switch.switchServer)</annotation>
+			<annotation id="switchConfirm_2">(Monitor_2.receiveSwitchConfirm)-(Switch.switchConfirm)</annotation>
+			<annotation id="addDB_2">(Monitor_2.addDatabase)-(HerokuController.addDatabase)</annotation>
+			<annotation id="data_2">data: String currentReq: Monitor_2-HerokuController</annotation>
+			<annotation id="data_4">data: String currentReq: Monitor_4-HerokuController</annotation>
+	</annotations>
+	<class name="Monitor_3" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<action name="switchServer"/>
+			<action name="addDatabase"/>
+			<action name="receiveSwitchConfirm"/>
+			<action name="receiveRandomNumberRequest"/>
+			<action name="resetMonitor"/>
+			<action name="sendRandomNumberRequest"/>
+			<place name="MonitorInit" initial="true" final="false"/>
+			<place name="SwitchReady" initial="false" final="false"/>
+			<place name="RandomNumberRequestReceived" initial="false" final="false"/>
+			<transition from="MonitorInit" to="SwitchReady" action="receiveSwitchConfirm"/>
+			<transition from="SwitchReady" to="MonitorInit" action="resetMonitor"/>
+			<transition from="SwitchReady" to="RandomNumberRequestReceived" action="receiveRandomNumberRequest"/>
+			<transition from="SwitchReady" to="SwitchReady" action="addDatabase"/>
+			<transition from="RandomNumberRequestReceived" to="SwitchReady" action="sendRandomNumberRequest"/>
+			<transition from="RandomNumberRequestReceived" to="SwitchReady" action="switchServer"/>
+	</class>
+	
+	<class name="Monitor_4" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<action name="resetMonitor"/>
+			<action name="addDatabase"/>
+			<action name="sendRandomNumberRequest"/>
+			<action name="receiveSwitchConfirm"/>
+			<action name="receiveRandomNumberRequest"/>
+			<action name="switchServer"/>
+			<place name="MonitorInit" initial="true" final="false"/>
+			<place name="SwitchReady" initial="false" final="false"/>
+			<place name="RandomNumberRequestReceived" initial="false" final="false"/>
+			<transition from="MonitorInit" to="SwitchReady" action="receiveSwitchConfirm"/>
+			<transition from="MonitorInit" to="MonitorInit" action="addDatabase"/>
+			<transition from="SwitchReady" to="MonitorInit" action="resetMonitor"/>
+			<transition from="SwitchReady" to="RandomNumberRequestReceived" action="receiveRandomNumberRequest"/>
+			<transition from="RandomNumberRequestReceived" to="SwitchReady" action="switchServer"/>
+			<transition from="RandomNumberRequestReceived" to="SwitchReady" action="sendRandomNumberRequest"/>
+	</class>
+	
+	<class name="HerokuController" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<action name="addDatabase"/>
+			<place name="Init" initial="true" final="false"/>
+			<transition from="Init" to="Init" action="addDatabase"/>
+	</class>
+	
+	<class name="Monitor_2" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<action name="receiveRandomNumberRequest"/>
+			<action name="resetMonitor"/>
+			<action name="receiveSwitchConfirm"/>
+			<action name="sendRandomNumberRequest"/>
+			<action name="switchServer"/>
+			<action name="addDatabase"/>
+			<place name="MonitorInit" initial="true" final="false"/>
+			<place name="SwitchReady" initial="false" final="false"/>
+			<place name="RandomNumberRequestReceived" initial="false" final="false"/>
+			<place name="AddedDatabase" initial="false" final="false"/>
+			<transition from="MonitorInit" to="SwitchReady" action="receiveSwitchConfirm"/>
+			<transition from="SwitchReady" to="MonitorInit" action="resetMonitor"/>
+			<transition from="SwitchReady" to="RandomNumberRequestReceived" action="receiveRandomNumberRequest"/>
+			<transition from="RandomNumberRequestReceived" to="SwitchReady" action="sendRandomNumberRequest"/>
+			<transition from="RandomNumberRequestReceived" to="AddedDatabase" action="addDatabase"/>
+			<transition from="AddedDatabase" to="SwitchReady" action="sendRandomNumberRequest"/>
+	</class>
+	
+</extension>

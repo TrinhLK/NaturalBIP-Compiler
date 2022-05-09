@@ -1,0 +1,46 @@
+P1 = {
+    M: <a:Monitor.m> [act:m:switchConfirm()] and <a:Switch.s> [act:s:receiveSwitchConfirm()], simultaneously;
+}
+
+P2 = {
+    M: <a:Monitor.m> [act:m:switchServer()] and <a:Switch.s> [act:s:switchServer()],simultaneously;
+}
+
+P11 = {
+    M: <a:Monitor_1.m> [act:m1:switchConfirm()] and <a:Switch.s> [act:s:receiveSwitchConfirm()], simultaneously;
+}
+
+P21 = {
+    M: <a:Monitor_1.m1> [act:m1:switchServer()] and <a:Switch.s> [act:s:switchServer()], simultaneously;
+}
+
+P12 = {
+    M: <a:Monitor_2.m2> [act:m2:switchConfirm()] and <a:Switch.s> [act:s:receiveSwitchConfirm()], simultaneously;
+}
+
+P22 = {
+    M: <a:Monitor_2.m2> [act:m2:switchServer()] and <a:Switch.s> [act:s:switchServer()], simultaneously;
+}
+
+P13 = {
+    M: <a:Monitor_3.m3> [act:m3:switchConfirm()] and <a:Switch.s> [act:s:receiveSwitchConfirm()], simultaneously;
+}
+
+P23 = {
+    M: <a:Monitor_3.m3> [act:m3:switchServer()] and <a:Switch.s> [act:s:switchServer()], simultaneously;
+}
+
+P33 = {
+    M: <a:Monitor_3.m3> [act:m3:addDatabase()] and <a:HerokuController.hc> [act:hc:addDatabase()];
+    C: [cdt:canAddDB(hc, m3)];
+}
+
+P14 = {
+    M: <a:Monitor_4.m4> [act:m4:switchConfirm()] and <a:Switch.s> [act:s:receiveSwitchConfirm()], simultaneously;
+}
+
+P24 = {
+    M: <a:Monitor_4.m4> [act:m4:switchServer()] and <a:Switch.s> [act:s:switchServer()], simultaneously;
+}
+
+Main_Exp : P13 and P23 and P33

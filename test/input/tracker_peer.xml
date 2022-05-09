@@ -1,0 +1,38 @@
+<extension name="monitorswitch">
+	<class name="Tracker" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<action name="broadcast"/>
+			<action name="log"/>
+			<place name="TrackerInit" initial="true" final="false"/>
+			<transition from="TrackerInit" to="TrackerInit" action="broadcast"/>
+			<transition from="TrackerInit" to="TrackerInit" action="log"/>
+	</class>
+	
+	<class name="Peer" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<action name="register"/>
+			<action name="unregister"/>
+			<action name="speak"/>
+			<action name="listen"/>
+			<place name="PeerInit" initial="true" final="false"/>
+			<place name="Activated" initial="false" final="false"/>
+			<transition from="PeerInit" to="Activated" action="register"/>
+			<transition from="Activated" to="PeerInit" action="unregister"/>
+			<transition from="Activated" to="Activated" action="speak"/>
+			<transition from="Activated" to="Activated" action="listen"/>
+	</class>
+	
+	<annotations name="Specification">
+			<annotation id="Req_01">For any Peer p, there is a Tracker t such that p shall register synchronized with t shall log.</annotation>
+			<annotation id="Req_02">For any Peer p, there is a Tracker t such that p shall unregister synchronized with t shall log.</annotation>
+			<annotation id="Req_03">For any Peer p, p shall either speak or listen</annotation>
+			<annotation id="Req_04">For any Tracker t, if t executes broadcast, there is a Peer p where p is registered to t and p shall speak and all Peer p1 such that p1 is registered to t and p1 is different with p and p1 shall listen</annotation>
+			<annotation id="MAIN">Req_01, Req_02, Req_03, Req_04</annotation>
+	</annotations>
+
+	
+</extension>
