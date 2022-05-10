@@ -74,14 +74,13 @@ class Atomic_Element:
 		
 		if "~" in text:
 			self.isNeg = True
-			text = text[text.find("~")+1:]
-		self.params = [text[0:text.find("_")]]
-		self.name = []
-
+			text = text.replace("~", "")
 		self.text = text
-		self.name = text[0:text.find("_")]
-		params_text = text[text.find("_")+1:]
-		self.params = params_text.split("_")
+		self.params = [text[0:text.find("_")]]
+		self.name = text[text.find("_")+1:]
+		# self.name = text[0:text.find("_")]
+		# params_text = text[text.find("_")+1:]
+		# self.params = params_text.split("_")
 		self.isPred = False
 
 	def showInfor(self):
@@ -269,8 +268,10 @@ def create_dict_of_instances_actions(elem_dict, config):
 def convert_dict_to_list_pos(my_dict):
 	result = []
 	for k_i, v_i in my_dict.items():
+		# print ("k_i: " + str(k_i) + "\tv_i: " + str(v_i))
 		for elem_v_i in v_i:
-			tmp = Atomic_Element(elem_v_i + "_" + k_i)
+			# tmp = Atomic_Element(elem_v_i + "_" + k_i)
+			tmp = Atomic_Element(k_i + "_" + elem_v_i)
 			result.append([tmp])
 	return result
 
@@ -279,6 +280,7 @@ def create_addtional_positive_clause(elem_list, config):
 	my_dict = create_dict_of_instances_actions(my_dict,config)
 	result = convert_dict_to_list_pos(my_dict)
 	return result
+# END -------------------------------------------------------------------
 
 def get_list_cnf_clauses (list_cnf_clauses):
 
@@ -309,9 +311,9 @@ def get_all_port_elements(list_cnf_clauses, list_preds, config):
 			if is_predicate(pos_elem[0].text, list_preds) == False:
 				temp.append(pos_elem[0].text)
 
-	print ("test list ports:\nbefore")
-	for elem_i in temp:
-		print (elem_i)
+	# print ("test list ports:\nbefore")
+	# for elem_i in temp:
+	# 	print (elem_i)
 	temp = list(dict.fromkeys(temp))
 	print ("test list ports:\nafter")
 	# test_rs = []
@@ -694,28 +696,28 @@ def isPred(listPred, inp):
 	return False
 
 # -----------------------------
-def generate_dual_Horn(L, given_list_preds):
-	# 1. get raw data of the CNF
-	list_cnf_clauses = list_cnf_clauses_raw(L)
-	# convert it into list of CNF_Clauses
-	list_MyClause = get_list_cnf_clauses (list_cnf_clauses)
-
-	list_all_ports = get_all_port_elements(list_MyClause, given_list_preds)
-
-	# 2. synthesis clauses which have the same negative list
-	synthesis_cnf = synthesis_cnf_clauses(list_MyClause)
-	# 3. collect predicates with ports in negative clause
-	synthesis_cnf = collect_neg_with_conditions(synthesis_cnf, given_list_preds)
-	# generate dual-Horn
-	gen_dual_Horn = mk_dualHorn(synthesis_cnf)
-	print ("\nBefore saturating")
-	print_dual_Horn(gen_dual_Horn)
-
-	dh = saturate_dual_horn(gen_dual_Horn, list_all_ports)
-	print ("\nAfter saturating")
-	print_dual_Horn(dh)
-
-	return gen_dual_Horn
+# def generate_dual_Horn(L, given_list_preds):
+# 	# 1. get raw data of the CNF
+# 	list_cnf_clauses = list_cnf_clauses_raw(L)
+# 	# convert it into list of CNF_Clauses
+# 	list_MyClause = get_list_cnf_clauses (list_cnf_clauses)
+#
+# 	list_all_ports = get_all_port_elements(list_MyClause, given_list_preds)
+#
+# 	# 2. synthesis clauses which have the same negative list
+# 	synthesis_cnf = synthesis_cnf_clauses(list_MyClause)
+# 	# 3. collect predicates with ports in negative clause
+# 	synthesis_cnf = collect_neg_with_conditions(synthesis_cnf, given_list_preds)
+# 	# generate dual-Horn
+# 	gen_dual_Horn = mk_dualHorn(synthesis_cnf)
+# 	print ("\nBefore saturating")
+# 	print_dual_Horn(gen_dual_Horn)
+#
+# 	dh = saturate_dual_horn(gen_dual_Horn, list_all_ports)
+# 	print ("\nAfter saturating")
+# 	print_dual_Horn(dh)
+#
+# 	return gen_dual_Horn
 
 def get_synthesised_cnf(L, given_list_preds):
 	list_cnf_clauses = list_cnf_clauses_raw(L)
@@ -747,6 +749,8 @@ def main():
 		system_info = json.load(fp)
 
 	config = system_info['configuration']
+	list_actions = [elm[0] for elm in system_info['actions']]
+	list_constraints = [elm[0] for elm in system_info['constraints']]
 
 	print ("show config: " + str(config))
 	# L = get_cnf_list(os.path.abspath(os.path.dirname(__file__)) + "/input.txt")
@@ -755,7 +759,7 @@ def main():
 	print (L)
 	# list_tracker_peer_preds = ["isReg", "differ", "hasCapacity", "notEmpty"]
 	# list_tracker_peer_preds = dsl2skol.list_conditions
-	list_tracker_peer_preds = system_info['constraints']
+	list_tracker_peer_preds = [elm[0] for elm in system_info['constraints']]
 
 	# 1. get raw data of the CNF
 	list_cnf_clauses = list_cnf_clauses_raw(L)
@@ -764,7 +768,6 @@ def main():
 	# print ("list_MyClause: ")
 	# print (list_MyClause)
 	list_all_ports = get_all_port_elements(list_MyClause, list_tracker_peer_preds, config)
-
 	# 2. synthesis clauses which have the same negative list
 	synthesis_cnf = synthesis_cnf_clauses(list_MyClause)
 
