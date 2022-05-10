@@ -197,30 +197,45 @@ def compareList(l1,l2):
 # make a conjunction between elements of two lists
 def merge_two_pos_list(l_atom_1, l_atom_2):
 	result = []
-	if l_atom_1 == []:
-		return l_atom_2
-	else:
-		if l_atom_2 == []:
-			return l_atom_1
-		for i in l_atom_1:
-			temp_list = []
-			if isinstance(i, list):
-				for i_el in i:
-					temp_list.append(i_el)
-			else:
-				temp_list.append(i)
+	l_atom_1_text = [elm[0].text for elm in l_atom_1]
+	l_atom_2_text = [elm[0].text for elm in l_atom_2]
+	print (str(l_atom_1_text) + "\t" + str(l_atom_2_text))
+	merged_list_text = l_atom_1_text + l_atom_2_text
+	merged_list_text = list(set(merged_list_text))
+	print (merged_list_text)
+	merged_list = l_atom_1 + l_atom_2
+	dict_pos = {}
 
+	for elm_text in merged_list_text:
+		for elm in merged_list:
+			if elm[0].text == elm_text:
+				dict_pos[elm_text] = elm
+	print ("new post list: " + str(merged_list_text) + "\t len(dict_pos): " + str(list(dict_pos.keys())))
+	result = list(dict_pos.values())
 
-			for j in l_atom_2:
-				temp_list_j = []
-				if isinstance(j, list):
-					for j_el in j:
-						temp_list_j.append(j_el)
-				else:
-					temp_list_j.append(j)
-					
-				result.append(temp_list + temp_list_j)
-		
+	# if l_atom_1 == []:
+	# 	return l_atom_2
+	# else:
+	# 	if l_atom_2 == []:
+	# 		return l_atom_1
+	# 	for i in l_atom_1:
+	# 		temp_list = []
+	# 		if isinstance(i, list):
+	# 			for i_el in i:
+	# 				temp_list.append(i_el)
+	# 		else:
+	# 			temp_list.append(i)
+	#
+	# 		for j in l_atom_2:
+	# 			temp_list_j = []
+	# 			if isinstance(j, list):
+	# 				for j_el in j:
+	# 					temp_list_j.append(j_el)
+	# 			else:
+	# 				temp_list_j.append(j)
+	#
+	# 			result.append(temp_list + temp_list_j)
+	#
 	return result
 
 ###
@@ -365,6 +380,10 @@ def synthesis_cnf_clauses(list_MyClause):
 
 			if (compareList(list_MyClause[i].get_neg_list_str(), list_MyClause[j].get_neg_list_str())):
 				temp.neg = list_MyClause[i].neg
+				print ("neg_i: " + str(list_MyClause[i].get_neg_list_str()))
+				print ("neg_j: " + str(list_MyClause[j].get_neg_list_str()))
+				print("pos_i: " + str(list_MyClause[i].get_pos_list_str()))
+				print("pos_j: " + str(list_MyClause[j].get_pos_list_str()))
 				list_MyClause[i].pos = merge_two_pos_list(list_MyClause[i].pos, list_MyClause[j].pos)
 				list_MyClause[j].rm = True
 				temp.pos = list_MyClause[i].pos
@@ -486,7 +505,7 @@ def saturate_dual_horn(dual_horn, list_ports):
 		print (port[0].showInfor())
 	for elem in dual_horn:
 		elem.append(additional_clause)
-		# print ("check addional_clause: " + str(len(additional_clause.pos)))
+		print ("check addional_clause: " + str(len(additional_clause.pos)))
 	return dual_horn
 
 # -----------------------------
@@ -818,7 +837,7 @@ def main():
 					# new_tmp_neg = [get_JavaBIP_style(tmp_elm) for tmp_elm in tmp_neg]
 					# new_tmp_post = [get_JavaBIP_style(tmp_elm) for tmp_elm in tmp_post]
 					# result += "port(" + tmp_neg[0] + ").requires(" + "; ".join(tmp_post) + ");\n"
-						require_list.append("port(" + tmp_neg[0] + ").requires(" + "; ".join(tmp_post) + ");\n")
+						require_list.append("port(" + tmp_neg[0] + ").requires(" + ", ".join(tmp_post) + ");\n")
 					# print ("port(" + tmp_neg[0] + ").requires(" + "; ".join(tmp_post) + ");")
 				else: #accept_list of each dual horn clause
 					# Replace instance_name by class_name before extending it

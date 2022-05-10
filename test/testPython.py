@@ -418,6 +418,27 @@ def get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology):
 # ------------------------------------ ------------------------------------
 
 # ------------------------------------ ------------------------------------
+# ------------------------------------
+def get_effect_list (test_str):
+	effects = []
+	list_either_or = re.findall(r'\(.*or.*\)', test_str)
+	dict_either_or = {}
+	# print(list_either_or)
+	for i in range(len(list_either_or)):
+		dict_either_or['either_or_' + str(i)] = list_either_or[i]
+	for key, value in dict_either_or.items():
+		test_str = test_str.replace(value, key)
+
+	or_clause = test_str.split(" or ")
+	for clause in or_clause:
+		for key, value in dict_either_or.items():
+			clause = clause.replace(key, value)
+		tmp = clause.split(" and ")
+		effects.append(tmp)
+	return effects
+# END ------------------------------------
+
+# ------------------------------------
 # PATTERNS: 
 # 	Check complex patterns: if, while, after
 def handle_complex_patterns (updated_requirement, ontology):
@@ -802,4 +823,46 @@ gen_Boolean_encoding('input/tracker_peer.xml')
 # req_content_3 = re.findall(r'\"(.+)\"',sample_3)[0]
 # analyze_requirement(req_name_3, req_content_3, ontology)
 # print ("------------------- end sample 3")
+print ("------------------- test 2")
+test_str = "Req04tp_is_registered_to_t and Req04tp_speak and p1_is_registered_to_t and (x_test or y_test) and p1_is_different_with_Req04tp and ~p1_speak or Req04tp_listen"
+# effects = []
+# list_either_or = re.findall(r'\(.*or.*\)', test_str)
+# dict_either_or = {}
+# print (list_either_or)
+# for i in range(len(list_either_or)):
+# 	dict_either_or['either_or_'+str(i)] = list_either_or[i]
+# for key, value in dict_either_or.items():
+# 	test_str = test_str.replace(value, key)
+# print ("dict: " + str(dict_either_or))
+# print ("new_test_str: " + str(test_str))
+#
+# or_clause = test_str.split(" or ")
+# print ("or_clause: " + str(or_clause))
+# for clause in or_clause:
+# 	for key, value in dict_either_or.items():
+# 		clause = clause.replace(key, value)
+# 	tmp = clause.split(" and ")
+# 	effects.append(tmp)
+#
+# print (effects)
+def get_effect_list (test_str):
+	effects = []
+	list_either_or = re.findall(r'\(.*or.*\)', test_str)
+	dict_either_or = {}
+	# print(list_either_or)
+	for i in range(len(list_either_or)):
+		dict_either_or['either_or_' + str(i)] = list_either_or[i]
+	for key, value in dict_either_or.items():
+		test_str = test_str.replace(value, key)
+
+	or_clause = test_str.split(" or ")
+	for clause in or_clause:
+		for key, value in dict_either_or.items():
+			clause = clause.replace(key, value)
+		tmp = clause.split(" and ")
+		effects.append(tmp)
+	return effects
+
+print (get_effect_list(test_str))
+print ("------------------- end test 2")
 
