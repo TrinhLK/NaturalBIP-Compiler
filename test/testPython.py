@@ -445,9 +445,9 @@ def handle_complex_patterns (updated_requirement, ontology):
 	# print ("\n-- patterns:\n")
 	requirement_string = updated_requirement[2]
 	cause = ''
-	effect = []
+	# effect = []
 	list_effect_parentheses = []
-
+	effect_str = ''
 	# ---- ---- ----
 	# Get Cause and list of Effect
 	# --- patterns If and After
@@ -459,12 +459,15 @@ def handle_complex_patterns (updated_requirement, ontology):
 		# Get Effect and Cause
 		if list_clauses[0] != '':
 			cause = list_clauses[1]
-			effect = re.split(r'[\s]and|[\s]or', list_clauses[0])
+			effect_str = list_clauses[0]
+			# effect = re.split(r'[\s]and|[\s]or', list_clauses[0])
 			# effect = list_clauses[0].split("and|or")
+			# print("effect_str 1: " + effect_str)
 		else:
 			sub_list_clause = list_clauses[1].split(", ")
 			cause = sub_list_clause[0]
-			effect = sub_list_clause[1].split("and")
+			effect_str = sub_list_clause[1]
+			# effect = sub_list_clause[1].split("and")
 
 	# --- pattern Before
 	if "before " in requirement_string or "Before " in requirement_string:
@@ -474,50 +477,58 @@ def handle_complex_patterns (updated_requirement, ontology):
 		# A before B 
 		if list_clauses[0] != '':
 			cause = list_clauses[1]
-			effect = re.split(r'[\s]and|[\s]or', list_clauses[0])
+			effect_str = list_clauses[0]
+			# effect = re.split(r'[\s]and|[\s]or', list_clauses[0])
 		# Before A, B
 		else:
 			sub_list_clause = list_clauses[1].split(", ")
 			cause = sub_list_clause[0]
-			effect = sub_list_clause[1].split("and")
+			effect_str = sub_list_clause[1]
+			# effect = sub_list_clause[1].split("and")
 
 	# ---- ---- ----
 	# In effect clause, get all elements have "(" and "or" keywords
 	# Save them into list_effect_parentheses
-	new_effect = []
-	if len(effect) > 0:
-		# print ("size: " + str(len(effect)) + "\teffect: " + str(effect))
 
-		for element in effect:
-			# print ("effect's element: " + str(element))
-			if "(" in element and "or" in element:
-				list_effect_parentheses.append(element)
-			else:
-				new_effect.append(element)
-	effect = new_effect
-	disjunction_of_effect_clause = []
-	list_af = []
-	for parentheses in list_effect_parentheses:
-		content = parentheses[parentheses.index("(")+1:parentheses.index(")")]
-		# print ("content: " + content)
-		content_element = content.split("or")
-		list_af.append(content_element)
+	list_effects = get_effect_list(effect_str)
+	list_disjunction_of_effect_clause = []
+	for effect in list_effects:
+		new_effect = []
+		if len(effect) > 0:
+			# print ("size: " + str(len(effect)) + "\teffect: " + str(effect))
+
+			for element in effect:
+				# print ("effect's element: " + str(element))
+				if "(" in element and "or" in element:
+					list_effect_parentheses.append(element)
+				else:
+					new_effect.append(element)
+		effect = new_effect
+		disjunction_of_effect_clause = []
+		list_af = []
+		for parentheses in list_effect_parentheses:
+			content = parentheses[parentheses.index("(")+1:parentheses.index(")")]
+			# print ("content: " + content)
+			content_element = content.split("or")
+			list_af.append(content_element)
 	# print ("list_af: " + str(list_af))
 
-	# ---- ---- ----
-	# Get all combinations of or_clause
-	product_list = itertools.product(*list_af)
-	for element in product_list:
-		disjunction_of_effect_clause.append(list(element)+effect)
+		# ---- ---- ----
+		# Get all combinations of or_clause
+		product_list = itertools.product(*list_af)
+		for element in product_list:
+			disjunction_of_effect_clause.append(list(element)+effect)
 
-	# print ("\t*\tcause: " + cause + "\t\t---\t\tremain effect: " + str(effect))
-	# print ("\t* list parentheses: " + str(list_effect_parentheses))
-	# print ("\t* producted list: " + str(disjunction_of_effect_clause))
+		# print ("\t*\tcause: " + cause + "\t\t---\t\tremain effect: " + str(effect))
+		# print ("\t* list parentheses: " + str(list_effect_parentheses))
+		# print ("\t* producted list: " + str(disjunction_of_effect_clause))
 
-	# From disjunction of effect clause, cause and ontology, gen final Boolean encoder
-	boolean_form_string = get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology)[0]
+		# From disjunction of effect clause, cause and ontology, gen final Boolean encoder
+		boolean_form_string = get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology)[0]
+		list_disjunction_of_effect_clause.append("(" + boolean_form_string + ")")
 	# print ("\n(" + boolean_form_string + ")")
-	return "(" + boolean_form_string + ")"
+	# print ("list_disjunction_of_effect_clause: " + str(list_disjunction_of_effect_clause))
+	return " | ".join(list_disjunction_of_effect_clause)
 	# return temp_dict_action
 # END ------------------------------------ ------------------------------------
 
@@ -845,23 +856,7 @@ test_str = "Req04tp_is_registered_to_t and Req04tp_speak and p1_is_registered_to
 # 	effects.append(tmp)
 #
 # print (effects)
-def get_effect_list (test_str):
-	effects = []
-	list_either_or = re.findall(r'\(.*or.*\)', test_str)
-	dict_either_or = {}
-	# print(list_either_or)
-	for i in range(len(list_either_or)):
-		dict_either_or['either_or_' + str(i)] = list_either_or[i]
-	for key, value in dict_either_or.items():
-		test_str = test_str.replace(value, key)
 
-	or_clause = test_str.split(" or ")
-	for clause in or_clause:
-		for key, value in dict_either_or.items():
-			clause = clause.replace(key, value)
-		tmp = clause.split(" and ")
-		effects.append(tmp)
-	return effects
 
 print (get_effect_list(test_str))
 print ("------------------- end test 2")

@@ -199,10 +199,10 @@ def merge_two_pos_list(l_atom_1, l_atom_2):
 	result = []
 	l_atom_1_text = [elm[0].text for elm in l_atom_1]
 	l_atom_2_text = [elm[0].text for elm in l_atom_2]
-	print (str(l_atom_1_text) + "\t" + str(l_atom_2_text))
+	# print (str(l_atom_1_text) + "\t" + str(l_atom_2_text))
 	merged_list_text = l_atom_1_text + l_atom_2_text
 	merged_list_text = list(set(merged_list_text))
-	print (merged_list_text)
+	# print (merged_list_text)
 	merged_list = l_atom_1 + l_atom_2
 	dict_pos = {}
 
@@ -210,7 +210,7 @@ def merge_two_pos_list(l_atom_1, l_atom_2):
 		for elm in merged_list:
 			if elm[0].text == elm_text:
 				dict_pos[elm_text] = elm
-	print ("new post list: " + str(merged_list_text) + "\t len(dict_pos): " + str(list(dict_pos.keys())))
+	# print ("new post list: " + str(merged_list_text) + "\t len(dict_pos): " + str(list(dict_pos.keys())))
 	result = list(dict_pos.values())
 
 	# if l_atom_1 == []:
@@ -283,11 +283,12 @@ def create_dict_of_instances_actions(elem_dict, config):
 def convert_dict_to_list_pos(my_dict):
 	result = []
 	for k_i, v_i in my_dict.items():
-		# print ("k_i: " + str(k_i) + "\tv_i: " + str(v_i))
+		print ("k_i: " + str(k_i) + "\tv_i: " + str(v_i))
 		for elem_v_i in v_i:
 			# tmp = Atomic_Element(elem_v_i + "_" + k_i)
 			tmp = Atomic_Element(k_i + "_" + elem_v_i)
 			result.append([tmp])
+	print ("result type: " + str(type(result)) + "\t result: " + str(result))
 	return result
 
 def create_addtional_positive_clause(elem_list, config):
@@ -315,6 +316,7 @@ def get_list_cnf_clauses (list_cnf_clauses):
 		list_MyClause.append(clause)
 	return list_MyClause
 
+# Generate additional postive clause
 def get_all_port_elements(list_cnf_clauses, list_preds, config):
 	result = []
 	temp = []
@@ -337,9 +339,9 @@ def get_all_port_elements(list_cnf_clauses, list_preds, config):
 		print (elem_i)
 		result.append([atom_elem])
 		# test_rs.append([elem_i])
-	print (result)
+	# print (result)
 
-	result_1 = create_addtional_positive_clause(result, config)
+	# result_1 = create_addtional_positive_clause(result, config)
 	# my_dict = convert_list_elem_to_dict(result)
 	# print (my_dict)
 	# print ("-----")
@@ -347,7 +349,7 @@ def get_all_port_elements(list_cnf_clauses, list_preds, config):
 	# print (my_dict)
 	# print ("-----")
 	# result = convert_dict_to_list_pos(my_dict)
-	return result_1
+	return result
 	# print (test_rs)
 # ----------------------------- TEST
 
@@ -380,10 +382,10 @@ def synthesis_cnf_clauses(list_MyClause):
 
 			if (compareList(list_MyClause[i].get_neg_list_str(), list_MyClause[j].get_neg_list_str())):
 				temp.neg = list_MyClause[i].neg
-				print ("neg_i: " + str(list_MyClause[i].get_neg_list_str()))
-				print ("neg_j: " + str(list_MyClause[j].get_neg_list_str()))
-				print("pos_i: " + str(list_MyClause[i].get_pos_list_str()))
-				print("pos_j: " + str(list_MyClause[j].get_pos_list_str()))
+				# print ("neg_i: " + str(list_MyClause[i].get_neg_list_str()))
+				# print ("neg_j: " + str(list_MyClause[j].get_neg_list_str()))
+				# print("pos_i: " + str(list_MyClause[i].get_pos_list_str()))
+				# print("pos_j: " + str(list_MyClause[j].get_pos_list_str()))
 				list_MyClause[i].pos = merge_two_pos_list(list_MyClause[i].pos, list_MyClause[j].pos)
 				list_MyClause[j].rm = True
 				temp.pos = list_MyClause[i].pos
@@ -837,6 +839,10 @@ def main():
 					# new_tmp_neg = [get_JavaBIP_style(tmp_elm) for tmp_elm in tmp_neg]
 					# new_tmp_post = [get_JavaBIP_style(tmp_elm) for tmp_elm in tmp_post]
 					# result += "port(" + tmp_neg[0] + ").requires(" + "; ".join(tmp_post) + ");\n"
+					# 	print ("tmp_neg: " + tmp_neg[0] + "\ttmp_pos: " + str(tmp_post))
+					# 	Require illustrates the dependence of Class.port to another port
+						if tmp_neg[0] in tmp_post:
+							tmp_post.remove(tmp_neg[0])
 						require_list.append("port(" + tmp_neg[0] + ").requires(" + ", ".join(tmp_post) + ");\n")
 					# print ("port(" + tmp_neg[0] + ").requires(" + "; ".join(tmp_post) + ");")
 				else: #accept_list of each dual horn clause
