@@ -1,0 +1,2 @@
+Req_01 = p_register <=> t_log
+Main_Exp: Req_01

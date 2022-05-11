@@ -1,4 +1,5 @@
 import re
+import os
 import json
 import itertools
 import HandlingData as hd
@@ -717,7 +718,9 @@ def gen_Boolean_encoding(xmlFile):
 	list_requirements = list(requirements.keys())
 	list_requirements.remove("MAIN")
 	# print (list_requirements)
-	
+	list_pbl_requirements = []
+	list_chosen_requirements = []
+
 	for key, value in requirements.items():
 		if not "MAIN" in key:
 			print ("\n\nBEGIN ---- ---- ----")
@@ -753,12 +756,28 @@ def gen_Boolean_encoding(xmlFile):
 				list_actions.extend(tmp_list_actions)
 			except:
 				list_actions = tmp_list_actions
-
+			list_pbl_requirements.append(analyzed_req[0])
 			print ("END ---- ---- ----\n\n")
-		else:
+		else: # MAIN-annotation contains list of Reqs will be used
+			# Create PBL at gen-data folder
+			# ----------------------
+			path = os.getcwd()
+			print ("---- current directory: " + path)
+			try:
+				if os.path.isdir(path + "/gen-data/PBL_reqs"):
+					os.rmdir(path + "/gen-data/PBL_reqs")
+				os.mkdir(path + "/gen-data/PBL_reqs")
+			except OSError:
+				print("Creation of the directory %s failed" % path)
+			else:
+				print("Successfully created the directory %s " % path)
+			# ----------------------
 			# new_main_content = value
 			main_list = []
 			new_main_content = re.sub(r'[\s]*\,[\s]*', " & ", value)
+			# print ("picked_req_text: " + value)
+			list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
+
 			# print ("Main_Exp: " + new_main_content)
 			if ("except " or "Except ") in new_main_content:
 				except_list = new_main_content[new_main_content.index("except ")+7:].split(" & ")
@@ -770,6 +789,7 @@ def gen_Boolean_encoding(xmlFile):
 
 			result += "Main_Exp: " + " & ".join(main_list)
 
+
 	# print (dict_class_ins)
 	# print (list_conditions)
 	exported_data['configuration'] = dict_class_ins
@@ -780,6 +800,23 @@ def gen_Boolean_encoding(xmlFile):
 	exported_data['pbl_formulas'] = result
 	# print (exported_data)
 	# print (result)
+	# Export each requirement to a File in PBL_reqs folder
+
+	print(list_pbl_requirements)
+	print(list_chosen_requirements)
+
+	for chosen_req in list_chosen_requirements:
+		output_str = ""
+		list_req_name_main = []
+		for req in list_pbl_requirements:
+			if chosen_req in req:
+				output_str += req + "\n"
+				req_name = req[0:req.index("=")-1]
+				list_req_name_main.append(req_name)
+		output_str += "Main_Exp: " + " & ".join(list_req_name_main)
+		with open('gen-data/PBL_reqs/' + chosen_req + '.txt', 'w') as f:
+			f.write(output_str)
+		# print (output_str)
 	with open('gen-data/PBL_'+fileName+'.txt', 'w') as f:
 		f.write(result)
 	with open('gen-data/system_info_'+fileName+'.json', 'w') as f:

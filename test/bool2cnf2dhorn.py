@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sys
+import os
 import os.path
 import json
 mango_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))+ '/include/')
@@ -759,7 +760,8 @@ def get_synthesised_cnf_2_steps(L):
 	list_MyClause = get_list_cnf_clauses (list_cnf_clauses)
 	return list_MyClause
 
-def main():
+
+def gen_JavaBIP_Macro_code(req_file):
 	# config = {"Peer":["p", "p1"], "Tracker":["P1p", "P3p"], "Route":["r", "r1"], "Monitor":["m"]}
 	# config = dsl2skol.new_dict_class_instance
 	data = {}
@@ -773,42 +775,30 @@ def main():
 	list_actions = [elm[0] for elm in system_info['actions']]
 	list_constraints = [elm[0] for elm in system_info['constraints']]
 
-	print ("show config: " + str(config))
-	# L = get_cnf_list(os.path.abspath(os.path.dirname(__file__)) + "/input.txt")
-	L = get_cnf_list("gen-data/PBL_tracker_peer.txt")
-	print ("\n-----\n")
-	print (L)
-	# list_tracker_peer_preds = ["isReg", "differ", "hasCapacity", "notEmpty"]
-	# list_tracker_peer_preds = dsl2skol.list_conditions
+
+	L = get_cnf_list(req_file)
+	# print("\n-----\n")
+	# print(L)
+
 	list_tracker_peer_preds = [elm[0] for elm in system_info['constraints']]
 
 	# 1. get raw data of the CNF
 	list_cnf_clauses = list_cnf_clauses_raw(L)
-	# convert it into list of CNF_Clauses
-	list_MyClause = get_list_cnf_clauses (list_cnf_clauses)
-	# print ("list_MyClause: ")
-	# print (list_MyClause)
+	list_MyClause = get_list_cnf_clauses(list_cnf_clauses)
+
 	list_all_ports = get_all_port_elements(list_MyClause, list_tracker_peer_preds, config)
 	# 2. synthesis clauses which have the same negative list
 	synthesis_cnf = synthesis_cnf_clauses(list_MyClause)
 
 	# 3. collect predicates with ports in negative clause
 	synthesis_cnf = collect_neg_with_conditions(synthesis_cnf, list_tracker_peer_preds)
-	
+
 	# generate dual-Horn
 	dual_horn_clause = mk_dualHorn(synthesis_cnf)
-	print ("\nBefore saturating")
-	print_dual_Horn(dual_horn_clause)
 	dh = saturate_dual_horn(dual_horn_clause, list_all_ports)
-	# print ("list_all_ports: ")
-	# print (list_all_ports)
-	print ("\nAfter saturating")
-	print_dual_Horn(dh)
 
 
 	absorbed_dual_horn_clause = absorb_dual_Horn(dual_horn_clause)
-	print_dual_Horn(absorbed_dual_horn_clause)
-	# print (type(absorbed_dual_horn_clause))
 
 	accept_list = []
 	require_list = []
@@ -821,13 +811,13 @@ def main():
 				pos_str = []
 
 				for i in sub_elm.pos:
-					if isinstance(i, list):	
+					if isinstance(i, list):
 						for pos_i in i:
 							if isPred(list_tracker_peer_preds, pos_i.text) == False:
 								pos_str.append(pos_i.text)
 
 					else:
-						if isPred(list_tracker_peer_preds, i.text) == False: pos_str.append(i.text)				
+						if isPred(list_tracker_peer_preds, i.text) == False: pos_str.append(i.text)
 				# pos_str = [i.text for i in sub_elm.pos if i[0].isPred == False]
 				if sub_elm.neg != []:
 					list_neg = []
@@ -836,41 +826,19 @@ def main():
 					tmp_neg = replace_instances_by_class(list_neg, config)
 					tmp_post = replace_instances_by_class(pos_str, config)
 					if len(tmp_neg) > 0:
-					# new_tmp_neg = [get_JavaBIP_style(tmp_elm) for tmp_elm in tmp_neg]
-					# new_tmp_post = [get_JavaBIP_style(tmp_elm) for tmp_elm in tmp_post]
-					# result += "port(" + tmp_neg[0] + ").requires(" + "; ".join(tmp_post) + ");\n"
-					# 	print ("tmp_neg: " + tmp_neg[0] + "\ttmp_pos: " + str(tmp_post))
-					# 	Require illustrates the dependence of Class.port to another port
 						if tmp_neg[0] in tmp_post:
 							tmp_post.remove(tmp_neg[0])
 						require_list.append("port(" + tmp_neg[0] + ").requires(" + ", ".join(tmp_post) + ");\n")
-					# print ("port(" + tmp_neg[0] + ").requires(" + "; ".join(tmp_post) + ");")
-				else: #accept_list of each dual horn clause
+				else:  # accept_list of each dual horn clause
 					# Replace instance_name by class_name before extending it
 					tmp_list = replace_instances_by_class(pos_str, config)
-					# for pos_elm in pos_str:
-					# 	strsplit = pos_elm.split("_")
-					# 	params = strsplit[1:]
-					# 	for param_i in params:
-					# 		for k,v in config.items():
-					# 			if param_i in v:
-					# 				# print ("check exist: " + param_i + " - " + k)
-					# 				tmp = pos_elm.replace("_"+param_i, "_" + k)
-					# 				tmp_list.append(tmp)
-
-					# accept_list.extend(pos_str)
-					# accept_list = list(set(accept_list))
-					# print ("; ".join(tmp_list))
 					if accept_list == []:
 						accept_list = tmp_list
 					else:
 						for tmp_elm in tmp_list:
 							if tmp_elm not in accept_list:
 								accept_list.append(tmp_elm)
-					print ("---\n")
 
-	# print ("; ".join(accept_list))
-	# print ("--------")
 	n_accepts_list = []
 	dict_accept = {}
 	for i in range(len(accept_list)):
@@ -880,17 +848,42 @@ def main():
 				rhs.append(accept_list[j])
 		dict_accept[accept_list[i]] = list(set(rhs))
 
-	for k,v in dict_accept.items():
-		# result += ('port(' + k + ').accepts(' + ', '.join(v) + ');\n')
+	for k, v in dict_accept.items():
 		n_accepts_list.append('port(' + k + ').accepts(' + ', '.join(v) + ');\n')
-	# print (dict_accept)
 	n_require_list = list(set(require_list))
 	for req in n_require_list:
 		result += req
 	for acc in n_accepts_list:
 		result += acc
-	print ("--------")
-	print (result)
+	return result
+
+
+def main():
+	current_path = os.getcwd() + "/gen-data/PBL_reqs/"
+	system_info = {}
+
+	with open('gen-data/system_info_tracker_peer.json', 'r') as fp:
+		system_info = json.load(fp)
+
+	macro_code = ""
+	for x in os.listdir(current_path):
+		if x.endswith(".txt"):
+			# Prints only text file present in My Folder
+			# print (" ------------------------ -------------------------- ------------------------")
+			macro_code += gen_JavaBIP_Macro_code(current_path + x) + "\n"
+			# print (gen_JavaBIP_Macro_code(current_path + x))
+
+	data_transfer = list(set(system_info['data_transfer']))
+	for dt in data_transfer:
+		macro_code += dt
+	print("------------------------ -------------------------- ------------------------")
+	print (macro_code)
+
+	print("------------------------")
+	boolean_functions = list(set(system_info['boolean_functions']))
+	for bl in boolean_functions:
+		print (bl)
+	# gen_JavaBIP_Macro_code("gen-data/PBL_reqs/Req_01.txt")
 
 def get_JavaBIP_style(inpStr):
 	# print ("----- check input: " + inpStr)

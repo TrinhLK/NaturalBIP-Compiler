@@ -1,6 +1,3 @@
-Req_01 = p_register <=> t_log
-Req_02 = p_unregister <=> t_log
-Req_03 = (~p_speak | ~p_listen)
 Req_04_speak = ((Req04speaktp_speak => (Req04speaktp_is_registered_to_t & p1_is_registered_to_t & p1_is_different_with_Req04speaktp & ~p1_speak & t_broadcast)))
 Req_04_listen = ((Req04listentp_listen => (Req04listentp_is_registered_to_t & p1_is_registered_to_t & p1_is_different_with_Req04listentp & p1_listen & t_broadcast)) & (p1_listen => (Req04listentp_is_registered_to_t & Req04listentp_listen & p1_is_registered_to_t & p1_is_different_with_Req04listentp & t_broadcast)))
-Main_Exp: Req_01 & Req_02 & Req_04
+Main_Exp: Req_04_speak & Req_04_listen
