@@ -1,0 +1,6 @@
+{
+    "python.terminal.executeInFileDir": true,
+    "python.analysis.extraPaths": [
+        "./include"
+    ]
+}
