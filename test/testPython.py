@@ -1,6 +1,7 @@
 import re
 import os
 import json
+import shutil
 import itertools
 import HandlingData as hd
 keywords = [": ", ".", "there is ", "there are ", "For ", "for "]
@@ -410,7 +411,11 @@ def get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology):
 	for disjunction_clause in result:
 		conjunction_string = " & ".join(disjunction_clause)
 		result_str.append(conjunction_string)
-		
+
+	# Remove empty strings in the list
+	result_str[:] = [x for x in result_str if x]
+
+	# print ("result_str: " + str(result_str))
 	# print ([" or ".join(result_str)])
 	new_result = [" | ".join(result_str)]
 	new_result.append(result)
@@ -499,7 +504,7 @@ def handle_complex_patterns (updated_requirement, ontology):
 			# print ("size: " + str(len(effect)) + "\teffect: " + str(effect))
 
 			for element in effect:
-				# print ("effect's element: " + str(element))
+				print ("effect's element: " + str(element))
 				if "(" in element and "or" in element:
 					list_effect_parentheses.append(element)
 				else:
@@ -512,7 +517,7 @@ def handle_complex_patterns (updated_requirement, ontology):
 			# print ("content: " + content)
 			content_element = content.split("or")
 			list_af.append(content_element)
-	# print ("list_af: " + str(list_af))
+		# print ("list_af: " + str(list_af))
 
 		# ---- ---- ----
 		# Get all combinations of or_clause
@@ -525,8 +530,11 @@ def handle_complex_patterns (updated_requirement, ontology):
 		# print ("\t* producted list: " + str(disjunction_of_effect_clause))
 
 		# From disjunction of effect clause, cause and ontology, gen final Boolean encoder
+		cause = cause.replace(" or ", " | ")
+		cause = cause.replace(" and ", " & ")
 		boolean_form_string = get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology)[0]
-		list_disjunction_of_effect_clause.append("(" + boolean_form_string + ")")
+		if boolean_form_string != "":
+			list_disjunction_of_effect_clause.append("(" + boolean_form_string + ")")
 	# print ("\n(" + boolean_form_string + ")")
 	# print ("list_disjunction_of_effect_clause: " + str(list_disjunction_of_effect_clause))
 	return " | ".join(list_disjunction_of_effect_clause)
@@ -765,7 +773,8 @@ def gen_Boolean_encoding(xmlFile):
 			print ("---- current directory: " + path)
 			try:
 				if os.path.isdir(path + "/gen-data/PBL_reqs"):
-					os.rmdir(path + "/gen-data/PBL_reqs")
+					# os.rmdir(path + "/gen-data/PBL_reqs")
+					shutil.rmtree(path + "/gen-data/PBL_reqs")
 				os.mkdir(path + "/gen-data/PBL_reqs")
 			except OSError:
 				print("Creation of the directory %s failed" % path)
@@ -835,7 +844,10 @@ def gen_Boolean_encoding(xmlFile):
 # with open('gen-data/data_'+'tracker_peer'+'.json', 'w') as fp:
 # 	json.dump(data, fp)
 # data = get_data_from_file('input/tracker_peer.xml')
+print ("------------------- tracker_peer generation")
 gen_Boolean_encoding('input/tracker_peer.xml')
+print ("------------------- finished tracker_peer generation")
+
 # print (data)
 # test_str = "except Req_01, Req_04"
 # new_main_content = re.sub(r'[\s]*\,[\s]*', " & ", test_str)
@@ -871,8 +883,8 @@ gen_Boolean_encoding('input/tracker_peer.xml')
 # req_content_3 = re.findall(r'\"(.+)\"',sample_3)[0]
 # analyze_requirement(req_name_3, req_content_3, ontology)
 # print ("------------------- end sample 3")
-print ("------------------- test 2")
-test_str = "Req04tp_is_registered_to_t and Req04tp_speak and p1_is_registered_to_t and (x_test or y_test) and p1_is_different_with_Req04tp and ~p1_speak or Req04tp_listen"
+# print ("------------------- test 2")
+# test_str = "Req04tp_is_registered_to_t and Req04tp_speak and p1_is_registered_to_t and (x_test or y_test) and p1_is_different_with_Req04tp and ~p1_speak or Req04tp_listen"
 # effects = []
 # list_either_or = re.findall(r'\(.*or.*\)', test_str)
 # dict_either_or = {}
@@ -895,6 +907,6 @@ test_str = "Req04tp_is_registered_to_t and Req04tp_speak and p1_is_registered_to
 # print (effects)
 
 
-print (get_effect_list(test_str))
-print ("------------------- end test 2")
+# print (get_effect_list(test_str))
+# print ("------------------- end test 2")
 

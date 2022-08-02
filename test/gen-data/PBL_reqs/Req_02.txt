@@ -1,2 +1,0 @@
-Req_02 = p_unregister <=> t_log
-Main_Exp: Req_02

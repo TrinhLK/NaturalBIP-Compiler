@@ -494,8 +494,9 @@ def mk_dualHorn(list_cls):
 			tmp_cls = CNF_Clauses()
 			tmp_cls.neg = neg_i
 			tmp_cls.pos = cls_0.pos
-			res_cls.append(tmp_cls)
+			res_cls.append([tmp_cls])
 	print ("\n--- 4. Generate list of dual-Horn clause")
+	print_dual_Horn(res_cls)
 	return res_cls
 
 def saturate_dual_horn(dual_horn, list_ports):
@@ -507,6 +508,7 @@ def saturate_dual_horn(dual_horn, list_ports):
 	for port in list_ports:
 		print (port[0].showInfor())
 	for elem in dual_horn:
+		# print ("*** \t\t\tCHECK TYPE: " + str(type(elem)))
 		elem.append(additional_clause)
 		print ("check addional_clause: " + str(len(additional_clause.pos)))
 	return dual_horn
@@ -785,8 +787,9 @@ def gen_JavaBIP_Macro_code(req_file):
 	# 1. get raw data of the CNF
 	list_cnf_clauses = list_cnf_clauses_raw(L)
 	list_MyClause = get_list_cnf_clauses(list_cnf_clauses)
-
+	# print (list_cnf_clauses)
 	list_all_ports = get_all_port_elements(list_MyClause, list_tracker_peer_preds, config)
+
 	# 2. synthesis clauses which have the same negative list
 	synthesis_cnf = synthesis_cnf_clauses(list_MyClause)
 
@@ -795,10 +798,13 @@ def gen_JavaBIP_Macro_code(req_file):
 
 	# generate dual-Horn
 	dual_horn_clause = mk_dualHorn(synthesis_cnf)
+	# print ("*** \t\t\tCHECK TYPE INPUT: " + str(type(dual_horn_clause)))
 	dh = saturate_dual_horn(dual_horn_clause, list_all_ports)
 
 
 	absorbed_dual_horn_clause = absorb_dual_Horn(dual_horn_clause)
+	print ("--- 5. absorbed dual-Horn clause")
+	print_dual_Horn(absorbed_dual_horn_clause)
 
 	accept_list = []
 	require_list = []
@@ -832,13 +838,14 @@ def gen_JavaBIP_Macro_code(req_file):
 				else:  # accept_list of each dual horn clause
 					# Replace instance_name by class_name before extending it
 					tmp_list = replace_instances_by_class(pos_str, config)
-					if accept_list == []:
+					if accept_list == [] or len(tmp_list) > len(accept_list):
 						accept_list = tmp_list
 					else:
 						for tmp_elm in tmp_list:
 							if tmp_elm not in accept_list:
 								accept_list.append(tmp_elm)
 
+	print ("\n\n ***** accept_list: " + str(accept_list))
 	n_accepts_list = []
 	dict_accept = {}
 	for i in range(len(accept_list)):
@@ -869,8 +876,9 @@ def main():
 	for x in os.listdir(current_path):
 		if x.endswith(".txt"):
 			# Prints only text file present in My Folder
-			# print (" ------------------------ -------------------------- ------------------------")
+			print (x + " ------------------------ -------------------------- ------------------------")
 			macro_code += gen_JavaBIP_Macro_code(current_path + x) + "\n"
+			print ("End " + x + " ------------------------ -------------------------- ------------------------\n\n")
 			# print (gen_JavaBIP_Macro_code(current_path + x))
 
 	data_transfer = list(set(system_info['data_transfer']))
