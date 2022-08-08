@@ -32,10 +32,10 @@
 			<annotation id="TP_03_speak">For any Tracker t, if t executes broadcast, there is a Peer p, p is registered to t and p shall speak and all Peer p1 such that p1 is registered to t and p1 is different with p and p1 shall not speak</annotation>
 			<annotation id="TP_03_listen">For any Tracker t, if t executes broadcast, there is a Peer p, p is registered to t and p shall listen and all Peer p1 such that p1 is registered to t and p1 is different with p and p1 shall listen</annotation>
 			<annotation id="TP_04">For any Tracker t, if t executes broadcast, For any Peer p where p is registered to t and (p shall not speak or p shall not listen) or p shall unregister</annotation>
-			<annotation id="TP_05_mutex">For all Peer p, p shall either speak or listen. </annotation>
+			<annotation id="TP_06_mutex">For all Peer p, p shall either speak or listen. </annotation>
 			<annotation id="TP_05_listen">For all Peer p, there is a Tracker t such that if t executes broadcast and p is registered to t, p shall listen and for all Peer p1 where p1 is registered to t and p1 is different with p and p1 shall listen.</annotation>
-			<annotation id="TP_05_speak">For all Peer p, there is a Tracker t such that if t executes broadcast and p is registered to t, p shall speak and for all Peer p1 where p1 is registered to t and p1 is different with p and p1 shall not speak</annotation>
-			<annotation id="MAIN">TP_01, TP_02, TP_03</annotation>
+			<annotation id="TP_05_speak">For all Peer p, there is a Tracker t such that if t executes broadcast and p is registered to t, p shall speak and for all Peer p1 where p1 is registered to t and p1 is different with p and p1 shall not speak </annotation>
+			<annotation id="MAIN">TP_01, TP_02, TP_05</annotation>
 
 	</annotations>
 

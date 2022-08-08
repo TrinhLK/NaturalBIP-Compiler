@@ -504,7 +504,7 @@ def handle_complex_patterns (updated_requirement, ontology):
 			# print ("size: " + str(len(effect)) + "\teffect: " + str(effect))
 
 			for element in effect:
-				print ("effect's element: " + str(element))
+				# print ("effect's element: " + str(element))
 				if "(" in element and "or" in element:
 					list_effect_parentheses.append(element)
 				else:
@@ -619,7 +619,7 @@ def generate_booleanFunctions_and_dataTransfer(data, updated_requirement):
 				for key, val in requirement_class_ins.items():
 					if param in val:
 						class_params.append(key)
-			flag_has_bool_func = False
+			# flag_has_bool_func = False
 			function_string = "In " + class_params[0] + ".java:\n\t@Guard(name=\"" + name + "\")\n\tpublic boolean " + name + "("
 
 			# Data transfer: if more than one param and they are in different class ==> data transfer
@@ -632,17 +632,22 @@ def generate_booleanFunctions_and_dataTransfer(data, updated_requirement):
 						list_dataTransfer.append("data(" + class_param_i + ".class,\"" + class_param_i + "2" + class_params[0] + "_data\").to(" + class_params[0] + ".class,\"" + class_param_i + "2" + class_params[0] + "_data\");")
 
 						# Boolean functions/Guards
-						flag_has_bool_func = True
+						# flag_has_bool_func = True
 						list_boolfuncs_params.append("@Data(name=\"" + class_param_i + "2" + class_params[0] + "_data\") " + class_param_i + " " + class_param_i + "_ins")
+					else:
+						list_boolfuncs_params.append(class_param_i + " " + class_param_i + "_ins")
 				function_string += ", ".join(list_boolfuncs_params)
 
+
 			function_string +=  ") {}"
-			if flag_has_bool_func == False: function_string = ""
+			# if flag_has_bool_func == False: function_string = ""
 			if function_string != "" : list_booleanFunctions.append(function_string)
 
 		list_dataTransfer = list(set(list_dataTransfer))
 		list_booleanFunctions = list(set(list_booleanFunctions))
 
+	print ("Guards: \n" + str(list_booleanFunctions))
+	print ("Data Transfers: \n" + str(list_dataTransfer))
 	dict_result = {}
 	dict_result["conditions"] = list_booleanFunctions
 	dict_result["data_transfer"] = list_dataTransfer

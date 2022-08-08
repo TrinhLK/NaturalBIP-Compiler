@@ -161,7 +161,9 @@ class CNF_Clauses:
 			else:
 			# print (str(type(i)) + " " + str(i.text))
 				list_txt_pos.append(i.text)
-		res += " | ".join(list_txt_neg) + " | " + " | ".join(list_txt_pos)
+		res += " | ".join(list_txt_neg)
+		if list_txt_pos != []:
+			res += " | " + " | ".join(list_txt_pos)
 		# res += ", " + str(self.rm)
 		print ("(" + res + ")")
 
@@ -196,7 +198,7 @@ def compareList(l1,l2):
    return (l1 == l2)
 
 # make a conjunction between elements of two lists
-def merge_two_pos_list(l_atom_1, l_atom_2):
+def merge_two_pos_list_OUTDATED(l_atom_1, l_atom_2):
 	result = []
 	l_atom_1_text = [elm[0].text for elm in l_atom_1]
 	l_atom_2_text = [elm[0].text for elm in l_atom_2]
@@ -238,6 +240,61 @@ def merge_two_pos_list(l_atom_1, l_atom_2):
 	# 			result.append(temp_list + temp_list_j)
 	#
 	return result
+
+def merge_two_pos_list(l_atom_1, l_atom_2):
+	l_atom_1_text = []
+	l_atom_2_text = []
+	merged_list = []
+	result = []
+
+	for i in l_atom_1:
+		if isinstance(i, list):
+			for elm in i:
+				# print ("TEST TEXT:" + elm.text)
+				merged_list.append(elm)
+			i_text = [elm.text for elm in i]
+			l_atom_1_text.append(i_text)
+			
+	l_atom_2_text = [elm[0].text for elm in l_atom_2]
+	for elm in l_atom_2:
+		merged_list.append(elm[0])
+
+	# print ("merged_list:" + str(merged_list))
+	merged_list = list(set(merged_list))
+	merged_list_text = merge_two_pos_list_text(l_atom_1_text, l_atom_2_text)
+	for text_list in merged_list_text:
+		sub_rs = []
+		for elm_text in text_list:
+			for elm in merged_list:
+				if elm.text == elm_text:
+					sub_rs.append(elm)
+					break
+		result.append(sub_rs)
+	return result
+
+def merge_two_pos_list_text(l_atom_1_text, l_atom_2_text):
+	merged_list_text = []
+	# print ("l_atom_1_text: " + str(l_atom_1_text))
+	# print ("l_atom_2_text: " + str(l_atom_2_text))
+	if l_atom_1_text == []:
+		return l_atom_2_text
+	else:
+		if l_atom_2_text == []:
+			return l_atom_1_text
+		for i in l_atom_1_text:
+			temp_list = []
+			if isinstance(i, list):
+				temp_list = i
+				for y in l_atom_2_text:
+					temp_list.append(y)
+				merged_list_text.append(temp_list)
+				# print ("check: " + str(merged_list_text))
+			else:
+				temp_list = [[i_el, y] for i_el in l_atom_1_text for y in l_atom_2_text]
+				merged_list_text = temp_list
+	
+	# print ("merged_list_text: " + str(merged_list_text))
+	return merged_list_text
 
 ###
 # -----------------------------------------------------------------------
@@ -333,15 +390,16 @@ def get_all_port_elements(list_cnf_clauses, list_preds, config):
 	# for elem_i in temp:
 	# 	print (elem_i)
 	temp = list(dict.fromkeys(temp))
-	print ("test list ports:\nafter")
+	# print ("test list ports:\nafter")
 	# test_rs = []
 	for elem_i in temp:
 		atom_elem = Atomic_Element(elem_i)
-		print (elem_i)
+		# print (elem_i)
 		result.append([atom_elem])
 		# test_rs.append([elem_i])
 	# print (result)
-
+	for clause_i in list_cnf_clauses:
+		clause_i.printer()
 	# result_1 = create_addtional_positive_clause(result, config)
 	# my_dict = convert_list_elem_to_dict(result)
 	# print (my_dict)
@@ -501,16 +559,49 @@ def mk_dualHorn(list_cls):
 
 def saturate_dual_horn(dual_horn, list_ports):
 	res = []
-	additional_clause = CNF_Clauses()
-	additional_clause.neg = []
-	additional_clause.pos = list_ports
-	print ("get list port: ")
+	# additional_clause = CNF_Clauses()
+	# additional_clause.neg = []
+	# additional_clause.pos = list_ports
+
+	# tmp_additional_clause = CNF_Clause()
+	# print ("Print list port: ")
+	list_port_str = []
+	
+
 	for port in list_ports:
-		print (port[0].showInfor())
-	for elem in dual_horn:
-		# print ("*** \t\t\tCHECK TYPE: " + str(type(elem)))
-		elem.append(additional_clause)
-		print ("check addional_clause: " + str(len(additional_clause.pos)))
+		# print (port[0].showInfor())
+		list_port_str.append(port[0].showInfor())	
+
+	for dual_horn_set in dual_horn:
+		tmp_additional_str = []
+		if isinstance(dual_horn_set,list):
+			for dh_clause in dual_horn_set:
+				for neg_elm in dh_clause.neg:
+					if neg_elm.showInfor() in list_port_str:
+						tmp_additional_str.append(neg_elm.showInfor())
+				for pos_set in dh_clause.pos:
+					for pos_elm in pos_set:
+						if pos_elm.showInfor() in list_port_str:
+							tmp_additional_str.append(pos_elm.showInfor())
+		# print ("additional_clause_str: " + str(tmp_additional_str))
+		# print ("--- additional_clause_str: " + str(list(set(tmp_additional_str))))
+		tmp_additional_str = list(set(tmp_additional_str))
+		tmp_additional = []
+		for elm in tmp_additional_str:
+			new_elm = Atomic_Element(elm)
+			tmp_additional.append([new_elm])
+		# for elm in tmp_additional:
+		# 	print ("tmp_additional_elm: " + elm[0].showInfor())
+		additional_clause_1 = CNF_Clauses()
+		additional_clause_1.neg = []
+		additional_clause_1.pos = tmp_additional
+		# additional_clause_1.printer()
+		dual_horn_set.append(additional_clause_1)
+
+	# for elem in dual_horn:
+	# 	# print ("*** \t\t\tCHECK TYPE: " + str(type(elem)))
+	# 	elem.append(additional_clause)
+	# 	# print ("check addional_clause: " + str(len(additional_clause.pos)))
 	return dual_horn
 
 # -----------------------------
@@ -838,14 +929,24 @@ def gen_JavaBIP_Macro_code(req_file):
 				else:  # accept_list of each dual horn clause
 					# Replace instance_name by class_name before extending it
 					tmp_list = replace_instances_by_class(pos_str, config)
-					if accept_list == [] or len(tmp_list) > len(accept_list):
-						accept_list = tmp_list
-					else:
-						for tmp_elm in tmp_list:
-							if tmp_elm not in accept_list:
-								accept_list.append(tmp_elm)
+					# if accept_list == [] or len(tmp_list) > len(accept_list):
+					# 	accept_list = tmp_list
+					# else:
+					# 	for tmp_elm in tmp_list:
+					# 		if tmp_elm not in accept_list:
+					# 			accept_list.append(tmp_elm)
+					intersect_list = list(set(tmp_list) & set(accept_list))
+					accept_list = accept_list + tmp_list
+					accept_list = [i for i in accept_list if not i in intersect_list or intersect_list.remove(i)]
+					# if accept_list == []:
+					# 	accept_list = tmp_list
+					# else:
+					# 	intersect_list = list(set(tmp_list) & set(accept_list))
+					# 	accept_list = accept_list + tmp_list
+					# 	accept_list = [i for i in accept_list if not i in intersect_list or intersect_list.remove(i)]
 
-	print ("\n\n ***** accept_list: " + str(accept_list))
+
+	# print ("\n\n ***** accept_list: " + str(accept_list))
 	n_accepts_list = []
 	dict_accept = {}
 	for i in range(len(accept_list)):
