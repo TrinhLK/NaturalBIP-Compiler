@@ -1,3 +1,0 @@
-TP_05_listen = ((p_listen => (p1_is_registered_to_TP05listenptt & p1_is_different_with_p & p1_listen & TP05listenptt_broadcast & p_is_registered_to_TP05listenptt)) & (p1_listen => (p_listen & p1_is_registered_to_TP05listenptt & p1_is_different_with_p & TP05listenptt_broadcast & p_is_registered_to_TP05listenptt)))
-TP_05_speak = ((p_speak => (p1_is_registered_to_TP05speakptt & p1_is_different_with_p & ~p1_speak & TP05speakptt_broadcast & p_is_registered_to_TP05speakptt)))
-Main_Exp: TP_05_listen & TP_05_speak

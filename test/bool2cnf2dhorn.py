@@ -605,6 +605,88 @@ def saturate_dual_horn(dual_horn, list_ports):
 	return dual_horn
 
 # -----------------------------
+# 1. From each dualHorn set
+# 	add related element to the non-negative clause
+# 2. Get the union of non-negative clauses
+# return
+def generate_atomic_interactions(dual_horn, list_ports):
+	res = []
+	list_port_str = []
+
+	# Get strings of all list ports
+	for port in list_ports:
+		list_port_str.append(port[0].showInfor())	
+
+	for dual_horn_set in dual_horn:
+		positive_clause_str = []
+		set_of_atomic_interactions = []
+		positive_clause = []
+
+		for dual_horn_clause in dual_horn_set:
+			if dual_horn_clause.neg == []:
+				positive_clause_str = dual_horn_clause.get_pos_list_str()
+
+		for elm in positive_clause_str:
+			checked = False
+			conjunction_of_elm = ""
+			for dual_horn_clause in dual_horn_set:
+
+				atomic_interactions = []
+				# print ("Neg_clause: " + str(dual_horn_clause.get_neg_list_str()))
+				# print ("Post_clause: " + str(dual_horn_clause.get_pos_list_str()))
+
+				if dual_horn_clause.neg != [] and dual_horn_clause.get_pos_list_str() != []:
+					neg_action = ""
+					for neg_elem in dual_horn_clause.get_neg_list_str():
+						if neg_elem in list_port_str:
+							neg_action = neg_elem
+							# atomic_interactions.append(neg_elem)
+
+					if neg_action == elm:
+						atomic_interactions.append(neg_action)
+						for pos_clause in dual_horn_clause.get_pos_list_str():
+							if isinstance(pos_clause, list):
+								for pos_elem in pos_clause:
+									if pos_elem in list_port_str:
+										atomic_interactions.append(pos_elem)
+							else:
+								if pos_clause in list_port_str:
+									atomic_interactions.append(pos_clause)
+						# conjunction_of_elm = "&".join(atomic_interactions)
+
+						canAdd = True
+						for positive_clause_elm in positive_clause:
+							if list(set(positive_clause_elm) - set(atomic_interactions)) == [] and list(set(atomic_interactions) - set(positive_clause_elm)) == []:
+								canAdd = False
+								break
+						if canAdd == True:	positive_clause.append(atomic_interactions)
+						checked = True
+			if checked == False: positive_clause.append([elm])
+			# print ("conjunction_of_elm: " + str(conjunction_of_elm))
+			# positive_clause = list(map(lambda x: x.replace(elm, conjunction_of_elm), positive_clause))
+		print ("positive_clause: " + str(positive_clause))
+		for positive_clause_elm in positive_clause:
+			if res == []: 
+				res.append(positive_clause_elm)
+			else:
+				canAdd = True
+				for elm in res:
+					if list(set(elm) - set(positive_clause_elm)) == [] and list(set(positive_clause_elm) - set(elm)) == []:
+						canAdd = False
+						break
+				if canAdd == True:	res.append(positive_clause_elm)
+	print ("Final set: " + str(res))
+			# canAdd = True
+			# for positive_clause_elm in positive_clause:
+			# 	if list(set(positive_clause_elm) - set(atomic_interactions)) == []:
+			# 		canAdd = False
+			# 		break
+			# if canAdd == True:	positive_clause.append(atomic_interactions)
+
+			
+		# print ("POSitive clause: " + str(positive_clause))
+
+# -----------------------------
 # absorb the dual-horn clause
 # Convert all atom in neg to list atom (list of 1 element)
 # absorb
@@ -896,6 +978,10 @@ def gen_JavaBIP_Macro_code(req_file):
 	absorbed_dual_horn_clause = absorb_dual_Horn(dual_horn_clause)
 	print ("--- 5. absorbed dual-Horn clause")
 	print_dual_Horn(absorbed_dual_horn_clause)
+
+	print ("--- 6. set of atomic interactions")
+	# print_dual_Horn(absorbed_dual_horn_clause)
+	generate_atomic_interactions(absorbed_dual_horn_clause, list_all_ports)
 
 	accept_list = []
 	require_list = []

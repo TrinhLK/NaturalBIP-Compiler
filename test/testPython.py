@@ -535,7 +535,7 @@ def handle_complex_patterns (updated_requirement, ontology):
 		boolean_form_string = get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology)[0]
 		if boolean_form_string != "":
 			list_disjunction_of_effect_clause.append("(" + boolean_form_string + ")")
-	# print ("\n(" + boolean_form_string + ")")
+	# print ("Test boolean_form_string: (" + boolean_form_string + ")")
 	# print ("list_disjunction_of_effect_clause: " + str(list_disjunction_of_effect_clause))
 	return " | ".join(list_disjunction_of_effect_clause)
 	# return temp_dict_action
@@ -687,7 +687,8 @@ def analyze_requirement(req_name, input_requirement, data):
 
 	handle_pattern(updated_requirement, ontology)
 	# print (req_name + " = " + handle_pattern(updated_requirement, ontology))
-	result = [req_name + " = " + handle_pattern(updated_requirement, ontology)]
+	if handle_pattern(updated_requirement, ontology) != "":
+		result = [req_name + " = " + handle_pattern(updated_requirement, ontology)]
 	result.append(artifacts) #PBL inputs, boolean functions, and data transfer
 	result.append(updated_requirement[3])	#Class_Instances
 	result.append(list(updated_requirement[1].values())) #Conditions/Predicates
