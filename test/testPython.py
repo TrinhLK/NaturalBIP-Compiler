@@ -834,7 +834,7 @@ def gen_Boolean_encoding(xmlFile):
 		# print (output_str)
 	with open('gen-data/PBL_'+fileName+'.txt', 'w') as f:
 		f.write(result)
-	with open('gen-data/system_info_'+fileName+'.json', 'w') as f:
+	with open('gen-data/system_infor.json', 'w') as f:
 		json.dump(exported_data, f)
 	# # print (fileName)
 	# try:
