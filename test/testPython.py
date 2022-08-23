@@ -4,7 +4,7 @@ import json
 import shutil
 import itertools
 import HandlingData as hd
-keywords = [": ", ".", "there is ", "there are ", "For ", "for "]
+keywords = [": ", ".", "there is ", "there are ", "For ", "for ", "There is ", "There are "]
 patterns = ["if ", "If ", "While ", "while ", "After ", " after ", "Before ", "before "]
 
 sample_2 = "Req_01: \"For any Tracker    t, if t execute broadcast, there is a Peer p such that p is registered to t and p shall either speak or listen and all Peer p1 where p1 is registerd to t and p1 is different with p and p1 shall not speak.\""
@@ -602,7 +602,7 @@ def error_handling(data, updated_requirement):
 def generate_booleanFunctions_and_dataTransfer(data, updated_requirement):
 	detailed_info = data['Detail']
 	requirement_conditions = updated_requirement[1]
-	# print (requirement_conditions)
+	print ("requirement_conditions: " + str(requirement_conditions))
 	requirement_class_ins = updated_requirement[3]
 	list_dataTransfer = []
 	list_booleanFunctions = []
@@ -728,13 +728,16 @@ def gen_Boolean_encoding(xmlFile):
 	list_actions = []
 
 	result = ""
-	# print (requirements)
+	
 	list_requirements = list(requirements.keys())
+
+	print ("list req: " + str(list_requirements))
 	list_requirements.remove("MAIN")
 	# print (list_requirements)
 	list_pbl_requirements = []
 	list_chosen_requirements = []
 
+	shouldAddMore = True
 	for key, value in requirements.items():
 		if not "MAIN" in key:
 			print ("\n\nBEGIN ---- ---- ----")
@@ -771,6 +774,9 @@ def gen_Boolean_encoding(xmlFile):
 			except:
 				list_actions = tmp_list_actions
 			list_pbl_requirements.append(analyzed_req[0])
+			if shouldAddMore == True:
+				print ("add req: " + key)
+				list_chosen_requirements.append(key)
 			print ("END ---- ---- ----\n\n")
 		else: # MAIN-annotation contains list of Reqs will be used
 			# Create PBL at gen-data folder
@@ -790,8 +796,8 @@ def gen_Boolean_encoding(xmlFile):
 			# new_main_content = value
 			main_list = []
 			new_main_content = re.sub(r'[\s]*\,[\s]*', " & ", value)
-			# print ("picked_req_text: " + value)
-			list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
+			print ("new_main_content: " + new_main_content)
+			# list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
 
 			# print ("Main_Exp: " + new_main_content)
 			if ("except " or "Except ") in new_main_content:
@@ -801,6 +807,9 @@ def gen_Boolean_encoding(xmlFile):
 				main_list = list_requirements
 			else:
 				main_list = new_main_content.split(" & ")
+				list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
+				print ("List req is provided")
+				shouldAddMore = False
 
 			result += "Main_Exp: " + " & ".join(main_list)
 
@@ -816,7 +825,7 @@ def gen_Boolean_encoding(xmlFile):
 	# print (exported_data)
 	# print (result)
 	# Export each requirement to a File in PBL_reqs folder
-
+	# if isPickedAll
 	print(list_pbl_requirements)
 	print(list_chosen_requirements)
 
@@ -850,10 +859,6 @@ def gen_Boolean_encoding(xmlFile):
 # with open('gen-data/data_'+'tracker_peer'+'.json', 'w') as fp:
 # 	json.dump(data, fp)
 # data = get_data_from_file('input/tracker_peer.xml')
-print ("------------------- tracker_peer generation")
-gen_Boolean_encoding('input/tracker_peer.xml')
-print ("------------------- finished tracker_peer generation")
-
 # print (data)
 # test_str = "except Req_01, Req_04"
 # new_main_content = re.sub(r'[\s]*\,[\s]*', " & ", test_str)
@@ -915,4 +920,14 @@ print ("------------------- finished tracker_peer generation")
 
 # print (get_effect_list(test_str))
 # print ("------------------- end test 2")
+
+# print ("------------------- tracker_peer generation")
+# gen_Boolean_encoding('input/tracker_peer.xml')
+# print ("------------------- finished tracker_peer generation")
+
+print ("------------------- heroku_deployer generation")
+gen_Boolean_encoding('input/herokudeployer.xml')
+print ("------------------- finished heroku_deployer generation")
+
+
 

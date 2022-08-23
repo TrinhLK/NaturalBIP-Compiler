@@ -1,9 +1,11 @@
 TP_01 = p_register <=> t_log
 TP_02 = p_unregister <=> t_log
-TP_03_speak = ((TP03speaktp_speak => (TP03speaktp_is_registered_to_t & p1_is_registered_to_t & p1_is_different_with_TP03speaktp & ~p1_speak & t_broadcast)))
-TP_03_listen = ((TP03listentp_listen => (TP03listentp_is_registered_to_t & t_broadcast)))
-TP_03_listen1 = ((TP03listen1tp_listen => (TP03listen1tp_is_registered_to_t & p1_is_registered_to_t & p1_is_different_with_TP03listen1tp & p1_listen & t_broadcast)) & (p1_listen => (TP03listen1tp_is_registered_to_t & TP03listen1tp_listen & p1_is_registered_to_t & p1_is_different_with_TP03listen1tp & t_broadcast)))
-TP_04 = ((p_unregister => (~p_speak & t_broadcast)) | (p_unregister => (~p_listen & t_broadcast)))
+TP_03_speak = ((p_speak => (p_is_registered_to_TP03speakptt & p1_is_registered_to_TP03speakptt & p1_is_different_with_p & ~p1_speak & TP03speakptt_broadcast)))
+TP_03_mutex = (~p_speak | ~p_listen )
+TP_03_listen = ((p_listen => (p_is_registered_to_TP03listenptt & TP03listenptt_broadcast))) | ((p1_listen => (p1_is_registered_to_TP03listenptt & p1_is_different_with_p & TP03listenptt_broadcast)))
+TP_06_speak = ((TP06speaktp_speak => (TP06speaktp_is_registered_to_t & p1_is_registered_to_t & p1_is_different_with_TP06speaktp & ~p1_speak & t_broadcast)))
+TP_06_listen = ((p_listen => (p_is_registered_to_t & t_broadcast))) | ((p_speak => (t_broadcast)))
+TP_06_listen1 = ((TP06listen1tp_listen => (TP06listen1tp_is_registered_to_t & p1_is_registered_to_t & p1_is_different_with_TP06listen1tp & p1_listen & t_broadcast)) & (p1_listen => (TP06listen1tp_is_registered_to_t & TP06listen1tp_listen & p1_is_registered_to_t & p1_is_different_with_TP06listen1tp & t_broadcast)))
 TP_05_mutex = (~p_speak | ~p_listen )
 TP_05_listen = ((p_listen => (TP05listenptt_broadcast & p_is_registered_to_TP05listenptt)))
 TP_05_speak = ((p_speak => (p1_is_registered_to_TP05speakptt & p1_is_different_with_p & ~p1_speak & TP05speakptt_broadcast & p_is_registered_to_TP05speakptt)))

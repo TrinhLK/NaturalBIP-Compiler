@@ -1,0 +1,2 @@
+deployFreeDyno = hdt_sub1 <=> d_setFreeDyno
+Main_Exp: deployFreeDyno & deployResponsedeployResponse = hdt_sendDynoResponse <=> d_receiveDynoResponse

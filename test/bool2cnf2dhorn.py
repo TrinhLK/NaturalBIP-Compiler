@@ -261,7 +261,22 @@ def merge_two_pos_list(l_atom_1, l_atom_2):
 
 	# print ("merged_list:" + str(merged_list))
 	merged_list = list(set(merged_list))
+	merged_list_str = []
+	for elm in merged_list:
+		# print ("check type: " + str(type(elm)) + "\tvalue: " + elm.showInfor())
+		merged_list_str.append(elm.showInfor())
+		# sub_merged_list = []
+		# if isinstance(elm, list):
+		# 	for elm_i in elm:
+		# 		sub_merged_list.append(elm_i.showInfor())
+		# else:
+		# 	merged_list_str.append(elm.showInfor())
+		# print ("value: " + elm.showInfor())
+	# merged_list_str = [elm.showInfor() for elm in merged_list]
+	# print ("merged_list_str:" + str(merged_list_str))
+
 	merged_list_text = merge_two_pos_list_text(l_atom_1_text, l_atom_2_text)
+	# print ("merged_list_text:" + str(merged_list_text))
 	for text_list in merged_list_text:
 		sub_rs = []
 		for elm_text in text_list:
@@ -272,30 +287,56 @@ def merge_two_pos_list(l_atom_1, l_atom_2):
 		result.append(sub_rs)
 	return result
 
+# def merge_two_pos_list_text(l_atom_1_text, l_atom_2_text):
+# 	merged_list_text = []
+# 	print ("l_atom_1_text: " + str(l_atom_1_text))
+# 	print ("l_atom_2_text: " + str(l_atom_2_text))
+# 	if l_atom_1_text == []:
+# 		return l_atom_2_text
+# 	else:
+# 		if l_atom_2_text == []:
+# 			return l_atom_1_text
+# 		for i in l_atom_1_text:
+# 			temp_list = []
+# 			if isinstance(i, list):
+# 				temp_list = i
+# 				for y in l_atom_2_text:
+# 					temp_list.append(y)
+# 				merged_list_text.append(temp_list)
+# 				# print ("check: " + str(merged_list_text))
+# 			else:
+# 				temp_list = [[i_el, y] for i_el in l_atom_1_text for y in l_atom_2_text]
+# 				merged_list_text = temp_list
+	
+# 	print ("merged_list_text: " + str(merged_list_text))
+# 	return merged_list_text
 def merge_two_pos_list_text(l_atom_1_text, l_atom_2_text):
-	merged_list_text = []
-	# print ("l_atom_1_text: " + str(l_atom_1_text))
-	# print ("l_atom_2_text: " + str(l_atom_2_text))
+    # temp_list = [[i_el, y] for i_el in l_atom_1_text for y in l_atom_2_text]
+	temp_list = []
 	if l_atom_1_text == []:
 		return l_atom_2_text
 	else:
 		if l_atom_2_text == []:
 			return l_atom_1_text
-		for i in l_atom_1_text:
-			temp_list = []
-			if isinstance(i, list):
-				temp_list = i
-				for y in l_atom_2_text:
-					temp_list.append(y)
-				merged_list_text.append(temp_list)
-				# print ("check: " + str(merged_list_text))
+		for elm_1 in l_atom_1_text:
+			if isinstance(elm_1, list):
+		# print ("fg")
+				for elm_2 in l_atom_2_text:
+					new_value = elm_1
+					new_value.append(elm_2)
+					new_value = list(set(new_value))
+					temp_list.append(new_value)
 			else:
-				temp_list = [[i_el, y] for i_el in l_atom_1_text for y in l_atom_2_text]
-				merged_list_text = temp_list
-	
-	# print ("merged_list_text: " + str(merged_list_text))
-	return merged_list_text
-
+				for elm_2 in l_atom_2_text:
+					new_value = []
+					new_value.append(elm_1)
+					new_value.append(elm_2)
+					new_value = list(set(new_value))
+					temp_list.append(new_value)
+    # print ("before: " + str(temp_list))
+		l = list(map(list, set(map(tuple, map(set, temp_list)))))
+    # print ("after: " + str(l))
+		return l
 ###
 # -----------------------------------------------------------------------
 ### get list of positive ports
@@ -586,6 +627,7 @@ def saturate_dual_horn(dual_horn, list_ports):
 		# print ("additional_clause_str: " + str(tmp_additional_str))
 		# print ("--- additional_clause_str: " + str(list(set(tmp_additional_str))))
 		tmp_additional_str = list(set(tmp_additional_str))
+		
 		tmp_additional = []
 		for elm in tmp_additional_str:
 			new_elm = Atomic_Element(elm)
@@ -611,12 +653,13 @@ def saturate_dual_horn(dual_horn, list_ports):
 # return
 def generate_atomic_interactions(dual_horn, list_ports):
 	res = []
+	set_of_interactions = []
 	list_port_str = []
 
 	# Get strings of all list ports
 	for port in list_ports:
 		list_port_str.append(port[0].showInfor())	
-
+	i = 0
 	for dual_horn_set in dual_horn:
 		positive_clause_str = []
 		set_of_atomic_interactions = []
@@ -626,6 +669,7 @@ def generate_atomic_interactions(dual_horn, list_ports):
 			if dual_horn_clause.neg == []:
 				positive_clause_str = dual_horn_clause.get_pos_list_str()
 
+		positive_clause_str = list(set(positive_clause_str))
 		for elm in positive_clause_str:
 			checked = False
 			conjunction_of_elm = ""
@@ -659,14 +703,19 @@ def generate_atomic_interactions(dual_horn, list_ports):
 							if list(set(positive_clause_elm) - set(atomic_interactions)) == [] and list(set(atomic_interactions) - set(positive_clause_elm)) == []:
 								canAdd = False
 								break
-						if canAdd == True:	positive_clause.append(atomic_interactions)
+						if canAdd == True:	
+							atomic_interactions = list(set(atomic_interactions))
+							positive_clause.append(atomic_interactions)
 						checked = True
 			if checked == False: positive_clause.append([elm])
 			# print ("conjunction_of_elm: " + str(conjunction_of_elm))
 			# positive_clause = list(map(lambda x: x.replace(elm, conjunction_of_elm), positive_clause))
-		print ("positive_clause: " + str(positive_clause))
+		print ("positive_clause_" + str(i) + " = " + str(positive_clause))
+		set_of_interactions.append(positive_clause)
+
 		for positive_clause_elm in positive_clause:
 			if res == []: 
+				positive_clause_elm = list(set(positive_clause_elm))
 				res.append(positive_clause_elm)
 			else:
 				canAdd = True
@@ -674,8 +723,18 @@ def generate_atomic_interactions(dual_horn, list_ports):
 					if list(set(elm) - set(positive_clause_elm)) == [] and list(set(positive_clause_elm) - set(elm)) == []:
 						canAdd = False
 						break
-				if canAdd == True:	res.append(positive_clause_elm)
-	print ("Final set: " + str(res))
+				if canAdd == True:	
+					positive_clause_elm = list(set(positive_clause_elm))
+					res.append(positive_clause_elm)
+		i = i+1
+	print ("Unionset =  " + str(res))
+	print ("set_of_interactions =  " + str(set_of_interactions) + "\nlen = " + str(len(set_of_interactions)))
+	new_set_of_interactions = []
+
+	for elm_i in set_of_interactions:
+	    if elm_i not in new_set_of_interactions:
+	        new_set_of_interactions.append(elm_i)
+	print ("new set_of_interactions =  " + str(new_set_of_interactions) + "\nlen = " + str(len(new_set_of_interactions)))
 			# canAdd = True
 			# for positive_clause_elm in positive_clause:
 			# 	if list(set(positive_clause_elm) - set(atomic_interactions)) == []:
@@ -943,7 +1002,7 @@ def gen_JavaBIP_Macro_code(req_file):
 	system_info = {}
 	with open('gen-data/data_tracker_peer.json', 'r') as fp:
 		data = json.load(fp)
-	with open('gen-data/system_info_tracker_peer.json', 'r') as fp:
+	with open('gen-data/system_infor.json', 'r') as fp:
 		system_info = json.load(fp)
 
 	config = system_info['configuration']
@@ -1011,6 +1070,7 @@ def gen_JavaBIP_Macro_code(req_file):
 					if len(tmp_neg) > 0:
 						if tmp_neg[0] in tmp_post:
 							tmp_post.remove(tmp_neg[0])
+						tmp_post = list(set(tmp_post))
 						require_list.append("port(" + tmp_neg[0] + ").requires(" + ", ".join(tmp_post) + ");\n")
 				else:  # accept_list of each dual horn clause
 					# Replace instance_name by class_name before extending it

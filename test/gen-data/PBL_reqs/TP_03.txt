@@ -1,4 +1,0 @@
-TP_03_speak = ((TP03speaktp_speak => (TP03speaktp_is_registered_to_t & p1_is_registered_to_t & p1_is_different_with_TP03speaktp & ~p1_speak & t_broadcast)))
-TP_03_listen = ((TP03listentp_listen => (TP03listentp_is_registered_to_t & t_broadcast)))
-TP_03_listen1 = ((TP03listen1tp_listen => (TP03listen1tp_is_registered_to_t & p1_is_registered_to_t & p1_is_different_with_TP03listen1tp & p1_listen & t_broadcast)) & (p1_listen => (TP03listen1tp_is_registered_to_t & TP03listen1tp_listen & p1_is_registered_to_t & p1_is_different_with_TP03listen1tp & t_broadcast)))
-Main_Exp: TP_03_speak & TP_03_listen & TP_03_listen1

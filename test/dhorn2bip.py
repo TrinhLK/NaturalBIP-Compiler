@@ -173,14 +173,43 @@ def removeUnion(allowedInteractions):
     return allowedInteractions
 
 def replace_ins_by_class(connector_str):
-  result = connector_str
-  for subject in system_info['configuration'].keys():
-    instances = system_info['configuration'][subject]
-    for ins in instances:
-      if ("(" + ins + "_") in result:
-        result = result.replace("(" + ins + "_", "(" + subject + ".")
-  print ("\n--final connector: " + result)
-  return result
+    result = connector_str
+    for subject in system_info['configuration'].keys():
+        instances = system_info['configuration'][subject]
+        for ins in instances:
+            if ("(" + ins + "_") in result:
+                result = result.replace("(" + ins + "_", "(" + subject + ".")
+    print ("\n--final connector: " + result)
+    return result
+
+# def replace_ins_by_class_1(set_of_interactions):
+#     result = []
+#     for set_i in set_of_interactions:
+#         new_set = []
+#         for interactions in set_i:
+#             new_interactions = []
+#             for elm_i in interactions:
+#                 new_elm = "(" + elm_i
+#                 # print ("elm_i: " + elm_i)
+#                 for subject in system_info['configuration'].keys():
+#                     instances = system_info['configuration'][subject]
+#                     # print ("instances: " + str(instances))
+#                     for ins in instances:
+#                         # print (ins + "\t" + subject + "\t" + new_elm)
+#                         if ("(" + ins + "_") in new_elm:
+#                             new_elm = new_elm.replace("(" + ins + "_", subject + ".")
+#                             new_interactions.append(new_elm)
+#             new_set.append(new_interactions)
+#         result.append(new_set)
+    # print ("F:new_positive_clauses: " + str(result))
+    # result = connector_str
+    # for subject in system_info['configuration'].keys():
+    #     instances = system_info['configuration'][subject]
+    #     for ins in instances:
+    #         if ("(" + ins + "_") in result:
+    #             result = result.replace("(" + ins + "_", "(" + subject + ".")
+    # print ("\n--final connector: " + result)
+    # return result
 # --------------- TEST --------------------------
 rendervous = [['p', 'q', 'r']]
 print("rendervous:" + str(rendervous))
@@ -226,6 +255,11 @@ print("\n6.--------------")
 causality_chain_2 = [['p'], ['p', 'q'], ['p', 'q', 'r'], ['p', 'q', 'r', 't']]
 print("causality_chain_2: " + str(causality_chain_2))
 get_connector(causality_chain_2)
+
+print("\n6.1.--------------")
+causality_chain_3 = [['p'], ['p', 'q'], ['p', 'q', 'r', 't']]
+print("causality_chain_3: " + str(causality_chain_3))
+get_connector(causality_chain_3)
 
 # print("\n7.--------------")
 # broadcast_5 = [['p'], ['p', 'q'], ['t'], ['t', 'p'], ['t', 'p', 'q'],
@@ -288,11 +322,66 @@ print("tracker_peer_4: " + str(tracker_peer_4))
 get_connector(tracker_peer_4)
 
 print("\n13.--------------")
-tracker_peer_5 = [['TP03listen1tp_listen', 'p1_listen', 't_broadcast'], ['TP03listentp_listen', 't_broadcast'], ['TP03speaktp_speak', 't_broadcast'], ['t_broadcast']]
+tracker_peer_5 = [['p_speak', 'TP03speakptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['p_listen', 'TP03listenptt_broadcast']]
 print("tracker_peer_5: " + str(tracker_peer_5))
 tmp_connector = get_connector(tracker_peer_5)
 replace_ins_by_class(tmp_connector)
-# print("\n13.--------------")
+print("\n14.--------------")
+positive_clauses = [[['p_speak', 'TP03speakptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['p_speak', 'TP03speakptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p1_listen']], [['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p1_listen']], [['TP03speakptt_broadcast'], ['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p_listen']]]
+
+# positive_clauses = [[['TP03speakptt_broadcast'], ['p1_listen'], ['TP03speakptt_broadcast', 'p_speak'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['TP03speakptt_broadcast', 'p_speak'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['p1_listen'], ['p1_speak'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['p1_speak'], ['TP03listenptt_broadcast']], [['p1_listen'], ['p_listen', 'TP03listenptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['p1_listen', 'TP03listenptt_broadcast'], ['p_listen'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['TP03listenptt_broadcast'], ['p1_speak'], ['p1_listen'], ['p_listen', 'TP03listenptt_broadcast'], ['TP03speakptt_broadcast']], [['TP03listenptt_broadcast'], ['p1_speak'], ['p1_listen', 'TP03listenptt_broadcast'], ['p_listen'], ['TP03speakptt_broadcast']]]
+list_connectors = []
+for positive_clause_i in positive_clauses:
+    tmp_connector_i = get_connector(positive_clause_i)
+    list_connectors.append(replace_ins_by_class(tmp_connector_i))
+
+print ("\n\nlist_connectors: ")
+for connector in list_connectors:
+    print (connector)
+
+# new_positive_clauses = replace_ins_by_class_1(positive_clauses)
+# print ("new_positive_clauses: " + str(new_positive_clauses))
+
+# new_list_connectors = []
+# for positive_clause_i in new_positive_clauses:
+#     tmp_connector_i = get_connector(positive_clause_i)
+#     new_list_connectors.append(tmp_connector_i)
+
+# print ("\n\nnew_list_connectors: ")
+# for connector in new_list_connectors:
+#     print (connector)
+# positive_clause_0 = [['TP03speakptt_broadcast'], ['p_speak', 'TP03speakptt_broadcast'], ['TP03listenptt_broadcast']]
+# positive_clause_1 = [['TP03speakptt_broadcast'], ['p_speak', 'TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']]
+# positive_clause_2 = [['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']]
+# positive_clause_3 = [['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']]
+# positive_clause_4 = [['TP03speakptt_broadcast'], ['p_listen', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']]
+# positive_clause_5 = [['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']]
+# positive_clause_6 = [['TP03speakptt_broadcast'], ['p_listen', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']]
+# positive_clause_7 = [['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']]
+
+# tmp_connector_0 = get_connector(positive_clause_0)
+# replace_ins_by_class(tmp_connector_0)
+
+# tmp_connector_1 = get_connector(positive_clause_1)
+# replace_ins_by_class(tmp_connector_1)
+
+# tmp_connector_2 = get_connector(positive_clause_2)
+# replace_ins_by_class(tmp_connector_2)
+
+# tmp_connector_3 = get_connector(positive_clause_3)
+# replace_ins_by_class(tmp_connector_3)
+
+# tmp_connector_4 = get_connector(positive_clause_4)
+# replace_ins_by_class(tmp_connector_4)
+
+# tmp_connector_5 = get_connector(positive_clause_5)
+# replace_ins_by_class(tmp_connector_5)
+
+# tmp_connector_6 = get_connector(positive_clause_6)
+# replace_ins_by_class(tmp_connector_6)
+
+# tmp_connector_7 = get_connector(positive_clause_7)
+# replace_ins_by_class(tmp_connector_7)
 # tracker_peer_2 = [['Tracker.broadcast'], ['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen', 'Peer.listen'], ['Tracker.broadcast', 'Peer.speak', 'Peer.listen']]
 # print("tracker_peer_2: " + str(tracker_peer_2))
 # get_connector(tracker_peer_2)

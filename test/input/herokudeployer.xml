@@ -1,0 +1,369 @@
+<extension name="herokudeployer">
+	<class name="HerokuBuilpack" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="setAddonsForGo"/>
+			<action name="removeScala"/>
+			<action name="setAddonsForPhp"/>
+			<action name="setJava"/>
+			<action name="setAddonsForRuby"/>
+			<action name="removeClojure"/>
+			<action name="setAddonsForPython"/>
+			<action name="setAddonsForClojure"/>
+			<action name="setAddonsForJava"/>
+			<action name="removePython"/>
+			<action name="setAddonsForNodejs"/>
+			<action name="removeRuby"/>
+			<action name="setScala"/>
+			<action name="setPython"/>
+			<action name="setAddonsForJvm"/>
+			<action name="setPhp"/>
+			<action name="removeNodejs"/>
+			<action name="setGo"/>
+			<action name="setRuby"/>
+			<action name="setAddonsForGradle"/>
+			<action name="removeGo"/>
+			<action name="removeJava"/>
+			<action name="setAddonsForScala"/>
+			<action name="setNodejs"/>
+			<action name="setJvm"/>
+			<action name="setGradle"/>
+			<action name="removePhp"/>
+			<action name="removeJvm"/>
+			<action name="setClojure"/>
+			<action name="removeGradle"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="Java" initial="false" final="false"/>
+			<place name="Scala" initial="false" final="false"/>
+			<place name="Python" initial="false" final="false"/>
+			<place name="Ruby" initial="false" final="false"/>
+			<place name="Nodejs" initial="false" final="false"/>
+			<place name="Clojure" initial="false" final="false"/>
+			<place name="Gradle" initial="false" final="false"/>
+			<place name="Jvm" initial="false" final="false"/>
+			<place name="Php" initial="false" final="false"/>
+			<place name="Go" initial="false" final="false"/>
+			<transition from="Init" to="Java" action="setJava"/>
+			<transition from="Init" to="Scala" action="setScala"/>
+			<transition from="Init" to="Python" action="setPython"/>
+			<transition from="Init" to="Ruby" action="setRuby"/>
+			<transition from="Init" to="Php" action="setPhp"/>
+			<transition from="Init" to="Go" action="setGo"/>
+			<transition from="Init" to="Nodejs" action="setNodejs"/>
+			<transition from="Init" to="Gradle" action="setGradle"/>
+			<transition from="Init" to="Clojure" action="setClojure"/>
+			<transition from="Init" to="Jvm" action="setJvm"/>
+			<transition from="Java" to="Java" action="setAddonsForJava"/>
+			<transition from="Java" to="Init" action="removeJava"/>
+			<transition from="Scala" to="Scala" action="setAddonsForScala"/>
+			<transition from="Scala" to="Init" action="removeScala"/>
+			<transition from="Python" to="Init" action="removePython"/>
+			<transition from="Python" to="Python" action="setAddonsForPython"/>
+			<transition from="Ruby" to="Ruby" action="setAddonsForRuby"/>
+			<transition from="Ruby" to="Init" action="removeRuby"/>
+			<transition from="Nodejs" to="Init" action="removeNodejs"/>
+			<transition from="Nodejs" to="Nodejs" action="setAddonsForNodejs"/>
+			<transition from="Clojure" to="Clojure" action="setAddonsForClojure"/>
+			<transition from="Clojure" to="Init" action="removeClojure"/>
+			<transition from="Gradle" to="Gradle" action="setAddonsForGradle"/>
+			<transition from="Gradle" to="Init" action="removeGradle"/>
+			<transition from="Jvm" to="Jvm" action="setAddonsForJvm"/>
+			<transition from="Jvm" to="Init" action="removeJvm"/>
+			<transition from="Php" to="Php" action="setAddonsForPhp"/>
+			<transition from="Php" to="Init" action="removePhp"/>
+			<transition from="Go" to="Go" action="setAddonsForGo"/>
+			<transition from="Go" to="Init" action="removeGo"/>
+	</class>
+	
+	<class name="Database" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="reset"/>
+			<action name="addClearDBMySQL"/>
+			<action name="addHerokuPostgres"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="DatabaseUsed" initial="false" final="false"/>
+			<transition from="Init" to="DatabaseUsed" action="addClearDBMySQL"/>
+			<transition from="Init" to="DatabaseUsed" action="addHerokuPostgres"/>
+			<transition from="DatabaseUsed" to="Init" action="reset"/>
+	</class>
+	
+	<class name="HerokuClearDBMySQL" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="sub1"/>
+			<action name="init"/>
+			<action name="off"/>
+			<action name="reset1"/>
+			<action name="on"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="Off" initial="false" final="false"/>
+			<place name="On" initial="false" final="false"/>
+			<place name="Ignite" initial="false" final="false"/>
+			<transition from="Init" to="Off" action="init"/>
+			<transition from="Off" to="On" action="on"/>
+			<transition from="Off" to="Off" action="off"/>
+			<transition from="On" to="On" action="on"/>
+			<transition from="On" to="Off" action="off"/>
+			<transition from="On" to="Ignite" action="sub1"/>
+			<transition from="Ignite" to="Off" action="reset1"/>
+	</class>
+	
+	<class name="HerokuDynoType" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="reset1"/>
+			<action name="sub1"/>
+			<action name="sendDynoResponse"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="Free" initial="false" final="false"/>
+			<transition from="Init" to="Free" action="sub1"/>
+			<transition from="Free" to="Free" action="sendDynoResponse"/>
+			<transition from="Free" to="Init" action="reset1"/>
+	</class>
+	
+	<class name="HerokuNewRelicAPM" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="off"/>
+			<action name="on"/>
+			<action name="reset1"/>
+			<action name="init"/>
+			<action name="sub1"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="Off" initial="false" final="false"/>
+			<place name="On" initial="false" final="false"/>
+			<place name="Wayne" initial="false" final="false"/>
+			<transition from="Init" to="Off" action="init"/>
+			<transition from="Off" to="Off" action="off"/>
+			<transition from="Off" to="On" action="on"/>
+			<transition from="On" to="Off" action="off"/>
+			<transition from="On" to="On" action="on"/>
+			<transition from="On" to="Wayne" action="sub1"/>
+			<transition from="Wayne" to="Off" action="reset1"/>
+	</class>
+	
+	<class name="HerokuPostgres" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="on"/>
+			<action name="up1t2"/>
+			<action name="down2t1"/>
+			<action name="reset2"/>
+			<action name="sub1"/>
+			<action name="sendAddonResponse"/>
+			<action name="reset1"/>
+			<action name="off"/>
+			<action name="sub2"/>
+			<action name="init"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="Off" initial="false" final="false"/>
+			<place name="On" initial="false" final="false"/>
+			<place name="HobbyBasic" initial="false" final="false"/>
+			<place name="HobbyDev" initial="false" final="false"/>
+			<transition from="Init" to="Off" action="init"/>
+			<transition from="Off" to="Off" action="off"/>
+			<transition from="Off" to="On" action="off"/>
+			<transition from="On" to="Off" action="on"/>
+			<transition from="On" to="On" action="on"/>
+			<transition from="On" to="HobbyDev" action="sub1"/>
+			<transition from="On" to="HobbyBasic" action="sub2"/>
+			<transition from="HobbyBasic" to="HobbyBasic" action="sendAddonResponse"/>
+			<transition from="HobbyBasic" to="HobbyDev" action="down2t1"/>
+			<transition from="HobbyBasic" to="Off" action="reset2"/>
+			<transition from="HobbyDev" to="HobbyDev" action="sendAddonResponse"/>
+			<transition from="HobbyDev" to="HobbyBasic" action="up1t2"/>
+			<transition from="HobbyDev" to="Off" action="reset1"/>
+	</class>
+	
+	<class name="HerokuRegion" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="toUS"/>
+			<action name="USreset"/>
+			<action name="EUreset"/>
+			<action name="toEU"/>
+			<action name="setAddonsForUS"/>
+			<action name="setAddonsForEU"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="EU" initial="false" final="false"/>
+			<place name="EUAddonsSet" initial="false" final="false"/>
+			<place name="US" initial="false" final="false"/>
+			<place name="USAddonsSet" initial="false" final="false"/>
+			<transition from="Init" to="EU" action="toEU"/>
+			<transition from="Init" to="US" action="toUS"/>
+			<transition from="EU" to="EUAddonsSet" action="setAddonsForEU"/>
+			<transition from="EUAddonsSet" to="Init" action="EUreset"/>
+			<transition from="US" to="USAddonsSet" action="setAddonsForUS"/>
+			<transition from="USAddonsSet" to="Init" action="USreset"/>
+	</class>
+	
+	<class name="HerokuScoutAPM" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="init"/>
+			<action name="on"/>
+			<action name="off"/>
+			<action name="sub1"/>
+			<action name="reset1"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="Off" initial="false" final="false"/>
+			<place name="On" initial="false" final="false"/>
+			<place name="Chair" initial="false" final="false"/>
+			<transition from="Init" to="Off" action="init"/>
+			<transition from="Off" to="On" action="on"/>
+			<transition from="Off" to="Off" action="off"/>
+			<transition from="On" to="On" action="on"/>
+			<transition from="On" to="Off" action="off"/>
+			<transition from="On" to="Chair" action="sub1"/>
+			<transition from="Chair" to="Off" action="reset1"/>
+	</class>
+	
+	<class name="Monitoring" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="addNewRelicAPM"/>
+			<action name="addScoutAPM"/>
+			<action name="reset"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="MonitoringUsed" initial="false" final="false"/>
+			<transition from="Init" to="MonitoringUsed" action="addNewRelicAPM"/>
+			<transition from="Init" to="MonitoringUsed" action="addScoutAPM"/>
+			<transition from="MonitoringUsed" to="Init" action="reset"/>
+	</class>
+	
+	<annotations name="Specification">
+			<annotation id="deployFreeDyno">There is a HerokuDynoType hdt, a Deployer d such that hdt shall sub1 synchronized with d shall setFreeDyno.</annotation>
+			<annotation id="MAIN">all</annotation>
+			<annotation id="deployResponse">There is a HerokuDynoType hdt, a Deployer d such that hdt shall sendDynoResponse synchronized with d shall receiveDynoResponse.</annotation>
+	</annotations>
+	<class name="Deployer" parent="Resource">
+			<variable type="String" name="occi.core.title" value=""/>
+			<variable type="String" name="occi.core.id" value=""/>
+			<variable type="String" name="occi.core.summary" value=""/>
+			<action name="setJvm"/>
+			<action name="addScoutAPM1"/>
+			<action name="addNewRelicAPM1"/>
+			<action name="setAddonsForJvm"/>
+			<action name="setAddonsForGo"/>
+			<action name="appPushingError"/>
+			<action name="setUSRegion"/>
+			<action name="setRuby"/>
+			<action name="setFreeDyno"/>
+			<action name="setAddonsForUS"/>
+			<action name="dynoCreatingError"/>
+			<action name="resetAll"/>
+			<action name="deleteContainerSpontaneous"/>
+			<action name="toAppReady"/>
+			<action name="setScala"/>
+			<action name="setClojure"/>
+			<action name="setEURegion"/>
+			<action name="setGo"/>
+			<action name="chooseConfig"/>
+			<action name="setAddonsForRuby"/>
+			<action name="addonAddingError"/>
+			<action name="clickAddMorePostgres"/>
+			<action name="setPython"/>
+			<action name="setAddonsForPython"/>
+			<action name="receiveDynoResponse"/>
+			<action name="addClearDBMySQL1"/>
+			<action name="javaBIPdetach"/>
+			<action name="setJava"/>
+			<action name="addHerokuPostgres1"/>
+			<action name="finish"/>
+			<action name="setPhp"/>
+			<action name="deleteContainer"/>
+			<action name="setAddonsForScala"/>
+			<action name="addHerokuPostgres2"/>
+			<action name="setAddonsForClojure"/>
+			<action name="setAddonsForNodejs"/>
+			<action name="setAddonsForEU"/>
+			<action name="setAddonsForPhp"/>
+			<action name="setGradle"/>
+			<action name="setAddonsForGradle"/>
+			<action name="setAddonsForJava"/>
+			<action name="addMorePostgres"/>
+			<action name="setNodejs"/>
+			<action name="pushAppToContainer"/>
+			<action name="receiveAddonResponse"/>
+			<place name="Init" initial="true" final="false"/>
+			<place name="CofigurationChosen" initial="false" final="false"/>
+			<place name="FreeDynoSet" initial="false" final="false"/>
+			<place name="Error" initial="false" final="false"/>
+			<place name="US" initial="false" final="false"/>
+			<place name="EU" initial="false" final="false"/>
+			<place name="ContainerCreated" initial="false" final="false"/>
+			<place name="Java" initial="false" final="false"/>
+			<place name="Jvm" initial="false" final="false"/>
+			<place name="Scala" initial="false" final="false"/>
+			<place name="Python" initial="false" final="false"/>
+			<place name="Ruby" initial="false" final="false"/>
+			<place name="Nodejs" initial="false" final="false"/>
+			<place name="Clojure" initial="false" final="false"/>
+			<place name="Gradle" initial="false" final="false"/>
+			<place name="Php" initial="false" final="false"/>
+			<place name="Go" initial="false" final="false"/>
+			<place name="BuildpackSet" initial="false" final="false"/>
+			<place name="AppPushed" initial="false" final="false"/>
+			<place name="AppReady" initial="false" final="false"/>
+			<place name="TempAppReady" initial="false" final="false"/>
+			<place name="Deleted" initial="false" final="false"/>
+			<place name="Detached" initial="false" final="false"/>
+			<transition from="Init" to="CofigurationChosen" action="chooseConfig"/>
+			<transition from="Init" to="AppReady" action="toAppReady"/>
+			<transition from="CofigurationChosen" to="FreeDynoSet" action="setFreeDyno"/>
+			<transition from="FreeDynoSet" to="FreeDynoSet" action="receiveDynoResponse"/>
+			<transition from="FreeDynoSet" to="Error" action="dynoCreatingError"/>
+			<transition from="FreeDynoSet" to="US" action="setUSRegion"/>
+			<transition from="FreeDynoSet" to="EU" action="setEURegion"/>
+			<transition from="Error" to="Deleted" action="deleteContainer"/>
+			<transition from="US" to="ContainerCreated" action="setAddonsForUS"/>
+			<transition from="EU" to="ContainerCreated" action="setAddonsForEU"/>
+			<transition from="ContainerCreated" to="Java" action="setJava"/>
+			<transition from="ContainerCreated" to="Jvm" action="setJvm"/>
+			<transition from="ContainerCreated" to="Scala" action="setScala"/>
+			<transition from="ContainerCreated" to="Python" action="setPython"/>
+			<transition from="ContainerCreated" to="Ruby" action="setRuby"/>
+			<transition from="ContainerCreated" to="Nodejs" action="setNodejs"/>
+			<transition from="ContainerCreated" to="Clojure" action="setClojure"/>
+			<transition from="ContainerCreated" to="Gradle" action="setGradle"/>
+			<transition from="ContainerCreated" to="Php" action="setPhp"/>
+			<transition from="ContainerCreated" to="Go" action="setGo"/>
+			<transition from="Java" to="BuildpackSet" action="setAddonsForJava"/>
+			<transition from="Jvm" to="BuildpackSet" action="setAddonsForJvm"/>
+			<transition from="Scala" to="BuildpackSet" action="setAddonsForScala"/>
+			<transition from="Python" to="BuildpackSet" action="setAddonsForPython"/>
+			<transition from="Ruby" to="BuildpackSet" action="setAddonsForRuby"/>
+			<transition from="Nodejs" to="BuildpackSet" action="setAddonsForNodejs"/>
+			<transition from="Clojure" to="BuildpackSet" action="setAddonsForClojure"/>
+			<transition from="Gradle" to="BuildpackSet" action="setAddonsForGradle"/>
+			<transition from="Php" to="BuildpackSet" action="setAddonsForPhp"/>
+			<transition from="Go" to="BuildpackSet" action="setAddonsForGo"/>
+			<transition from="BuildpackSet" to="BuildpackSet" action="addHerokuPostgres1"/>
+			<transition from="BuildpackSet" to="BuildpackSet" action="addHerokuPostgres2"/>
+			<transition from="BuildpackSet" to="BuildpackSet" action="addClearDBMySQL1"/>
+			<transition from="BuildpackSet" to="BuildpackSet" action="addScoutAPM1"/>
+			<transition from="BuildpackSet" to="BuildpackSet" action="addNewRelicAPM1"/>
+			<transition from="BuildpackSet" to="BuildpackSet" action="receiveAddonResponse"/>
+			<transition from="BuildpackSet" to="Error" action="addonAddingError"/>
+			<transition from="BuildpackSet" to="AppPushed" action="pushAppToContainer"/>
+			<transition from="AppPushed" to="AppReady" action="finish"/>
+			<transition from="AppPushed" to="Error" action="appPushingError"/>
+			<transition from="AppReady" to="TempAppReady" action="clickAddMorePostgres"/>
+			<transition from="AppReady" to="Deleted" action="deleteContainerSpontaneous"/>
+			<transition from="AppReady" to="Detached" action="javaBIPdetach"/>
+			<transition from="TempAppReady" to="AppReady" action="addMorePostgres"/>
+			<transition from="Deleted" to="Init" action="resetAll"/>
+			<transition from="Detached" to="Init" action="resetAll"/>
+	</class>
+	
+</extension>
