@@ -25,11 +25,12 @@ def standardize_input_requirement(input_requirement):
 	input_requirement = re.sub(" shall not ", " shall ~", input_requirement)
 
 	# replace x shall either A or B --> (x shall ~A or x shall ~B)
-	list_of_tuples = re.findall(r'(\s([^\s]+)\sshall either ([^\s]+) or ([^\s|\,]+))', input_requirement)
+	list_of_tuples = re.findall(r'(\s[\(]*([^\s]+)\sshall either ([^\s]+) or ([^\s|\,]+)[\)]*)', input_requirement)
 	print (list_of_tuples)
 	for tuple_i in list_of_tuples:
 		new_content = " (" + tuple_i[1] + " shall ~" + tuple_i[2] + " or " + tuple_i[1] + " shall ~" + tuple_i[3] + ")"
-		input_requirement = re.sub(tuple_i[0], new_content, input_requirement)
+		input_requirement = input_requirement.replace(tuple_i[0], new_content)
+		# input_requirement = re.sub(tuple_i[0], new_content, input_requirement)
 
 	# replace synchronized with --> <=>
 	input_requirement = re.sub(r' synchronize[d|s]*\swith ', " <=> ", input_requirement)
@@ -39,10 +40,26 @@ def standardize_input_requirement(input_requirement):
 
 # ------------------------------------ ------------------------------------
 # PRE-PROCESSING: From input_string, return [standardized input, list_class_instance_string, dict_class_instance]
+def handling_quantifiers(input):
+  list_of_tuples_1 = re.findall(r'(([\,]*[\s]*(such that|where|in which)([^\,]*)(\,[\s]+))(if | while | before | after ))', input)
+  print (list_of_tuples_1)
+  cond_input = input
+  if len(list_of_tuples_1) > 0:
+	  cond_input = cond_input.replace(list_of_tuples_1[0][1], ", ")
+	  cond_input = cond_input.replace(list_of_tuples_1[0][5], list_of_tuples_1[0][5] + list_of_tuples_1[0][3] + " and ")
+  list_of_tuples = re.findall(r'([\,]*[\s]*(such that|where|in which)[\s]+([^\,]*)(\,))', cond_input)
+  print (list_of_tuples)
+  new_input = cond_input
+  for search in list_of_tuples:
+    tmp_text = ", " + search[2] + " and"
+    new_input = new_input.replace(search[0], tmp_text)
+  return new_input
+
 def get_standardized_requirement (input_requirement, ontology):
 	result = []
 	print ("\n\n---- original input_req: " + input_requirement)
 	# ----- standardize spacing in the text
+	input_requirement = handling_quantifiers(input_requirement)
 	input_requirement = standardize_input_requirement(input_requirement)
 	print ("\n\n---- new input_req: " + input_requirement)
 
@@ -233,14 +250,14 @@ def get_conditions_of_requirement (req_name, standardized_input, temp_dict_actio
 	for element in patterns:
 		new_sample = new_sample.replace(element, "")
 
-	x = re.split(r'[\s]and|[\s]or', new_sample)
+	x = re.split(r'[\s]and|[\s]or|[\s]<=>[\s]', new_sample)
 	# print ("spliting: " + str(x))
 	list_condition = []
 	for element in x:
 		if element != '':
 			list_of_tuples = re.findall(r'\.*\,*\s*(.+)', element)
-			# print ("\n list tuples: ")
-			# print (list_of_tuples)
+			print ("\n list tuples cdt: ")
+			print (list_of_tuples)
 			for tuple_i in list_of_tuples:
 				tuple_i = tuple_i.strip()
 				tuple_i = tuple_i.replace(",", "").strip()
@@ -249,7 +266,7 @@ def get_conditions_of_requirement (req_name, standardized_input, temp_dict_actio
 					old_one = tuple_i.replace("_", " ")
 					temp_cdt = [old_one]
 					temp_cdt.append(tuple_i.strip())
-					# print ("temp_cdt: " + str(temp_cdt))
+					print ("temp_cdt: " + str(temp_cdt))
 					list_condition.append(temp_cdt)
 
 	# Find variable for skolemization
@@ -610,7 +627,7 @@ def generate_booleanFunctions_and_dataTransfer(data, updated_requirement):
 	# get each condition with <name> and <list_params>
 	for condition_info in requirement_conditions.values():
 		dict_conditions_infor = condition_info[1]
-		# print ("condition: " + str(dict_conditions_infor))
+		print ("condition: " + str(dict_conditions_infor))
 
 		for name, params in dict_conditions_infor.items():
 			# Get class_name from instance_name
@@ -921,13 +938,13 @@ def gen_Boolean_encoding(xmlFile):
 # print (get_effect_list(test_str))
 # print ("------------------- end test 2")
 
-# print ("------------------- tracker_peer generation")
-# gen_Boolean_encoding('input/tracker_peer.xml')
-# print ("------------------- finished tracker_peer generation")
+print ("------------------- tracker_peer generation")
+gen_Boolean_encoding('input/tracker_peer.xml')
+print ("------------------- finished tracker_peer generation")
 
-print ("------------------- heroku_deployer generation")
-gen_Boolean_encoding('input/herokudeployer.xml')
-print ("------------------- finished heroku_deployer generation")
+# print ("------------------- heroku_deployer generation")
+# gen_Boolean_encoding('input/herokudeployer.xml')
+# print ("------------------- finished heroku_deployer generation")
 
 
 

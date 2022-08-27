@@ -1,0 +1,4 @@
+TP_04_1 = t_log <=> p_register
+TP_04_3 = t_log <=> p_unregister
+TP_04_2 = (~p_register | ~p_unregister )
+Main_Exp: TP_04_1 & TP_04_3 & TP_04_2

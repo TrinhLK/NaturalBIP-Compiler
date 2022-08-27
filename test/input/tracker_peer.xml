@@ -27,22 +27,20 @@
 	</class>
 	
 	<annotations name="Specification">
-			<annotation id="TP_01">For any Peer p, there is a Tracker t such that p shall register synchronized with t shall log.</annotation>
-			<annotation id="TP_02">For any Peer p, there is a Tracker t such that p shall unregister synchronized with t shall log.</annotation>
+			<annotation id="TP_01_1">For any Peer p, there is a Tracker t, if t executes log, p shall register or p shall unregister.</annotation>
+			<annotation id="TP_01_2">For any Peer p, there is a Tracker t1, if p executes register or p executes unregister, t1 shall log.</annotation>
 
-			<annotation id="TP_03_speak">For any Peer p, there is a Tracker t, if t executes broadcast, p is registered to t and p shall speak and all Peer p1 such that p1 is registered to t and p1 is different with p and p1 shall not speak.</annotation>
-			
+			<annotation id="TP_02">For any Peer p, there is a Tracker t, t shall log synchronized with (p shall register or p shall unregister).</annotation>
+
+			<annotation id="TP_04_1">For any Peer p, there is a Tracker t, t shall log synchronized with p shall register.</annotation>
+			<annotation id="TP_04_3">For any Peer p, there is a Tracker t, t shall log synchronized with p shall unregister.</annotation>
+			<annotation id="TP_04_2">For any Peer p, p shall either register or unregister.</annotation>
+
+			<annotation id="TP_03_speak">For any Peer p, there is a Tracker t such that p is registered to t, if t executes broadcast, p shall speak and all Peer p1 such that p1 is registered to t and p1 is different with p, p1 shall not speak.</annotation>
 			<annotation id="TP_03_mutex">For any Peer p, p shall either speak or listen.</annotation>
-			<annotation id="TP_03_listen">For any Peer p, there is a Tracker t, if t executes broadcast, p is registered to t and p shall listen or all Peer p1 such that p1 is registered to t and p1 is different with p and p1 shall listen.</annotation>
-
-			<annotation id="TP_06_speak">For any Tracker t, if t executes broadcast, there is a Peer p, p is registered to t and p shall speak and all Peer p1 such that p1 is registered to t and p1 is different with p and p1 shall not speak.</annotation>
-			<annotation id="TP_06_listen">For any Tracker t, if t executes broadcast, for any Peer p such that p is registered to t and p shall listen or p shall speak.</annotation>
-			<annotation id="TP_06_listen1">For any Tracker t, if t executes broadcast, there is a Peer p, p is registered to t and p shall listen and all Peer p1 such that p1 is registered to t and p1 is different with p and p1 shall listen.</annotation>
+			<annotation id="TP_03_listen">For any Peer p, there is a Tracker t where p is registered to t, if t executes broadcast, p shall listen or all Peer p1 such that p1 is registered to t and p1 is different with p, p1 shall listen.</annotation>
 			
-			<annotation id="TP_05_mutex">For all Peer p, p shall either speak or listen. </annotation>
-			<annotation id="TP_05_listen">For all Peer p, there is a Tracker t such that if t executes broadcast and p is registered to t, p shall listen.</annotation>
-			<annotation id="TP_05_speak">For all Peer p, there is a Tracker t such that if t executes broadcast and p is registered to t, p shall speak and for all Peer p1 where p1 is registered to t and p1 is different with p and p1 shall not speak</annotation>
-			<annotation id="MAIN">TP_01, TP_02, TP_03</annotation>
+			<annotation id="MAIN">TP_04, TP_03</annotation>
 
 	</annotations>
 

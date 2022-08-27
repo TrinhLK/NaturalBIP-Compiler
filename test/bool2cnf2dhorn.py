@@ -34,8 +34,10 @@ def list_cnf_clauses_raw(L):
 	my_dict = dict(L["map"])
 	# reverse clause to move all neg in front
 	list_key_rev = []
+	print (L)
 	for i in L["Clauses"]:
-		list_key_rev.append(i[::-1])
+		if isinstance(i,list):
+			list_key_rev.append(i[::-1])
 
 	# replace int by string
 	list_cnf_clauses = []
@@ -314,10 +316,10 @@ def merge_two_pos_list_text(l_atom_1_text, l_atom_2_text):
     # temp_list = [[i_el, y] for i_el in l_atom_1_text for y in l_atom_2_text]
 	temp_list = []
 	if l_atom_1_text == []:
-		return l_atom_2_text
+		return l_atom_1_text
 	else:
 		if l_atom_2_text == []:
-			return l_atom_1_text
+			return l_atom_2_text
 		for elm_1 in l_atom_1_text:
 			if isinstance(elm_1, list):
 		# print ("fg")
@@ -582,12 +584,13 @@ def combination_of_2_clauses(cl1, cl2):
 
 def mk_dualHorn(list_cls):
 	res_cls = []
+	# print ("list_cls: " + str(list_cls))
 	if len(list_cls) > 1:
 
 		res_cls = list_cls[0]
 		for i in range(1, len(list_cls)):
 			res_cls = combination_of_2_clauses(res_cls, list_cls[i])
-	else:
+	if len(list_cls) == 1:
 		cls_0 = list_cls[0]
 		for neg_i in cls_0.neg:
 			tmp_cls = CNF_Clauses()
@@ -627,7 +630,7 @@ def saturate_dual_horn(dual_horn, list_ports):
 		# print ("additional_clause_str: " + str(tmp_additional_str))
 		# print ("--- additional_clause_str: " + str(list(set(tmp_additional_str))))
 		tmp_additional_str = list(set(tmp_additional_str))
-		
+
 		tmp_additional = []
 		for elm in tmp_additional_str:
 			new_elm = Atomic_Element(elm)
@@ -667,8 +670,10 @@ def generate_atomic_interactions(dual_horn, list_ports):
 
 		for dual_horn_clause in dual_horn_set:
 			if dual_horn_clause.neg == []:
-				positive_clause_str = dual_horn_clause.get_pos_list_str()
-
+				tmp_positive_clause_str = dual_horn_clause.get_pos_list_str()
+				for elm in tmp_positive_clause_str:
+					positive_clause_str.append(elm[0])
+				print ("positive_clause_str: " + str(positive_clause_str))
 		positive_clause_str = list(set(positive_clause_str))
 		for elm in positive_clause_str:
 			checked = False
@@ -758,6 +763,7 @@ def absorb_dual_Horn(dual_horn_clause_list):
 				sub_clause.neg = [sub_clause.neg]
 		a_clause = absorb_remove_imply_false(a_clause)
 		a_clause = remove_elements_in_pos_clause(a_clause)
+		# remove_elements_in_pos_clause_1(a_clause)
 		result.append(a_clause)
 	print ("absorb the dual horn")
 	return result
@@ -789,6 +795,93 @@ def absorb_remove_imply_false(dual_horn_clause):
 
 def remove_elements_in_pos_clause(a_dual_horn_clause):
 	result = []
+	elements_to_be_removed = []
+	for clause_i in a_dual_horn_clause:
+		if clause_i.pos == []:
+			tmp_neg_str_j = [elem.text for elem in clause_i.neg if elem.isPred == False]
+			elements_to_be_removed = list(set(elements_to_be_removed + tmp_neg_str_j))
+	# print ("\nelements_to_be_removed: " + str(elements_to_be_removed))	
+
+	for clause_i in a_dual_horn_clause:
+		# if clause_i.pos == []: continue
+		list_pos_str = []
+		list_pos_atom = []
+		for pos_j in clause_i.pos:
+			if isinstance(pos_j,list):
+				tmp_pos_j = [elem.text for elem in pos_j if elem.isPred == False]
+				list_pos_str.append(tmp_pos_j)
+			else:
+				if pos_j.isPred == False:
+					list_pos_str.append([pos_j.text])
+		# print ("list_pos_str: " + str(list_pos_str))
+
+		new_list_pos_str = []
+		for pos_j in list_pos_str:
+			new_pos_j = []
+			for elm_str in pos_j:
+				if elm_str not in elements_to_be_removed:
+					new_pos_j.append(elm_str)
+			new_list_pos_str.append(new_pos_j)
+
+		# print ("new_list_pos_str: " + str(new_list_pos_str))
+		for pos_j in new_list_pos_str:
+			pos_j_atom = []
+			if pos_j != []:
+				for elm_str in pos_j:
+					elm_atom = Atomic_Element(elm_str)
+					pos_j_atom.append(elm_atom)
+
+			if pos_j_atom != []:
+				list_pos_atom.append(pos_j_atom)
+		new_clause = CNF_Clauses()
+		new_clause.neg = clause_i.neg
+		new_clause.pos = list_pos_atom
+		result.append(new_clause)
+		# print ("new_clause.pos: " + str(new_clause.get_pos_list_str()))
+		# new_clause_i = CNF_Clauses()
+		# new_clause_i.neg = clause_i.neg
+		# list_pos = clause_i.pos
+		# new_list_pos = []
+		# for pos_i in list_pos:
+		# 	new_pos_i = []
+		# 	for elm in pos_i:
+		# 		if elm.text not in elements_to_be_removed:
+		# 			new_pos_i.append(elm)
+		# 	new_list_pos.append(pos_i)
+		# new_clause_i.pos = new_list_pos
+		# result.append(new_clause_i)
+	# for i in range(len(a_dual_horn_clause)-1):
+	# 	result.append(a_dual_horn_clause[i])
+
+	# last_clause = a_dual_horn_clause[-1]
+	# new_last_clause = CNF_Clauses()
+
+	# if last_clause.neg == []:
+		
+	# 	list_pos = [elem[0] for elem in last_clause.pos]
+
+	# 	# ---------------------------
+	# 	# remove elements if ~elements | false
+	# 	# print ("\ni clauses before: " + str(accepts_string))
+	# 	new_list_pos = []
+	# 	for pos_i in list_pos:
+	# 		keep = True
+	# 		for j in range(len(a_dual_horn_clause) - 1):
+	# 			if a_dual_horn_clause[j].pos == []:
+	# 				tmp_neg_str_j = [elem.text for elem in a_dual_horn_clause[j].neg if elem.isPred == False]
+	# 				if tmp_neg_str_j[0] == pos_i.text:
+	# 					keep = False
+	# 					break
+	# 		if keep == True:
+	# 			new_list_pos.append(pos_i)
+		
+	# 	new_last_clause.pos = new_list_pos
+	# 	result.append(new_last_clause)
+	# print_dual_Horn(result)
+	return result
+
+def remove_elements_in_pos_clause_1(a_dual_horn_clause):
+	result = []
 	for i in range(len(a_dual_horn_clause)-1):
 		result.append(a_dual_horn_clause[i])
 
@@ -818,6 +911,7 @@ def remove_elements_in_pos_clause(a_dual_horn_clause):
 		result.append(new_last_clause)
 
 	return result
+
 
 def absorb_a_dual_Horn_clause_1(dual_horn_clause):
 	pos_clause = dual_horn_clause[-1]
@@ -1054,27 +1148,41 @@ def gen_JavaBIP_Macro_code(req_file):
 
 				for i in sub_elm.pos:
 					if isinstance(i, list):
+						tmp_pos = []
 						for pos_i in i:
 							if isPred(list_tracker_peer_preds, pos_i.text) == False:
-								pos_str.append(pos_i.text)
-
+								tmp_pos.append(pos_i.text)
+						pos_str.append(tmp_pos)
 					else:
-						if isPred(list_tracker_peer_preds, i.text) == False: pos_str.append(i.text)
+						# if isPred(list_tracker_peer_preds, i.text) == False: pos_str.append(i.text)
+						if isPred(list_tracker_peer_preds, i.text) == False: pos_str.append([i.text])
 				# pos_str = [i.text for i in sub_elm.pos if i[0].isPred == False]
+				# print ("pos_str: " + str(pos_str))
 				if sub_elm.neg != []:
 					list_neg = []
 					list_neg.append(sub_elm.neg[0].text)
 					# print (list_neg)
 					tmp_neg = replace_instances_by_class(list_neg, config)
-					tmp_post = replace_instances_by_class(pos_str, config)
-					if len(tmp_neg) > 0:
-						if tmp_neg[0] in tmp_post:
-							tmp_post.remove(tmp_neg[0])
-						tmp_post = list(set(tmp_post))
-						require_list.append("port(" + tmp_neg[0] + ").requires(" + ", ".join(tmp_post) + ");\n")
+					for pos_elm_list in pos_str:
+						tmp_post = replace_instances_by_class(pos_elm_list, config)
+						if len(tmp_neg) > 0:
+							if tmp_neg[0] in tmp_post:
+								tmp_post.remove(tmp_neg[0])
+							tmp_post = list(set(tmp_post))
+							require_list.append("port(" + tmp_neg[0] + ").requires(" + ", ".join(tmp_post) + ");\n")
+					# tmp_post = replace_instances_by_class(pos_str, config)
+					# if len(tmp_neg) > 0:
+					# 	if tmp_neg[0] in tmp_post:
+					# 		tmp_post.remove(tmp_neg[0])
+					# 	tmp_post = list(set(tmp_post))
+					# 	require_list.append("port(" + tmp_neg[0] + ").requires(" + ", ".join(tmp_post) + ");\n")
 				else:  # accept_list of each dual horn clause
 					# Replace instance_name by class_name before extending it
-					tmp_list = replace_instances_by_class(pos_str, config)
+					tmp_list = []
+					for pos_elm_list in pos_str:
+						tmp_pos_list = replace_instances_by_class(pos_elm_list, config)
+						tmp_list.append(tmp_pos_list[0])
+					# tmp_list = replace_instances_by_class(pos_str, config)
 					# if accept_list == [] or len(tmp_list) > len(accept_list):
 					# 	accept_list = tmp_list
 					# else:
@@ -1116,7 +1224,7 @@ def main():
 	current_path = os.getcwd() + "/gen-data/PBL_reqs/"
 	system_info = {}
 
-	with open('gen-data/system_info_tracker_peer.json', 'r') as fp:
+	with open('gen-data/system_infor.json', 'r') as fp:
 		system_info = json.load(fp)
 
 	macro_code = ""

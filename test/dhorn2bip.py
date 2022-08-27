@@ -43,6 +43,7 @@ def get_connector(connector):
         result_str += "("
         for synch_set in remains:
             result_str += ")-(".join(synch_set)
+            print ("sub synch_set: " + result_str)
         result_str += ")"
     else:
         for i in range(len(triggers) - 1):
@@ -327,7 +328,7 @@ print("tracker_peer_5: " + str(tracker_peer_5))
 tmp_connector = get_connector(tracker_peer_5)
 replace_ins_by_class(tmp_connector)
 print("\n14.--------------")
-positive_clauses = [[['p_speak', 'TP03speakptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['p_speak', 'TP03speakptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p1_listen']], [['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p1_listen']], [['TP03speakptt_broadcast'], ['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p_listen']]]
+positive_clauses = [[['p_unregister', 't_log', 'p_register'], ['t_log', 'p_register']], [['p_unregister', 't_log'], ['p_unregister', 't_log', 'p_register']]]
 
 # positive_clauses = [[['TP03speakptt_broadcast'], ['p1_listen'], ['TP03speakptt_broadcast', 'p_speak'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['TP03speakptt_broadcast', 'p_speak'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['p1_listen'], ['p1_speak'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['p1_speak'], ['TP03listenptt_broadcast']], [['p1_listen'], ['p_listen', 'TP03listenptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['p1_listen', 'TP03listenptt_broadcast'], ['p_listen'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['TP03listenptt_broadcast'], ['p1_speak'], ['p1_listen'], ['p_listen', 'TP03listenptt_broadcast'], ['TP03speakptt_broadcast']], [['TP03listenptt_broadcast'], ['p1_speak'], ['p1_listen', 'TP03listenptt_broadcast'], ['p_listen'], ['TP03speakptt_broadcast']]]
 list_connectors = []

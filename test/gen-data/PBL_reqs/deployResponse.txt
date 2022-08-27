@@ -1,2 +1,0 @@
-deployResponse = hdt_sendDynoResponse <=> d_receiveDynoResponse
-Main_Exp: deployResponse
