@@ -1,4 +1,5 @@
 import json
+import re
 system_info = {}
 with open('gen-data/system_infor.json', 'r') as fp:
 		system_info = json.load(fp)
@@ -183,6 +184,29 @@ def replace_ins_by_class(connector_str):
     print ("\n--final connector: " + result)
     return result
 
+def replace_ins_by_class_in_sets(set_of_interactions):
+    result = []
+    for each_set in set_of_interactions:
+        new_each_set = []
+        for conjunct_set in each_set: 
+            new_conjunct_set = []
+            for elem in conjunct_set:
+                elem = "(" + elem
+                for subject in system_info['configuration'].keys():
+                    instances = system_info['configuration'][subject]
+                    for ins in instances:
+                        if ("(" + ins + "_") in elem:
+                            # print (elem)
+                            elem = elem.replace("(" + ins + "_", subject + ".")
+                            # print ("  --> " + elem)
+                            new_conjunct_set.append(elem)
+            new_each_set.append(new_conjunct_set)
+        tmp_new_each_set = list(map(list, set(map(tuple, map(set, new_each_set)))))
+        result.append(tmp_new_each_set)
+            # print (new_conjunct_set)
+    print (str(result))
+    return result
+
 # def replace_ins_by_class_1(set_of_interactions):
 #     result = []
 #     for set_i in set_of_interactions:
@@ -328,17 +352,40 @@ print("tracker_peer_5: " + str(tracker_peer_5))
 tmp_connector = get_connector(tracker_peer_5)
 replace_ins_by_class(tmp_connector)
 print("\n14.--------------")
-positive_clauses = [[['p_unregister', 't_log', 'p_register'], ['t_log', 'p_register']], [['p_unregister', 't_log'], ['p_unregister', 't_log', 'p_register']]]
+positive_clauses = [[['p_speak', 'TP03speakptt_broadcast'], ['TP03listenptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast', 'p1_listen']], [['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p1_listen']], [['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p_listen'], ['TP03listenptt_broadcast', 'p1_listen']]]
+
+positive_clauses_1 = [[['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen'], ['Tracker.broadcast', 'Peer.speak']], [['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen']], [['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen']]]
+
+
+
 
 # positive_clauses = [[['TP03speakptt_broadcast'], ['p1_listen'], ['TP03speakptt_broadcast', 'p_speak'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['TP03speakptt_broadcast', 'p_speak'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['p1_listen'], ['p1_speak'], ['TP03listenptt_broadcast']], [['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['p1_speak'], ['TP03listenptt_broadcast']], [['p1_listen'], ['p_listen', 'TP03listenptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['p1_listen', 'TP03listenptt_broadcast'], ['p_listen'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast']], [['TP03listenptt_broadcast'], ['p1_speak'], ['p1_listen'], ['p_listen', 'TP03listenptt_broadcast'], ['TP03speakptt_broadcast']], [['TP03listenptt_broadcast'], ['p1_speak'], ['p1_listen', 'TP03listenptt_broadcast'], ['p_listen'], ['TP03speakptt_broadcast']]]
 list_connectors = []
 for positive_clause_i in positive_clauses:
     tmp_connector_i = get_connector(positive_clause_i)
+    # print (tmp_connector_i)
     list_connectors.append(replace_ins_by_class(tmp_connector_i))
 
+# print ("\nrename set_of_interactions:\n")
+# replace_ins_by_class_in_sets(positive_clauses)
 print ("\n\nlist_connectors: ")
 for connector in list_connectors:
     print (connector)
+    # trigger_list = re.findall(r'\([^\-]*\)\`', connector)
+    # print (trigger_list)
+    # print (list(set(trigger_list)))
+
+# list_connectors_1 = []
+# for positive_clause_i in positive_clauses_1:
+#     tmp_connector_i = get_connector(positive_clause_i)
+#     # print (tmp_connector_i)
+#     list_connectors_1.append(tmp_connector_i)
+# print ("\n\nlist_connectors_1: ")
+# for connector in list_connectors_1:
+#     print (connector)
+
+
+
 
 # new_positive_clauses = replace_ins_by_class_1(positive_clauses)
 # print ("new_positive_clauses: " + str(new_positive_clauses))

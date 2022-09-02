@@ -20,7 +20,7 @@ list_actions = [elm[0] for elm in system_info['actions']]
 list_constraints = [elm[0] for elm in system_info['constraints']]
 
 print ("\nlist_actions: " + str(list_actions))
-print ("\nlist_actions: " + str(list_constraints))
+print ("\nlist_constraints: " + str(list_constraints))
 
 # -------------------------------------
 
@@ -620,13 +620,14 @@ def saturate_dual_horn(dual_horn, list_ports):
 		tmp_additional_str = []
 		if isinstance(dual_horn_set,list):
 			for dh_clause in dual_horn_set:
-				for neg_elm in dh_clause.neg:
-					if neg_elm.showInfor() in list_port_str:
-						tmp_additional_str.append(neg_elm.showInfor())
-				for pos_set in dh_clause.pos:
-					for pos_elm in pos_set:
-						if pos_elm.showInfor() in list_port_str:
-							tmp_additional_str.append(pos_elm.showInfor())
+				if dh_clause.pos != []:
+					for neg_elm in dh_clause.neg:
+						if neg_elm.showInfor() in list_port_str:
+							tmp_additional_str.append(neg_elm.showInfor())
+					for pos_set in dh_clause.pos:
+						for pos_elm in pos_set:
+							if pos_elm.showInfor() in list_port_str:
+								tmp_additional_str.append(pos_elm.showInfor())
 		# print ("additional_clause_str: " + str(tmp_additional_str))
 		# print ("--- additional_clause_str: " + str(list(set(tmp_additional_str))))
 		tmp_additional_str = list(set(tmp_additional_str))
@@ -737,7 +738,7 @@ def generate_atomic_interactions(dual_horn, list_ports):
 	new_set_of_interactions = []
 
 	for elm_i in set_of_interactions:
-	    if elm_i not in new_set_of_interactions:
+	    if elm_i not in new_set_of_interactions and elm_i != []:
 	        new_set_of_interactions.append(elm_i)
 	print ("new set_of_interactions =  " + str(new_set_of_interactions) + "\nlen = " + str(len(new_set_of_interactions)))
 			# canAdd = True
@@ -837,47 +838,6 @@ def remove_elements_in_pos_clause(a_dual_horn_clause):
 		new_clause.neg = clause_i.neg
 		new_clause.pos = list_pos_atom
 		result.append(new_clause)
-		# print ("new_clause.pos: " + str(new_clause.get_pos_list_str()))
-		# new_clause_i = CNF_Clauses()
-		# new_clause_i.neg = clause_i.neg
-		# list_pos = clause_i.pos
-		# new_list_pos = []
-		# for pos_i in list_pos:
-		# 	new_pos_i = []
-		# 	for elm in pos_i:
-		# 		if elm.text not in elements_to_be_removed:
-		# 			new_pos_i.append(elm)
-		# 	new_list_pos.append(pos_i)
-		# new_clause_i.pos = new_list_pos
-		# result.append(new_clause_i)
-	# for i in range(len(a_dual_horn_clause)-1):
-	# 	result.append(a_dual_horn_clause[i])
-
-	# last_clause = a_dual_horn_clause[-1]
-	# new_last_clause = CNF_Clauses()
-
-	# if last_clause.neg == []:
-		
-	# 	list_pos = [elem[0] for elem in last_clause.pos]
-
-	# 	# ---------------------------
-	# 	# remove elements if ~elements | false
-	# 	# print ("\ni clauses before: " + str(accepts_string))
-	# 	new_list_pos = []
-	# 	for pos_i in list_pos:
-	# 		keep = True
-	# 		for j in range(len(a_dual_horn_clause) - 1):
-	# 			if a_dual_horn_clause[j].pos == []:
-	# 				tmp_neg_str_j = [elem.text for elem in a_dual_horn_clause[j].neg if elem.isPred == False]
-	# 				if tmp_neg_str_j[0] == pos_i.text:
-	# 					keep = False
-	# 					break
-	# 		if keep == True:
-	# 			new_list_pos.append(pos_i)
-		
-	# 	new_last_clause.pos = new_list_pos
-	# 	result.append(new_last_clause)
-	# print_dual_Horn(result)
 	return result
 
 def remove_elements_in_pos_clause_1(a_dual_horn_clause):
@@ -1125,11 +1085,14 @@ def gen_JavaBIP_Macro_code(req_file):
 	# generate dual-Horn
 	dual_horn_clause = mk_dualHorn(synthesis_cnf)
 	# print ("*** \t\t\tCHECK TYPE INPUT: " + str(type(dual_horn_clause)))
-	dh = saturate_dual_horn(dual_horn_clause, list_all_ports)
+	# dh = saturate_dual_horn(dual_horn_clause, list_all_ports)
 
 
 	absorbed_dual_horn_clause = absorb_dual_Horn(dual_horn_clause)
 	print ("--- 5. absorbed dual-Horn clause")
+	print_dual_Horn(absorbed_dual_horn_clause)
+	print ("--- 5.1 added pos clauses")
+	absorbed_dual_horn_clause = saturate_dual_horn(absorbed_dual_horn_clause, list_all_ports)
 	print_dual_Horn(absorbed_dual_horn_clause)
 
 	print ("--- 6. set of atomic interactions")

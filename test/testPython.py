@@ -241,11 +241,11 @@ def get_conditions_of_requirement (req_name, standardized_input, temp_dict_actio
 			dict_class_ins[element[2]] = [element[3]]
 
 	# print (dict_class_ins)
+	for element in keywords:
+		new_sample = new_sample.replace(element, "")
 	for element in list_class_instance_string:
 		new_sample = new_sample.replace(element, "")
 	for element in temp_dict_action.keys():
-		new_sample = new_sample.replace(element, "")
-	for element in keywords:
 		new_sample = new_sample.replace(element, "")
 	for element in patterns:
 		new_sample = new_sample.replace(element, "")
@@ -554,7 +554,7 @@ def handle_complex_patterns (updated_requirement, ontology):
 			list_disjunction_of_effect_clause.append("(" + boolean_form_string + ")")
 	# print ("Test boolean_form_string: (" + boolean_form_string + ")")
 	# print ("list_disjunction_of_effect_clause: " + str(list_disjunction_of_effect_clause))
-	return " | ".join(list_disjunction_of_effect_clause)
+	return " & ".join(list_disjunction_of_effect_clause)	# Update following Simon comments on ver2-dsl
 	# return temp_dict_action
 # END ------------------------------------ ------------------------------------
 
