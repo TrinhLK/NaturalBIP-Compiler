@@ -352,9 +352,9 @@ print("tracker_peer_5: " + str(tracker_peer_5))
 tmp_connector = get_connector(tracker_peer_5)
 replace_ins_by_class(tmp_connector)
 print("\n14.--------------")
-positive_clauses = [[['p_speak', 'TP03speakptt_broadcast'], ['TP03listenptt_broadcast'], ['TP03speakptt_broadcast'], ['TP03listenptt_broadcast', 'p1_listen']], [['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p1_listen']], [['TP03listenptt_broadcast'], ['TP03listenptt_broadcast', 'p_listen'], ['TP03listenptt_broadcast', 'p1_listen']]]
+positive_clauses = [[['p_listen', 'TP03listenptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']], [['p_speak', 'TP03speakptt_broadcast'], ['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']], [['p1_listen', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']]]
 
-positive_clauses_1 = [[['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen'], ['Tracker.broadcast', 'Peer.speak']], [['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen']], [['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen']]]
+# positive_clauses_1 = [[['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen'], ['Tracker.broadcast', 'Peer.speak']], [['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen']], [['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen']]]
 
 
 

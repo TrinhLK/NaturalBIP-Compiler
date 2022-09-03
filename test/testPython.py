@@ -25,12 +25,21 @@ def standardize_input_requirement(input_requirement):
 	input_requirement = re.sub(" shall not ", " shall ~", input_requirement)
 
 	# replace x shall either A or B --> (x shall ~A or x shall ~B)
-	list_of_tuples = re.findall(r'(\s[\(]*([^\s]+)\sshall either ([^\s]+) or ([^\s|\,]+)[\)]*)', input_requirement)
-	print (list_of_tuples)
-	for tuple_i in list_of_tuples:
-		new_content = " (" + tuple_i[1] + " shall ~" + tuple_i[2] + " or " + tuple_i[1] + " shall ~" + tuple_i[3] + ")"
-		input_requirement = input_requirement.replace(tuple_i[0], new_content)
-		# input_requirement = re.sub(tuple_i[0], new_content, input_requirement)
+	# list_of_tuples = re.findall(r'(\s[\(]*([^\s]+)\sshall either ([^\s]+) or ([^\s|\,]+)[\)]*)', input_requirement)
+	# print (list_of_tuples)
+	# for tuple_i in list_of_tuples:
+	# 	new_content = " (" + tuple_i[1] + " shall ~" + tuple_i[2] + " or " + tuple_i[1] + " shall ~" + tuple_i[3] + ")"
+	# 	input_requirement = input_requirement.replace(tuple_i[0], new_content)
+	# 	# input_requirement = re.sub(tuple_i[0], new_content, input_requirement)
+
+	list_of_tuples_1 = re.findall(r'(\s\(([\w]+)\sshall either ([^\)]*)\))+', input_requirement)
+	print ("list_of_tuples_1 either or: " + str(list_of_tuples_1))
+	for either_or_group in list_of_tuples_1:
+ 		list_actions = either_or_group[2].split(" or ")
+ 		new_actions = [(either_or_group[1] + " shall " + elm) for elm in list_actions]
+ 		print (new_actions)
+ 		new_sentences = " (" + " XOR ".join(new_actions) + ")"
+ 		input_requirement = input_requirement.replace(either_or_group[0], new_sentences)
 
 	# replace synchronized with --> <=>
 	input_requirement = re.sub(r' synchronize[d|s]*\swith ', " <=> ", input_requirement)
@@ -250,7 +259,7 @@ def get_conditions_of_requirement (req_name, standardized_input, temp_dict_actio
 	for element in patterns:
 		new_sample = new_sample.replace(element, "")
 
-	x = re.split(r'[\s]and|[\s]or|[\s]<=>[\s]', new_sample)
+	x = re.split(r'[\s]and|[\s]or|[\s]<=>[\s]|[\s]XOR[\s]', new_sample)
 	# print ("spliting: " + str(x))
 	list_condition = []
 	for element in x:

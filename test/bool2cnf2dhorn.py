@@ -164,8 +164,10 @@ class CNF_Clauses:
 			# print (str(type(i)) + " " + str(i.text))
 				list_txt_pos.append(i.text)
 		res += " | ".join(list_txt_neg)
+		
 		if list_txt_pos != []:
-			res += " | " + " | ".join(list_txt_pos)
+			if list_txt_neg != []: res += " | "
+			res += " | ".join(list_txt_pos)
 		# res += ", " + str(self.rm)
 		print ("(" + res + ")")
 
@@ -552,13 +554,13 @@ def collect_neg_with_conditions(synthesis_cnf, given_list_preds):
 #Output: all combination from neg_lists <-> list of list of clauses
 def combination_of_2_clauses(cl1, cl2):
 	rs = []
-	for cl2_neg_i in cl2.neg:
+	if cl2.neg == []:
 		if hasattr(cl1, "neg"):
 			for cl1_neg_j in cl1.neg:
 				list_tmp = []
 				tmp_clause = CNF_Clauses()
-				tmp_clause.neg = cl2_neg_i
-				tmp_clause.pos = cl2.pos
+				tmp_clause.neg = []
+				tmp_clause.pos = [elm for elm in cl2.pos]
 
 				# for sub_elm in cl1_neg_j:
 				subtmp_clause = CNF_Clauses()
@@ -575,11 +577,53 @@ def combination_of_2_clauses(cl1, cl2):
 				for combined_cl1_i_j in combined_cl1_i:
 					list_tmp.append(combined_cl1_i_j)
 				tmp_clause = CNF_Clauses()
-				tmp_clause.neg = cl2_neg_i
-				tmp_clause.pos = cl2.pos
+				tmp_clause.neg = []
+				tmp_clause.pos = [elm for elm in cl2.pos]
 				list_tmp.append(tmp_clause)
 
 				rs.append(list_tmp)
+		# for cl1_neg_j in cl1.neg:
+		# 	list_tmp = []
+		# 	tmp_clause = CNF_Clauses()
+		# 	tmp_clause.neg = []
+		# 	tmp_clause.pos = [elm for elm in cl2.pos]
+
+		# 	subtmp_clause = CNF_Clauses()
+		# 	subtmp_clause.neg = cl1_neg_j
+		# 	subtmp_clause.pos = cl1.pos
+
+		# 	list_tmp.append(subtmp_clause)
+		# 	list_tmp.append(tmp_clause)
+		# 	rs.append(list_tmp)
+	else:
+		for cl2_neg_i in cl2.neg:
+			if hasattr(cl1, "neg"):
+				for cl1_neg_j in cl1.neg:
+					list_tmp = []
+					tmp_clause = CNF_Clauses()
+					tmp_clause.neg = cl2_neg_i
+					tmp_clause.pos = cl2.pos
+
+					# for sub_elm in cl1_neg_j:
+					subtmp_clause = CNF_Clauses()
+					subtmp_clause.neg = cl1_neg_j
+					subtmp_clause.pos = cl1.pos
+
+					list_tmp.append(subtmp_clause)
+
+					list_tmp.append(tmp_clause)
+					rs.append(list_tmp)
+			else: #cl1 is a previous combination
+				for combined_cl1_i in cl1:
+					list_tmp = []
+					for combined_cl1_i_j in combined_cl1_i:
+						list_tmp.append(combined_cl1_i_j)
+					tmp_clause = CNF_Clauses()
+					tmp_clause.neg = cl2_neg_i
+					tmp_clause.pos = cl2.pos
+					list_tmp.append(tmp_clause)
+
+					rs.append(list_tmp)
 	return rs
 
 def mk_dualHorn(list_cls):
@@ -628,7 +672,15 @@ def saturate_dual_horn(dual_horn, list_ports):
 						for pos_elm in pos_set:
 							if pos_elm.showInfor() in list_port_str:
 								tmp_additional_str.append(pos_elm.showInfor())
-		# print ("additional_clause_str: " + str(tmp_additional_str))
+		else:
+			for neg_elm in dual_horn_set.neg:
+				if neg_elm.showInfor() in list_port_str:
+					tmp_additional_str.append(neg_elm.showInfor())
+			for pos_set in dual_horn_set.pos:
+				for pos_elm in pos_set:
+					if pos_elm.showInfor() in list_port_str:
+						tmp_additional_str.append(pos_elm.showInfor())
+		print ("additional_clause_str: " + str(tmp_additional_str))
 		# print ("--- additional_clause_str: " + str(list(set(tmp_additional_str))))
 		tmp_additional_str = list(set(tmp_additional_str))
 
@@ -638,11 +690,25 @@ def saturate_dual_horn(dual_horn, list_ports):
 			tmp_additional.append([new_elm])
 		# for elm in tmp_additional:
 		# 	print ("tmp_additional_elm: " + elm[0].showInfor())
-		additional_clause_1 = CNF_Clauses()
-		additional_clause_1.neg = []
-		additional_clause_1.pos = tmp_additional
-		# additional_clause_1.printer()
-		dual_horn_set.append(additional_clause_1)
+		shouldAddMoreClause = True
+		if isinstance(dual_horn_set,list):
+			for dh_clause in dual_horn_set:
+				if dh_clause.neg == []:
+					dh_clause.pos = tmp_additional
+					shouldAddMoreClause = False
+		
+		if shouldAddMoreClause == True:
+			additional_clause_1 = CNF_Clauses()
+			additional_clause_1.neg = []
+			additional_clause_1.pos = tmp_additional
+			# additional_clause_1.printer()
+			dual_horn_set.append(additional_clause_1)
+		# else:
+		# 	additional_clause_1 = CNF_Clauses()
+		# 	additional_clause_1.neg = []
+		# 	additional_clause_1.pos = tmp_additional
+		# 	# additional_clause_1.printer()
+		# 	dual_horn_set.append(additional_clause_1)
 
 	# for elem in dual_horn:
 	# 	# print ("*** \t\t\tCHECK TYPE: " + str(type(elem)))

@@ -29,15 +29,18 @@
 	<annotations name="Specification">
 
 
+			<annotation id="TP_01_1">For any Peer p, there is a Tracker t, if p executes register, t shall log.</annotation>
+			<annotation id="TP_01_2">For any Peer p, there is a Tracker t, such that p is registered to t, if p executes unregister, t shall log.</annotation>
+
 			<annotation id="TP_04_1">For any Peer p, there is a Tracker t, t shall log synchronized with p shall register.</annotation>
 			<annotation id="TP_04_3">For any Peer p, there is a Tracker t, t shall log synchronized with p shall unregister.</annotation>
-			<annotation id="TP_04_2">For any Peer p, p shall either register or unregister.</annotation>
+			<annotation id="TP_04_2">For any Peer p, (p shall either register or unregister).</annotation>
 
 			<annotation id="TP_03_speak">For any Peer p, there is a Tracker t, such that p is registered to t, if t executes broadcast, p shall speak and for all Peer p1, where p1 is registered to t and p1 is different with p, p1 shall not speak.</annotation>
-			<annotation id="TP_03_mutex">For any Peer p, p shall either speak or listen.</annotation>
+			<annotation id="TP_03_mutex">For any Peer p, (p shall either speak or listen).</annotation>
 			<annotation id="TP_03_listen">For any Peer p, there is a Tracker t where p is registered to t, if t executes broadcast, p shall listen or for all Peer p1, such that p1 is registered to t and p1 is different with p, p1 shall listen.</annotation>
 			
-			<annotation id="MAIN">TP_04, TP_03</annotation>
+			<annotation id="MAIN">TP_01, TP_03</annotation>
 
 	</annotations>
 
