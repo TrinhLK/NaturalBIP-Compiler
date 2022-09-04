@@ -413,10 +413,10 @@ def get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology):
 		for element in a_clause:
 			for action in list_actions:
 				# element = element.strip()
-				if (element.strip().endswith("_" + action) or ("_" + action + "_") in element.strip()) and not ("~" in element):
+				if (element.strip().endswith("_" + action) or ("_" + action + "_") in element.strip() or " XOR " in element.strip()) and not ("~" in element):
 					# print (element + ":\t OK")
 					can_interact_element.append(element)
-
+		can_interact_element = list(set(can_interact_element))
 		# print ("can_interact_element: " + str(can_interact_element))
 
 		for interacting_element_i in can_interact_element:
@@ -443,7 +443,7 @@ def get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology):
 
 	# print ("result_str: " + str(result_str))
 	# print ([" or ".join(result_str)])
-	new_result = [" | ".join(result_str)]
+	new_result = [" & ".join(result_str)] #Simon 2
 	new_result.append(result)
 	
 	return new_result
@@ -536,6 +536,7 @@ def handle_complex_patterns (updated_requirement, ontology):
 				else:
 					new_effect.append(element)
 		effect = new_effect
+		# print ("size: " + str(len(effect)) + "\tnew_effect: " + str(effect))
 		disjunction_of_effect_clause = []
 		list_af = []
 		for parentheses in list_effect_parentheses:
@@ -712,6 +713,7 @@ def analyze_requirement(req_name, input_requirement, data):
 	artifacts = generate_booleanFunctions_and_dataTransfer(data, updated_requirement)
 
 	handle_pattern(updated_requirement, ontology)
+	print ("check handle_pattern: " + handle_pattern(updated_requirement, ontology))
 	# print (req_name + " = " + handle_pattern(updated_requirement, ontology))
 	if handle_pattern(updated_requirement, ontology) != "":
 		result = [req_name + " = " + handle_pattern(updated_requirement, ontology)]

@@ -41,11 +41,11 @@ def get_connector(connector):
     print("remains: " + str(remains))
 
     if triggers == []:
-        result_str += "("
+        # result_str += "("
         for synch_set in remains:
-            result_str += ")-(".join(synch_set)
+            result_str += "(" + ")-(".join(synch_set) + ")\n"
             print ("sub synch_set: " + result_str)
-        result_str += ")"
+        # result_str += ")"
     else:
         for i in range(len(triggers) - 1):
             if len(triggers[i]) > 1:
@@ -352,8 +352,9 @@ print("tracker_peer_5: " + str(tracker_peer_5))
 tmp_connector = get_connector(tracker_peer_5)
 replace_ins_by_class(tmp_connector)
 print("\n14.--------------")
-positive_clauses = [[['p_listen', 'TP03listenptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']], [['p_speak', 'TP03speakptt_broadcast'], ['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']], [['p1_listen', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']]]
+# positive_clauses = [[['p_listen', 'TP03listenptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']], [['p_speak', 'TP03speakptt_broadcast'], ['TP03speakptt_broadcast'], ['p1_listen', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']], [['p1_listen', 'TP03listenptt_broadcast'], ['TP03listenptt_broadcast']]]
 
+positive_clauses = [[['p_register', 't_log'], ['TP012ptt_log', 'p_unregister'], ['p_unregister', 't_log']]]
 # positive_clauses_1 = [[['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen'], ['Tracker.broadcast', 'Peer.speak']], [['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen']], [['Tracker.broadcast'], ['Tracker.broadcast', 'Peer.listen']]]
 
 
