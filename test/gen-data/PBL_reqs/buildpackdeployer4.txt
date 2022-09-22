@@ -1,0 +1,2 @@
+buildpackdeployer4 = ((d_setAddonsForRuby => (hbp_setAddonsForRuby)))
+Main_Exp: buildpackdeployer4

@@ -112,10 +112,23 @@ def check_dependent_instance(req_name, condition_string, list_values):
 			the_first_var = elm[0]
 	if the_first_var == '':
 		return result
-	# print ("checking: " + list_words_in_string[0] + "\t\t" + elm[3])
+	print ("checking: " + list_words_in_string[0] + "\t\t" + elm[3])
 	# print ("the_first_var: " + str(the_first_var))
-	the_first = [elm for elm in list_values if list_words_in_string[0] == elm[3]][0]
-	the_second = [elm for elm in list_values if list_words_in_string[len(list_words_in_string)-1] == elm[3]][0]
+	the_first = []
+	the_second = []
+	for elm in list_values:
+		# print ("check elm:" + str(elm))
+		# print ("check list_words_in_string:" + list_words_in_string[len(list_words_in_string)-1])
+		if list_words_in_string[0] == elm[3]:
+			the_first = elm
+			# print ("check first elm:" + str(the_first))
+		if list_words_in_string[len(list_words_in_string)-1] == elm[3]:
+			# print ("check elm:" + elm)
+			the_second = elm
+	if the_second == []:
+		return result
+	# the_first = [elm for elm in list_values if list_words_in_string[0] == elm[3]][0]
+	# the_second = [elm for elm in list_values if list_words_in_string[len(list_words_in_string)-1] == elm[3]][0]
 
 	if the_first[1].strip() in ['a', 'some', 'one'] and the_second[1].strip() in ['every', 'any', 'all'] and list_values.index(the_first) > list_values.index(the_second):
 		result = [the_first[3]]
@@ -263,7 +276,7 @@ def get_conditions_of_requirement (req_name, standardized_input, temp_dict_actio
 	# print ("spliting: " + str(x))
 	list_condition = []
 	for element in x:
-		if element != '':
+		if element != '' and element != ' ':
 			list_of_tuples = re.findall(r'\.*\,*\s*(.+)', element)
 			print ("\n list tuples cdt: ")
 			print (list_of_tuples)
@@ -765,9 +778,26 @@ def gen_Boolean_encoding(xmlFile):
 	list_pbl_requirements = []
 	list_chosen_requirements = []
 
-	shouldAddMore = True
+	tmp_list_chosen_requirements = []
 	for key, value in requirements.items():
-		if not "MAIN" in key:
+		if "MAIN" in key:
+			main_list = []
+			new_main_content = re.sub(r'[\s]*\,[\s]*', " & ", value)
+			if ("except " or "Except ") in new_main_content:
+				except_list = new_main_content[new_main_content.index("except ")+7:].split(" & ")
+				main_list = list(set(list_requirements) - set(except_list))
+				# print ("main_list: " + str(main_list))
+				list_chosen_requirements = main_list
+			elif new_main_content == 'all' or new_main_content == 'All':
+				main_list = list_requirements
+				list_chosen_requirements = main_list
+			else:
+				main_list = new_main_content.split(" & ")
+				list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
+			print ("list_chosen_requirements" + str(list_chosen_requirements))
+
+	for key, value in requirements.items():
+		if key in list_chosen_requirements:
 			print ("\n\nBEGIN ---- ---- ----")
 			analyzed_req = analyze_requirement(key, value, data)
 			result += analyzed_req[0] + "\n"
@@ -802,45 +832,97 @@ def gen_Boolean_encoding(xmlFile):
 			except:
 				list_actions = tmp_list_actions
 			list_pbl_requirements.append(analyzed_req[0])
-			if shouldAddMore == True:
-				print ("add req: " + key)
-				list_chosen_requirements.append(key)
 			print ("END ---- ---- ----\n\n")
-		else: # MAIN-annotation contains list of Reqs will be used
-			# Create PBL at gen-data folder
-			# ----------------------
-			path = os.getcwd()
-			print ("---- current directory: " + path)
-			try:
-				if os.path.isdir(path + "/gen-data/PBL_reqs"):
-					# os.rmdir(path + "/gen-data/PBL_reqs")
-					shutil.rmtree(path + "/gen-data/PBL_reqs")
-				os.mkdir(path + "/gen-data/PBL_reqs")
-			except OSError:
-				print("Creation of the directory %s failed" % path)
-			else:
-				print("Successfully created the directory %s " % path)
-			# ----------------------
-			# new_main_content = value
-			main_list = []
-			new_main_content = re.sub(r'[\s]*\,[\s]*', " & ", value)
-			print ("new_main_content: " + new_main_content)
-			# list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
 
-			# print ("Main_Exp: " + new_main_content)
-			if ("except " or "Except ") in new_main_content:
-				except_list = new_main_content[new_main_content.index("except ")+7:].split(" & ")
-				main_list = list(set(list_requirements) - set(except_list))
-			elif new_main_content == 'all' or new_main_content == 'All':
-				main_list = list_requirements
-			else:
-				main_list = new_main_content.split(" & ")
-				list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
-				print ("List req is provided")
-				shouldAddMore = False
+	# shouldAddMore = True
+	# for key, value in requirements.items():
+	# 	if not "MAIN" in key:
+	# 		print ("\n\nBEGIN ---- ---- ----")
+	# 		analyzed_req = analyze_requirement(key, value, data)
+	# 		result += analyzed_req[0] + "\n"
+	# 		artifacts = analyzed_req[1]
+	# 		tmp_dict_class_ins = analyzed_req[2]
+	# 		tmp_list_conditions = analyzed_req[3]
+	# 		tmp_list_actions = analyzed_req[4]
+	# 		# print ("\n--tmp_list_actions: " + str(tmp_list_actions))
+	# 		# print (artifacts)
 
-			result += "Main_Exp: " + " & ".join(main_list)
+	# 		for key_art in artifacts.keys():
+	# 			# if artifacts[key_art] != []:
+	# 			try:
+	# 				dict_artifacts[key_art].extend(artifacts[key_art])
+	# 			except:
+	# 				dict_artifacts[key_art] = artifacts[key_art]
 
+	# 		for key_class_ins in tmp_dict_class_ins.keys():
+	# 			try:
+	# 				dict_class_ins[key_class_ins].extend(tmp_dict_class_ins[key_class_ins])
+	# 				dict_class_ins[key_class_ins] = list(set(dict_class_ins[key_class_ins]))
+	# 			except:
+	# 				dict_class_ins[key_class_ins] = tmp_dict_class_ins[key_class_ins]
+
+	# 		try:
+	# 			list_conditions.extend(tmp_list_conditions)
+	# 		except:
+	# 			list_conditions = tmp_list_conditions
+
+	# 		try:
+	# 			list_actions.extend(tmp_list_actions)
+	# 		except:
+	# 			list_actions = tmp_list_actions
+	# 		list_pbl_requirements.append(analyzed_req[0])
+	# 		if shouldAddMore == True:
+	# 			print ("add req: " + key)
+	# 			list_chosen_requirements.append(key)
+	# 		print ("END ---- ---- ----\n\n")
+	# 	else: # MAIN-annotation contains list of Reqs will be used
+	# 		# Create PBL at gen-data folder
+	# 		# ----------------------
+	# 		path = os.getcwd()
+	# 		print ("---- current directory: " + path)
+	# 		try:
+	# 			if os.path.isdir(path + "/gen-data/PBL_reqs"):
+	# 				# os.rmdir(path + "/gen-data/PBL_reqs")
+	# 				shutil.rmtree(path + "/gen-data/PBL_reqs")
+	# 			os.mkdir(path + "/gen-data/PBL_reqs")
+	# 		except OSError:
+	# 			print("Creation of the directory %s failed" % path)
+	# 		else:
+	# 			print("Successfully created the directory %s " % path)
+	# 		# ----------------------
+	# 		# new_main_content = value
+	# 		main_list = []
+	# 		new_main_content = re.sub(r'[\s]*\,[\s]*', " & ", value)
+	# 		print ("new_main_content: " + new_main_content)
+	# 		# list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
+
+	# 		# print ("Main_Exp: " + new_main_content)
+	# 		if ("except " or "Except ") in new_main_content:
+	# 			except_list = new_main_content[new_main_content.index("except ")+7:].split(" & ")
+	# 			main_list = list(set(list_requirements) - set(except_list))
+	# 		elif new_main_content == 'all' or new_main_content == 'All':
+	# 			main_list = list_requirements
+	# 		else:
+	# 			main_list = new_main_content.split(" & ")
+	# 			list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
+	# 			print ("List req is provided")
+	# 			shouldAddMore = False
+
+	# 		result += "Main_Exp: " + " & ".join(main_list)
+
+	# ----------------------
+	path = os.getcwd()
+	print ("---- current directory: " + path)
+	try:
+		if os.path.isdir(path + "/gen-data/PBL_reqs"):
+			# os.rmdir(path + "/gen-data/PBL_reqs")
+			shutil.rmtree(path + "/gen-data/PBL_reqs")
+		os.mkdir(path + "/gen-data/PBL_reqs")
+	except OSError:
+		print("Creation of the directory %s failed" % path)
+	else:
+		print("Successfully created the directory %s " % path)
+	# ----------------------
 
 	# print (dict_class_ins)
 	# print (list_conditions)
@@ -949,13 +1031,17 @@ def gen_Boolean_encoding(xmlFile):
 # print (get_effect_list(test_str))
 # print ("------------------- end test 2")
 
-print ("------------------- tracker_peer generation")
-gen_Boolean_encoding('input/tracker_peer.xml')
-print ("------------------- finished tracker_peer generation")
+# print ("------------------- tracker_peer generation")
+# gen_Boolean_encoding('input/tracker_peer.xml')
+# print ("------------------- finished tracker_peer generation")
 
-# print ("------------------- heroku_deployer generation")
-# gen_Boolean_encoding('input/herokudeployer.xml')
-# print ("------------------- finished heroku_deployer generation")
+# print ("------------------- monitor-switch generation")
+# gen_Boolean_encoding('input/monitorswitch.xml')
+# print ("------------------- finished monitor-switch generation")
+
+print ("------------------- heroku_deployer generation")
+gen_Boolean_encoding('input/herokudeployer.xml')
+print ("------------------- finished heroku_deployer generation")
 
 
 

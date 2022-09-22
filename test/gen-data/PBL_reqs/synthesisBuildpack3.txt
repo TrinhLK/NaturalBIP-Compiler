@@ -1,0 +1,2 @@
+synthesisBuildpack3 = ((hbp_setAddonsForPython => (d_setAddonsForPython & cdb_on & p_on & sc_on & nr_on)))
+Main_Exp: synthesisBuildpack3

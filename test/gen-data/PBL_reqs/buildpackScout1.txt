@@ -1,0 +1,2 @@
+buildpackScout1 = hbp_setAddonsForJava <=> p_off
+Main_Exp: buildpackScout1

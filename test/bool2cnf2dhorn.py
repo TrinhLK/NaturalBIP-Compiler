@@ -6,10 +6,11 @@ import json
 mango_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))+ '/include/')
 sys.path.append(mango_dir)
 import PyBool_public_interface as Bool
+import dhorn2bip as bipgen
 
 # -------------------------------------
 # Load data
-with open('gen-data/system_info_tracker_peer.json', 'r') as fp:
+with open('gen-data/system_infor.json', 'r') as fp:
 	system_info = json.load(fp)
 
 print ("\nsystem_info: " + str(system_info))
@@ -21,7 +22,7 @@ list_constraints = [elm[0] for elm in system_info['constraints']]
 
 print ("\nlist_actions: " + str(list_actions))
 print ("\nlist_constraints: " + str(list_constraints))
-
+allowed_interactions = {}
 # -------------------------------------
 
 def is_predicate(elem, list_preds):
@@ -38,7 +39,9 @@ def list_cnf_clauses_raw(L):
 	for i in L["Clauses"]:
 		if isinstance(i,list):
 			list_key_rev.append(i[::-1])
-
+		else:
+			list_key_rev.append(L["Clauses"][::-1])
+	# print ("list_key_rev: " + str(list_key_rev))
 	# replace int by string
 	list_cnf_clauses = []
 	for i in list_key_rev:
@@ -807,6 +810,7 @@ def generate_atomic_interactions(dual_horn, list_ports):
 	    if elm_i not in new_set_of_interactions and elm_i != []:
 	        new_set_of_interactions.append(elm_i)
 	print ("new set_of_interactions =  " + str(new_set_of_interactions) + "\nlen = " + str(len(new_set_of_interactions)))
+	return new_set_of_interactions
 			# canAdd = True
 			# for positive_clause_elm in positive_clause:
 			# 	if list(set(positive_clause_elm) - set(atomic_interactions)) == []:
@@ -816,6 +820,137 @@ def generate_atomic_interactions(dual_horn, list_ports):
 
 			
 		# print ("POSitive clause: " + str(positive_clause))
+
+#----------------- ----------------- ----------------- -----------------
+def generate_atomic_interactions_1(dual_horn, list_ports):
+	res = []
+	set_of_interactions = []
+	list_port_str = []
+
+	# Get strings of all list ports
+	for port in list_ports:
+		list_port_str.append(port[0].showInfor())	
+	i = 0
+	for dual_horn_set in dual_horn:
+		positive_clause_str = []
+		set_of_atomic_interactions = []
+		positive_clause = []
+
+		m_tmp_positive_clause_str = []
+		for dual_horn_clause in dual_horn_set:
+			if dual_horn_clause.neg == []:
+				tmp_positive_clause_str = dual_horn_clause.get_pos_list_str()
+				for elm in tmp_positive_clause_str:
+					positive_clause_str.append(elm[0])
+				print ("positive_clause_str: " + str(positive_clause_str))
+			else:
+				tmp_positive_clause_str = dual_horn_clause.get_pos_list_str()
+				print ("tmp_positive_clause_str: " + str(tmp_positive_clause_str))
+				if tmp_positive_clause_str != []:
+					m_tmp_positive_clause_str = m_tmp_positive_clause_str + tmp_positive_clause_str
+		print ("m_tmp_positive_clause_str: " + str(m_tmp_positive_clause_str))
+
+		for elm_idx in range(len(positive_clause_str)):
+			for tmp_pos_elm in m_tmp_positive_clause_str:
+				if positive_clause_str[elm_idx] in tmp_pos_elm:
+					positive_clause_str[elm_idx] = tmp_pos_elm
+					break
+		print ("new_positive_clause_str: " + str(positive_clause_str))
+		
+		for elm in range(len(positive_clause_str)):
+			# atomic_interactions = []
+			for dual_horn_clause in dual_horn_set:
+				
+				if dual_horn_clause.neg != [] and dual_horn_clause.get_pos_list_str() != []:
+
+					# Get neg_action, ignore neg_conditions
+					neg_action = ""
+					for neg_elem in dual_horn_clause.get_neg_list_str():
+						if neg_elem in list_port_str:
+							neg_action = neg_elem
+
+					if len(positive_clause_str[elm]) == 1 and neg_action == positive_clause_str[elm][0]:
+						for pos_cls_elm in dual_horn_clause.get_pos_list_str():
+							tmp_atomic_interactions = pos_cls_elm + dual_horn_clause.get_neg_list_str()
+							print ("check 1: " + neg_action + " \t " + str(tmp_atomic_interactions))
+							positive_clause_str[elm] = tmp_atomic_interactions
+					if neg_action == positive_clause_str[elm]:
+						for pos_cls_elm in dual_horn_clause.get_pos_list_str():
+							tmp_atomic_interactions = pos_cls_elm + dual_horn_clause.get_neg_list_str()
+							print ("check 2: " + neg_action + " \t " + str(tmp_atomic_interactions))
+							positive_clause_str[elm] = tmp_atomic_interactions
+				# atomic_interactions = list(map(list, set(map(tuple, map(set, atomic_interactions)))))
+		print ("positive_clause_str: " + str(positive_clause_str))
+		positive_clause_str = list(map(list, set(map(tuple, map(set, positive_clause_str)))))
+		print ("updated_positive_clause_str: " + str(positive_clause_str))
+		# positive_clause_str = list(set(positive_clause_str))
+		# for elm in positive_clause_str:
+		# 	checked = False
+		# 	conjunction_of_elm = ""
+		# 	for dual_horn_clause in dual_horn_set:
+
+		# 		atomic_interactions = []
+		# 		# print ("Neg_clause: " + str(dual_horn_clause.get_neg_list_str()))
+		# 		# print ("Post_clause: " + str(dual_horn_clause.get_pos_list_str()))
+
+		# 		if dual_horn_clause.neg != [] and dual_horn_clause.get_pos_list_str() != []:
+		# 			neg_action = ""
+		# 			for neg_elem in dual_horn_clause.get_neg_list_str():
+		# 				if neg_elem in list_port_str:
+		# 					neg_action = neg_elem
+		# 					# atomic_interactions.append(neg_elem)
+
+		# 			if neg_action == elm:
+		# 				atomic_interactions.append(neg_action)
+		# 				for pos_clause in dual_horn_clause.get_pos_list_str():
+		# 					if isinstance(pos_clause, list):
+		# 						for pos_elem in pos_clause:
+		# 							if pos_elem in list_port_str:
+		# 								atomic_interactions.append(pos_elem)
+		# 					else:
+		# 						if pos_clause in list_port_str:
+		# 							atomic_interactions.append(pos_clause)
+		# 				# conjunction_of_elm = "&".join(atomic_interactions)
+
+		# 				canAdd = True
+		# 				for positive_clause_elm in positive_clause:
+		# 					if list(set(positive_clause_elm) - set(atomic_interactions)) == [] and list(set(atomic_interactions) - set(positive_clause_elm)) == []:
+		# 						canAdd = False
+		# 						break
+		# 				if canAdd == True:	
+		# 					atomic_interactions = list(set(atomic_interactions))
+		# 					positive_clause.append(atomic_interactions)
+		# 				checked = True
+		# 	if checked == False: positive_clause.append([elm])
+		# 	# print ("conjunction_of_elm: " + str(conjunction_of_elm))
+		# 	# positive_clause = list(map(lambda x: x.replace(elm, conjunction_of_elm), positive_clause))
+		# print ("positive_clause_" + str(i) + " = " + str(positive_clause))
+		set_of_interactions.append(positive_clause_str)
+
+		for positive_clause_elm in positive_clause_str:
+			if res == []: 
+				positive_clause_elm = list(set(positive_clause_elm))
+				res.append(positive_clause_elm)
+			else:
+				canAdd = True
+				for elm in res:
+					if list(set(elm) - set(positive_clause_elm)) == [] and list(set(positive_clause_elm) - set(elm)) == []:
+						canAdd = False
+						break
+				if canAdd == True:	
+					positive_clause_elm = list(set(positive_clause_elm))
+					res.append(positive_clause_elm)
+		i = i+1
+	print ("Unionset =  " + str(res))
+	print ("set_of_interactions =  " + str(set_of_interactions) + "\nlen = " + str(len(set_of_interactions)))
+	new_set_of_interactions = []
+
+	for elm_i in set_of_interactions:
+	    if elm_i not in new_set_of_interactions and elm_i != []:
+	        new_set_of_interactions.append(elm_i)
+	print ("new set_of_interactions =  " + str(new_set_of_interactions) + "\nlen = " + str(len(new_set_of_interactions)))
+	return new_set_of_interactions
+
 
 # -----------------------------
 # absorb the dual-horn clause
@@ -1118,10 +1253,10 @@ def get_synthesised_cnf_2_steps(L):
 def gen_JavaBIP_Macro_code(req_file):
 	# config = {"Peer":["p", "p1"], "Tracker":["P1p", "P3p"], "Route":["r", "r1"], "Monitor":["m"]}
 	# config = dsl2skol.new_dict_class_instance
-	data = {}
+	# data = {}
 	system_info = {}
-	with open('gen-data/data_tracker_peer.json', 'r') as fp:
-		data = json.load(fp)
+	# with open('gen-data/data_tracker_peer.json', 'r') as fp:
+	# 	data = json.load(fp)
 	with open('gen-data/system_infor.json', 'r') as fp:
 		system_info = json.load(fp)
 
@@ -1163,7 +1298,13 @@ def gen_JavaBIP_Macro_code(req_file):
 
 	print ("--- 6. set of atomic interactions")
 	# print_dual_Horn(absorbed_dual_horn_clause)
-	generate_atomic_interactions(absorbed_dual_horn_clause, list_all_ports)
+	# generate_atomic_interactions(absorbed_dual_horn_clause, list_all_ports)
+	# print ("---- generate_atomic_interactions_1 ----")
+	# generate_atomic_interactions_1(absorbed_dual_horn_clause, list_all_ports)
+	# print ("---- END generate_atomic_interactions_1 ----")
+
+	# allowed_interactions[req_file] = generate_atomic_interactions(absorbed_dual_horn_clause, list_all_ports)
+	allowed_interactions[req_file] = generate_atomic_interactions_1(absorbed_dual_horn_clause, list_all_ports)
 
 	accept_list = []
 	require_list = []
@@ -1190,8 +1331,9 @@ def gen_JavaBIP_Macro_code(req_file):
 				if sub_elm.neg != []:
 					list_neg = []
 					list_neg.append(sub_elm.neg[0].text)
-					# print (list_neg)
+					# print ("list_neg: " + str(list_neg))
 					tmp_neg = replace_instances_by_class(list_neg, config)
+					# print ("tmp_neg: " + str(tmp_neg))
 					for pos_elm_list in pos_str:
 						tmp_post = replace_instances_by_class(pos_elm_list, config)
 						if len(tmp_neg) > 0:
@@ -1257,6 +1399,7 @@ def main():
 		system_info = json.load(fp)
 
 	macro_code = ""
+	bip_cons = ""
 	for x in os.listdir(current_path):
 		if x.endswith(".txt"):
 			# Prints only text file present in My Folder
@@ -1268,18 +1411,25 @@ def main():
 	data_transfer = list(set(system_info['data_transfer']))
 	for dt in data_transfer:
 		macro_code += dt
-	print("------------------------ -------------------------- ------------------------")
+	print("\n------------------------ -------------------------- ------------------------")
 	print (macro_code)
 
-	print("------------------------")
+	print("\n------------------------")
 	boolean_functions = list(set(system_info['boolean_functions']))
 	for bl in boolean_functions:
 		print (bl)
+	print("\nBIP connectors ------------------------")
+	for k,v in allowed_interactions.items():
+		req_name = k[k.rindex("/")+1:k.index(".txt")]
+		bip_cons += bipgen.gen_BIP_connector(req_name, v)
+		bip_cons += "\n"
+	print (bip_cons)
 	# gen_JavaBIP_Macro_code("gen-data/PBL_reqs/Req_01.txt")
+	# print (allowed_interactions)
 
 def get_JavaBIP_style(inpStr):
 	# print ("----- check input: " + inpStr)
-	str_parts = inpStr.split("_")
+	str_parts = inpStr.split("-")
 	return (str_parts[0] + '.class, "' + str_parts[1] + '"')
 	# return (inpStr[inpStr.index("_")+1:] + '.class, "' + inpStr[0:inpStr.index("_")] + '"')
 
@@ -1296,12 +1446,15 @@ def replace_instances_by_class(list_actions, config):
 	# 				tmp_list.append(tmp)
 	# rs = [get_JavaBIP_style(tmp_elm) for tmp_elm in tmp_list]
 	# return rs
+
 	for action in list_actions:
+		# print ("action: " + action)
 		strsplit = action.split("_")
 		for k,v in config.items():
 			if strsplit[0] in v:
 				# print ("check exist: " + strsplit[0] + " - " + k)
-				tmp_action = action.replace(strsplit[0]+"_", k+"_")
+				tmp_action = action.replace(strsplit[0]+"_", k+"-")
+				# print ("tmp_action: " + tmp_action)
 				tmp_list.append(tmp_action)
 	rs = [get_JavaBIP_style(tmp_elm) for tmp_elm in tmp_list]
 	return rs

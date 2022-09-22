@@ -1,0 +1,2 @@
+buildpackClearDB1 = hbp_setAddonsForJava <=> p_on
+Main_Exp: buildpackClearDB1

@@ -1,0 +1,2 @@
+synthesisBuildpack1 = ((hbp_setAddonsForJava => (d_setAddonsForJava & cdb_on & p_on & sc_off & nr_on)))
+Main_Exp: synthesisBuildpack1

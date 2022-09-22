@@ -1,0 +1,2 @@
+buildpackScout9 = hbp_setAddonsForPhp <=> p_on
+Main_Exp: buildpackScout9

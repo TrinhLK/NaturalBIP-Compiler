@@ -1,0 +1,2 @@
+buildpackpostgres1 = hbp_setAddonsForJava <=> p_on
+Main_Exp: buildpackpostgres1

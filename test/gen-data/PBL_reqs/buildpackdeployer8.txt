@@ -1,0 +1,2 @@
+buildpackdeployer8 = ((d_setAddonsForJvm => (hbp_setAddonsForJvm)))
+Main_Exp: buildpackdeployer8

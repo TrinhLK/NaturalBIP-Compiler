@@ -1,0 +1,2 @@
+synthesisBuildpack9 = ((hbp_setAddonsForPhp => (d_setAddonsForPhp & cdb_on & p_on & sc_on & nr_on)))
+Main_Exp: synthesisBuildpack9

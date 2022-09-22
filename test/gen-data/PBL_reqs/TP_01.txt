@@ -1,4 +1,0 @@
-TP_01_1 = ((t_log => (p_register)))
-TP_01_2 = ((TP012ptt_log => (p_is_registered_to_TP012ptt & p_unregister)))
-TP_01_3 = ((p_register => (t_log)) & (p_unregister => (t_log)))
-Main_Exp: TP_01_1 & TP_01_2 & TP_01_3

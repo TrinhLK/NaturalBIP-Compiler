@@ -1,0 +1,2 @@
+deployFreeAddon4 = ((p_sub1 => (d_addScoutAPM)))
+Main_Exp: deployFreeAddon4

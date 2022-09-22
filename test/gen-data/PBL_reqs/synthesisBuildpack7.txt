@@ -1,0 +1,2 @@
+synthesisBuildpack7 = ((hbp_setAddonsForGradle => (d_setAddonsForGradle & cdb_off & p_off & sc_off & nr_off)))
+Main_Exp: synthesisBuildpack7

@@ -1,0 +1,2 @@
+synthesisBuildpack5 = ((hbp_setAddonsForNodejs => (d_setAddonsForNodejs & cdb_on & p_on & sc_off & nr_on)))
+Main_Exp: synthesisBuildpack5

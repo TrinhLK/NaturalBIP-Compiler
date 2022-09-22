@@ -40,20 +40,16 @@
 			<transition from="ServerReady" to="ServerReady" action="switchServer"/>
 	</class>
 	
-	<annotations name="specification">
-			<annotation id="switchServer_3">(Monitor_3.switchServer)-(Switch.switchServer)</annotation>
-			<annotation id="switchConfirm_3">(Monitor_3.receiveSwitchConfirm)-(Switch.switchConfirm)</annotation>
-			<annotation id="addDB_3">(Monitor_3.addDatabase)-(HerokuController.addDatabase)</annotation>
-			<annotation id="data_3">data: String currentReq: Monitor_3-HerokuController</annotation>
-			<annotation id="switchServer_4">(Monitor_4.switchServer)-(Switch.switchServer)</annotation>
-			<annotation id="addDB_4">(Monitor_4.addDatabase)-(HerokuController.addDatabase)</annotation>
-			<annotation id="MAIN">switchServer_3, switchConfirm_3, addDB_3, data_3</annotation>
-			<annotation id="switchConfirm_4">(Monitor_4.receiveSwitchConfirm)-(Switch.switchConfirm)</annotation>
-			<annotation id="switchServer_2">(Monitor_2.switchServer)-(Switch.switchServer)</annotation>
-			<annotation id="switchConfirm_2">(Monitor_2.receiveSwitchConfirm)-(Switch.switchConfirm)</annotation>
-			<annotation id="addDB_2">(Monitor_2.addDatabase)-(HerokuController.addDatabase)</annotation>
-			<annotation id="data_2">data: String currentReq: Monitor_2-HerokuController</annotation>
-			<annotation id="data_4">data: String currentReq: Monitor_4-HerokuController</annotation>
+	<annotations name="Specification">
+			<annotation id="switchServer_3">For any Monitor_3 m, there is a Switch s, such that m is reached the threshold, m shall switchServer synchronized with s shall switchServer.</annotation>
+			<annotation id="switchConfirm_3">For any Monitor_3 m, there is a Switch s, m shall receiveSwitchConfirm synchronized with s shall switchConfirm.</annotation>
+			<annotation id="addDB_3">For any Monitor_3 m, there is a HerokuController hc, such that m can add database through hc, m shall addDatabase synchronized with hc shall addDatabase.</annotation>
+
+			<annotation id="switchServer_4">For any Monitor_4 m, there is a Switch s, m shall switchServer synchronized with s shall switchServer.</annotation>
+			<annotation id="switchConfirm_4">For any Monitor_4 m, there is a Switch s, m shall receiveSwitchConfirm synchronized with s shall switchConfirm.</annotation>
+			<annotation id="addDB_4">For any Monitor_4 m, there is a HerokuController hc, such that hc can add database, m shall addDatabase synchronized with hc shall addDatabase.</annotation>
+
+			<annotation id="MAIN">switchServer_3, switchConfirm_3, addDB_3</annotation>
 	</annotations>
 	<class name="Monitor_3" parent="Resource">
 			<variable type="String" name="occi.core.title" value=""/>

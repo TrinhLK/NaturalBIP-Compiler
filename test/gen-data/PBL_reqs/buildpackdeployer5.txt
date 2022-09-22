@@ -1,0 +1,2 @@
+buildpackdeployer5 = ((d_setAddonsForNodejs => (hbp_setAddonsForNodejs)))
+Main_Exp: buildpackdeployer5

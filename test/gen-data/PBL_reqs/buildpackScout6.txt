@@ -1,0 +1,2 @@
+buildpackScout6 = hbp_setAddonsForClojure <=> p_off
+Main_Exp: buildpackScout6

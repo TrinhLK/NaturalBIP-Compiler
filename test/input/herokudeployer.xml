@@ -1,5 +1,5 @@
 <extension name="herokudeployer">
-	<class name="HerokuBuilpack" parent="Resource">
+	<class name="HerokuBuildpack" parent="Resource">
 			<variable type="String" name="occi.core.title" value=""/>
 			<variable type="String" name="occi.core.id" value=""/>
 			<variable type="String" name="occi.core.summary" value=""/>
@@ -242,9 +242,123 @@
 	</class>
 	
 	<annotations name="Specification">
-			<annotation id="deployFreeDyno">There is a HerokuDynoType hdt, a Deployer d such that hdt shall sub1 synchronized with d shall setFreeDyno.</annotation>
+
+			<annotation id="deployFreeDyno">There is a HerokuDynoType hdt, a Deployer d, hdt shall sub1 synchronized with d shall setFreeDyno.</annotation>
+			<annotation id="deployResponse">There is a HerokuDynoType hdt, a Deployer d, hdt shall sendDynoResponse synchronized with d shall receiveDynoResponse.</annotation>
+			<annotation id="setUSRegion">There is a HerokuRegion hr, a Deployer d, hr shall toUS synchronized with d shall setUSRegion.</annotation>
+			<annotation id="setEURegion">There is a HerokuRegion hr, a Deployer d, hr shall toEU synchronized with d shall setEURegion.</annotation>
+			<annotation id="availableAddons">There is a HerokuRegion hr, there is a HerokuPostgres hp,  there is a HerokuClearDBMySQL cldb, there is a HerokuScoutAPM scout,  there is a HerokuNewRelicAPM newrelic, if hr executes setAddonsForEU or hr executes setAddonsForUS, hp shall on or cldb shall on or scout shall on or newrelic shall on.</annotation>
+			<annotation id="addonsForUS">There is a HerokuRegion hr, there is a HerokuPostgres hp,  there is a HerokuClearDBMySQL cldb, there is a HerokuScoutAPM scout, there is a HerokuNewRelicAPM newrelic, there is a Deployer depl, if hp executes on and cldb executes on and scout executes on and newrelic executes on and depl executes setAddonsForUS, hr shall setAddonsForUS.</annotation>
+			<annotation id="addonsForEU">There is a HerokuRegion hr, there is a HerokuPostgres hp,  there is a HerokuClearDBMySQL cldb, there is a HerokuScoutAPM scout, there is a HerokuNewRelicAPM newrelic, there is a Deployer depl, if hp executes on and cldb executes on and scout executes on and newrelic executes on and depl executes setAddonsForEU, hr shall setAddonsForEU.</annotation>
+			<annotation id="setadnsForUS">There is a HerokuRegion hr, a Deployer d, if hr executes setAddonsForUS, d shall setAddonsForUS.</annotation>
+			<annotation id="setadnsForEU">There is a HerokuRegion hr, a Deployer d, if hr executes setAddonsForEU, d shall setAddonsForEU.</annotation>
+
+			<annotation id="deployersetJava">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setJava synchronized with d shall setJava.</annotation>
+			<annotation id="deployersetScala">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setScala synchronized with d shall setScala.</annotation>
+			<annotation id="deployersetPython">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setPython synchronized with d shall setPython.</annotation>
+			<annotation id="deployersetRuby">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setRuby synchronized with d shall setRuby.</annotation>
+			<annotation id="deployersetNodejs">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setNodejs synchronized with d shall setNodejs.</annotation>
+			<annotation id="deployersetClojure">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setClojure synchronized with d shall setClojure.</annotation>
+			<annotation id="deployersetGradle">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setGradle synchronized with d shall setGradle.</annotation>
+			<annotation id="deployersetJvm">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setJvm synchronized with d shall setJvm.</annotation>
+			<annotation id="deployersetPhP">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setPhP synchronized with d shall setPhp.</annotation>
+			<annotation id="deployersetGo">There is a HerokuBuildpack hbp, a Deployer d, hbp shall setGo synchronized with d shall setGo.</annotation>
+
+			<annotation id="buildpackpostgres1">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForJava synchronized with p shall on.</annotation>
+			<annotation id="buildpackpostgres2">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForScala synchronized with p shall on.</annotation>
+			<annotation id="buildpackpostgres3">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForPython synchronized with p shall on.</annotation>
+			<annotation id="buildpackpostgres4">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForRuby synchronized with p shall on.</annotation>
+			<annotation id="buildpackpostgres5">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForNodejs synchronized with p shall on.</annotation>
+			<annotation id="buildpackpostgres6">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForClojure synchronized with p shall on.</annotation>
+			<annotation id="buildpackpostgres7">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForGradle synchronized with p shall off.</annotation>
+			<annotation id="buildpackpostgres8">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForJvm synchronized with p shall on.</annotation>
+			<annotation id="buildpackpostgres9">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForPhp synchronized with p shall on.</annotation>
+			<annotation id="buildpackpostgresm1">There is a HerokuBuildpack hbp, a HerokuPostgres p, hbp shall setAddonsForGo synchronized with p shall on.</annotation>
+
+			<annotation id="buildpackClearDB1">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForJava synchronized with p shall on.</annotation>
+			<annotation id="buildpackClearDB2">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForScala synchronized with p shall on.</annotation>
+			<annotation id="buildpackClearDB3">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForPython synchronized with p shall on.</annotation>
+			<annotation id="buildpackClearDB4">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForRuby synchronized with p shall on.</annotation>
+			<annotation id="buildpackClearDB5">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForNodejs synchronized with p shall on.</annotation>
+			<annotation id="buildpackClearDB6">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForClojure synchronized with p shall on.</annotation>
+			<annotation id="buildpackClearDB7">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForGradle synchronized with p shall off.</annotation>
+			<annotation id="buildpackClearDB8">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForJvm synchronized with p shall on.</annotation>
+			<annotation id="buildpackClearDB9">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForPhp synchronized with p shall on.</annotation>
+			<annotation id="buildpackClearDBm1">There is a HerokuBuildpack hbp, a HerokuClearDBMySQL p, hbp shall setAddonsForGo synchronized with p shall on.</annotation>
+
+			<annotation id="buildpackScout1">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForJava synchronized with p shall off.</annotation>
+			<annotation id="buildpackScout2">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForScala synchronized with p shall off.</annotation>
+			<annotation id="buildpackScout3">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForPython synchronized with p shall on.</annotation>
+			<annotation id="buildpackScout4">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForRuby synchronized with p shall on.</annotation>
+			<annotation id="buildpackScout5">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForNodejs synchronized with p shall off.</annotation>
+			<annotation id="buildpackScout6">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForClojure synchronized with p shall off.</annotation>
+			<annotation id="buildpackScout7">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForGradle synchronized with p shall off.</annotation>
+			<annotation id="buildpackScout8">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForJvm synchronized with p shall off.</annotation>
+			<annotation id="buildpackScout9">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForPhp synchronized with p shall on.</annotation>
+			<annotation id="buildpackScoutm1">There is a HerokuBuildpack hbp, a HerokuScoutAPM p, hbp shall setAddonsForGo synchronized with p shall off.</annotation>
+
+			<annotation id="buildpackNewRelic1">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForJava synchronized with p shall on.</annotation>
+			<annotation id="buildpackNewRelic2">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForScala synchronized with p shall off.</annotation>
+			<annotation id="buildpackNewRelic3">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForPython synchronized with p shall on.</annotation>
+			<annotation id="buildpackNewRelic4">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForRuby synchronized with p shall on.</annotation>
+			<annotation id="buildpackNewRelic5">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForNodejs synchronized with p shall on.</annotation>
+			<annotation id="buildpackNewRelic6">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForClojure synchronized with p shall off.</annotation>
+			<annotation id="buildpackNewRelic7">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForGradle synchronized with p shall off.</annotation>
+			<annotation id="buildpackNewRelic8">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForJvm synchronized with p shall on.</annotation>
+			<annotation id="buildpackNewRelic9">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForPhp synchronized with p shall on.</annotation>
+			<annotation id="buildpackNewRelicm1">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM p, hbp shall setAddonsForGo synchronized with p shall off.</annotation>
+
+			<annotation id="synthesisBuildpack1">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForJava and cdb executes on and p executes on and sc executes off and nr executes on, hbp shall setAddonsForJava.</annotation>
+			<annotation id="synthesisBuildpack2">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForScala and cdb executes on and p executes on and sc executes off and nr executes off, hbp shall setAddonsForScala.</annotation>
+			<annotation id="synthesisBuildpack3">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForPython and cdb executes on and p executes on and sc executes on and nr executes on, hbp shall setAddonsForPython.</annotation>
+			<annotation id="synthesisBuildpack4">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForRuby and cdb executes on and p executes on and sc executes on and nr executes on, hbp shall setAddonsForRuby.</annotation>
+			<annotation id="synthesisBuildpack5">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForNodejs and cdb executes on and p executes on and sc executes off and nr executes on, hbp shall setAddonsForNodejs.</annotation>
+			<annotation id="synthesisBuildpack6">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForClojure and cdb executes on and p executes on and sc executes off and nr executes off, hbp shall setAddonsForClojure.</annotation>
+			<annotation id="synthesisBuildpack7">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForGradle and cdb executes off and p executes off and sc executes off and nr executes off, hbp shall setAddonsForGradle.</annotation>
+			<annotation id="synthesisBuildpack8">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForJvm and cdb executes on and p executes on and sc executes off and nr executes on, hbp shall setAddonsForJvm.</annotation>
+			<annotation id="synthesisBuildpack9">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForPhp and cdb executes on and p executes on and sc executes on and nr executes on, hbp shall setAddonsForPhp.</annotation>
+			<annotation id="synthesisBuildpackm1">There is a HerokuBuildpack hbp, a HerokuNewRelicAPM nr, a HerokuPostgres p, a HerokuScoutAPM sc, a HerokuClearDBMySQL cdb, a Deployer d, if d executes setAddonsForGo and cdb executes on and p executes on and sc executes off and nr executes off, hbp shall setAddonsForGo.</annotation>
+			<annotation id="buildpackdeployer1">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForJava, d shall setAddonsForJava.</annotation>
+			<annotation id="buildpackdeployer2">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForScala, d shall setAddonsForScala.</annotation>
+			<annotation id="buildpackdeployer3">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForPython, d shall setAddonsForPython.</annotation>
+			<annotation id="buildpackdeployer4">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForRuby, d shall setAddonsForRuby.</annotation>
+			<annotation id="buildpackdeployer5">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForNodejs, d shall setAddonsForNodejs.</annotation>
+			<annotation id="buildpackdeployer6">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForClojure, d shall setAddonsForClojure.</annotation>
+			<annotation id="buildpackdeployer7">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForGradle, d shall setAddonsForGradle.</annotation>
+			<annotation id="buildpackdeployer8">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForJvm, d shall setAddonsForJvm.</annotation>
+			<annotation id="buildpackdeployer9">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForPhp, d shall setAddonsForPhp.</annotation>
+			<annotation id="buildpackdeployerm1">There is a HerokuBuildpack hbp, a Deployer d, if hbp executes setAddonsForGo, d shall setAddonsForGo.</annotation>
+			<annotation id="deployFreeAddon1">There is a HerokuPostgres p, a Deployer d, if p executes sendAddonResponse, d shall receiveAddonResponse.</annotation>
+			<annotation id="deployFreeAddon2">There is a HerokuPostgres p, a Deployer d, if d executes addHerokuPostgres, p shall sub1.</annotation>
+			<annotation id="deployFreeAddon3">There is a HerokuClearDBMySQL p, a Deployer d, if d executes addClearDBMySQL, p shall sub1.</annotation>
+			<annotation id="deployFreeAddon4">There is a HerokuScoutAPM p, a Deployer d, if d executes addScoutAPM, p shall sub1.</annotation>
+			<annotation id="deployFreeAddon5">There is a HerokuNewRelicAPM p, a Deployer d, if d executes addNewRelicAPM, p shall sub1.</annotation>
+			<annotation id="resetSetup1">There is a Deployer d, a HerokuDynoType hdt, if d executes resetAll, hdt shall reset.</annotation>
+			<annotation id="resetSetup2">There is a Deployer d, a HerokuRegion hr, if d executes resetAll, hr shall USreset.</annotation>
+			<annotation id="resetSetup3">There is a Deployer d, a HerokuRegion hr, if d executes resetAll, hr shall EUreset.</annotation>
+			<annotation id="resetSetup4">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removeJava.</annotation>
+			<annotation id="resetSetup5">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removeScala.</annotation>
+			<annotation id="resetSetup6">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removeJvm.</annotation>
+			<annotation id="resetSetup7">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removePython.</annotation>
+			<annotation id="resetSetup8">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removeRuby.</annotation>
+			<annotation id="resetSetup9">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removeNodejs.</annotation>
+			<annotation id="resetSetupm1">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removeClojure.</annotation>
+			<annotation id="resetSetupm2">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removeGradle.</annotation>
+			<annotation id="resetSetupm3">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removePhp.</annotation>
+			<annotation id="resetSetupm4">There is a Deployer d, a HerokuBuildpack hbp, if d executes resetAll, hbp shall removeGo.</annotation>
+			<annotation id="resetAddon1">There is a Deployer d, a HerokuPostgres p, if d executes resetAll, p shall reset.</annotation>
+			<annotation id="resetAddon2">There is a Deployer d, a HerokuPostgres p, if d executes resetAll, p shall off.</annotation>
+			<annotation id="resetAddon3">There is a Deployer d, a HerokuClearDBMySQL hr, if d executes resetAll, hr shall reset.</annotation>
+			<annotation id="resetAddon4">There is a Deployer d, a HerokuClearDBMySQL hbp, if d executes resetAll, hbp shall off.</annotation>
+			<annotation id="resetAddon5">There is a Deployer d, a HerokuScoutAPM hbp, if d executes resetAll, hbp shall reset.</annotation>
+			<annotation id="resetAddon6">There is a Deployer d, a HerokuScoutAPM hbp, if d executes resetAll, hbp shall off.</annotation>
+			<annotation id="resetAddon7">There is a Deployer d, a HerokuNewRelicAPM hbp, if d executes resetAll, hbp shall reset.</annotation>
+			<annotation id="resetAddon8">There is a Deployer d, a HerokuNewRelicAPM hbp, if d executes resetAll, hbp shall off.</annotation>
+
+			
+
+
 			<annotation id="MAIN">all</annotation>
-			<annotation id="deployResponse">There is a HerokuDynoType hdt, a Deployer d such that hdt shall sendDynoResponse synchronized with d shall receiveDynoResponse.</annotation>
 	</annotations>
 	<class name="Deployer" parent="Resource">
 			<variable type="String" name="occi.core.title" value=""/>

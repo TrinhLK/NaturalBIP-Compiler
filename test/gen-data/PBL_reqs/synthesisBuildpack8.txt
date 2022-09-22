@@ -1,0 +1,2 @@
+synthesisBuildpack8 = ((hbp_setAddonsForJvm => (d_setAddonsForJvm & cdb_on & p_on & sc_off & nr_on)))
+Main_Exp: synthesisBuildpack8

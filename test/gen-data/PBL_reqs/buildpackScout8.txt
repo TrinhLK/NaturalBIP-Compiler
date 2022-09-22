@@ -1,0 +1,2 @@
+buildpackScout8 = hbp_setAddonsForJvm <=> p_off
+Main_Exp: buildpackScout8

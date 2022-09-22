@@ -1,0 +1,2 @@
+addonsForEU = ((hr_setAddonsForEU => (hp_on & cldb_on & scout_on & newrelic_on & depl_setAddonsForEU)))
+Main_Exp: addonsForEU

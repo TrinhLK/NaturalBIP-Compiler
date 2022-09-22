@@ -1,0 +1,2 @@
+buildpackScoutm1 = hbp_setAddonsForGo <=> p_off
+Main_Exp: buildpackScoutm1

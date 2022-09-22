@@ -1,0 +1,2 @@
+buildpackNewRelic2 = hbp_setAddonsForScala <=> p_off
+Main_Exp: buildpackNewRelic2

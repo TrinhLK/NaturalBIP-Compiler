@@ -1,0 +1,2 @@
+buildpackpostgres3 = hbp_setAddonsForPython <=> p_on
+Main_Exp: buildpackpostgres3

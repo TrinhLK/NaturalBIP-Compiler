@@ -1,0 +1,2 @@
+buildpackScout7 = hbp_setAddonsForGradle <=> p_off
+Main_Exp: buildpackScout7

@@ -1,0 +1,2 @@
+resetAddon3 = ((hr_reset => (d_resetAll)))
+Main_Exp: resetAddon3

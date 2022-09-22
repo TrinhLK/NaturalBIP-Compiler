@@ -1,0 +1,3 @@
+switchServer_3 = m_is_reached_the_threshold & m_switchServer <=> s_switchServer
+switchConfirm_3 = m_receiveSwitchConfirm <=> s_switchConfirm
+addDB_3 = m_can_add_database_through_addDB3mhchc & m_addDatabase <=> addDB3mhchc_addDatabase

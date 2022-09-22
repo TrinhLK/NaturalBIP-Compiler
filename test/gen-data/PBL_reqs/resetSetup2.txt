@@ -1,0 +1,2 @@
+resetSetup2 = ((hr_USreset => (d_resetAll)))
+Main_Exp: resetSetup2

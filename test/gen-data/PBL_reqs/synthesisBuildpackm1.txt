@@ -1,0 +1,2 @@
+synthesisBuildpackm1 = ((hbp_setAddonsForGo => (d_setAddonsForGo & cdb_on & p_on & sc_off & nr_off)))
+Main_Exp: synthesisBuildpackm1

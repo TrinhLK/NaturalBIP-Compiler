@@ -1,0 +1,2 @@
+synthesisBuildpack6 = ((hbp_setAddonsForClojure => (d_setAddonsForClojure & cdb_on & p_on & sc_off & nr_off)))
+Main_Exp: synthesisBuildpack6

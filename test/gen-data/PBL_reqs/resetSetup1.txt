@@ -1,0 +1,2 @@
+resetSetup1 = ((hdt_reset => (d_resetAll)))
+Main_Exp: resetSetup1

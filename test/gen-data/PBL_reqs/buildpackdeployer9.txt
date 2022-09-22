@@ -1,0 +1,2 @@
+buildpackdeployer9 = ((d_setAddonsForPhp => (hbp_setAddonsForPhp)))
+Main_Exp: buildpackdeployer9

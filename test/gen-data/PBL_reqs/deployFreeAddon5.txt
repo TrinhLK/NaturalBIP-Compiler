@@ -1,0 +1,2 @@
+deployFreeAddon5 = ((p_sub1 => (d_addNewRelicAPM)))
+Main_Exp: deployFreeAddon5

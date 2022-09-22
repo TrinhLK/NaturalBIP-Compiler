@@ -1,0 +1,2 @@
+buildpackScout5 = hbp_setAddonsForNodejs <=> p_off
+Main_Exp: buildpackScout5
