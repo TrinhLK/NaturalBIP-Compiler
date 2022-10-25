@@ -17,9 +17,9 @@ def standardize_input_requirement(input_requirement):
 	# remove redundant spaces
 	input_requirement = re.sub(" +", " ", input_requirement)
 
-	# replace not execute act --> execute ~act
-	input_requirement = re.sub(" not execute ", " execute ~", input_requirement)
-	input_requirement = re.sub(" not executes ", " execute ~", input_requirement)
+	# replace does not execute act --> execute ~act
+	input_requirement = re.sub(" does not execute ", " execute ~", input_requirement)
+	input_requirement = re.sub(" does not executes ", " execute ~", input_requirement)
 
 	# replace shall not act --> shall ~act
 	input_requirement = re.sub(" shall not ", " shall ~", input_requirement)
