@@ -1,2 +1,2 @@
-buildpackNewRelic9 = hbp_setAddonsForPhp <=> p_on
+buildpackNewRelic9 = buildpack_setAddonsForPhp <=> newrelic_on
 Main_Exp: buildpackNewRelic9

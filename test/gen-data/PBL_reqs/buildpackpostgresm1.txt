@@ -1,2 +1,2 @@
-buildpackpostgresm1 = hbp_setAddonsForGo <=> p_on
+buildpackpostgresm1 = buildpack_setAddonsForGo <=> postgres_on
 Main_Exp: buildpackpostgresm1

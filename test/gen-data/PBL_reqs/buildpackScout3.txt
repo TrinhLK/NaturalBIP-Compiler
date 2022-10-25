@@ -1,2 +1,2 @@
-buildpackScout3 = hbp_setAddonsForPython <=> p_on
+buildpackScout3 = buildpack_setAddonsForPython <=> scout_on
 Main_Exp: buildpackScout3

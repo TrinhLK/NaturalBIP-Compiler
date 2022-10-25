@@ -1,2 +1,2 @@
-resetSetupm3 = ((hbp_removePhp => (d_resetAll)))
+resetSetupm3 = ((buildpack_removePhp => (deployer_resetAll)))
 Main_Exp: resetSetupm3

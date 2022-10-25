@@ -1,2 +1,2 @@
-setadnsForUS = ((d_setAddonsForUS => (hr_setAddonsForUS)))
+setadnsForUS = ((deployer_setAddonsForUS => (region_setAddonsForUS)))
 Main_Exp: setadnsForUS

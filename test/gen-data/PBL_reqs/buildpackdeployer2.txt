@@ -1,2 +1,2 @@
-buildpackdeployer2 = ((d_setAddonsForScala => (hbp_setAddonsForScala)))
+buildpackdeployer2 = ((deployer_setAddonsForScala => (buildpack_setAddonsForScala)))
 Main_Exp: buildpackdeployer2

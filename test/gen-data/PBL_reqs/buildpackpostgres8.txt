@@ -1,2 +1,2 @@
-buildpackpostgres8 = hbp_setAddonsForJvm <=> p_on
+buildpackpostgres8 = buildpack_setAddonsForJvm <=> postgres_on
 Main_Exp: buildpackpostgres8

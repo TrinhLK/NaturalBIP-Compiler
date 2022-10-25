@@ -1,2 +1,2 @@
-resetSetup7 = ((hbp_removePython => (d_resetAll)))
+resetSetup7 = ((buildpack_removePython => (deployer_resetAll)))
 Main_Exp: resetSetup7

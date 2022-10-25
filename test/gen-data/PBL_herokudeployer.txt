@@ -1,105 +1,105 @@
-deployFreeDyno = hdt_sub1 <=> d_setFreeDyno
-deployResponse = hdt_sendDynoResponse <=> d_receiveDynoResponse
-setUSRegion = hr_toUS <=> d_setUSRegion
-setEURegion = hr_toEU <=> d_setEURegion
-availableAddons = ((hp_on => (hr_setAddonsForEU | hr_setAddonsForUS))) & ((cldb_on => (hr_setAddonsForEU | hr_setAddonsForUS))) & ((scout_on => (hr_setAddonsForEU | hr_setAddonsForUS))) & ((newrelic_on => (hr_setAddonsForEU | hr_setAddonsForUS)))
-addonsForUS = ((hr_setAddonsForUS => (hp_on & cldb_on & scout_on & newrelic_on & depl_setAddonsForUS)))
-addonsForEU = ((hr_setAddonsForEU => (hp_on & cldb_on & scout_on & newrelic_on & depl_setAddonsForEU)))
-setadnsForUS = ((d_setAddonsForUS => (hr_setAddonsForUS)))
-setadnsForEU = ((d_setAddonsForEU => (hr_setAddonsForEU)))
-deployersetJava = hbp_setJava <=> d_setJava
-deployersetScala = hbp_setScala <=> d_setScala
-deployersetPython = hbp_setPython <=> d_setPython
-deployersetRuby = hbp_setRuby <=> d_setRuby
-deployersetNodejs = hbp_setNodejs <=> d_setNodejs
-deployersetClojure = hbp_setClojure <=> d_setClojure
-deployersetGradle = hbp_setGradle <=> d_setGradle
-deployersetJvm = hbp_setJvm <=> d_setJvm
-deployersetPhP = hbp_setPhP <=> d_setPhp
-deployersetGo = hbp_setGo <=> d_setGo
-buildpackpostgres1 = hbp_setAddonsForJava <=> p_on
-buildpackpostgres2 = hbp_setAddonsForScala <=> p_on
-buildpackpostgres3 = hbp_setAddonsForPython <=> p_on
-buildpackpostgres4 = hbp_setAddonsForRuby <=> p_on
-buildpackpostgres5 = hbp_setAddonsForNodejs <=> p_on
-buildpackpostgres6 = hbp_setAddonsForClojure <=> p_on
-buildpackpostgres7 = hbp_setAddonsForGradle <=> p_off
-buildpackpostgres8 = hbp_setAddonsForJvm <=> p_on
-buildpackpostgres9 = hbp_setAddonsForPhp <=> p_on
-buildpackpostgresm1 = hbp_setAddonsForGo <=> p_on
-buildpackClearDB1 = hbp_setAddonsForJava <=> p_on
-buildpackClearDB2 = hbp_setAddonsForScala <=> p_on
-buildpackClearDB3 = hbp_setAddonsForPython <=> p_on
-buildpackClearDB4 = hbp_setAddonsForRuby <=> p_on
-buildpackClearDB5 = hbp_setAddonsForNodejs <=> p_on
-buildpackClearDB6 = hbp_setAddonsForClojure <=> p_on
-buildpackClearDB7 = hbp_setAddonsForGradle <=> p_off
-buildpackClearDB8 = hbp_setAddonsForJvm <=> p_on
-buildpackClearDB9 = hbp_setAddonsForPhp <=> p_on
-buildpackClearDBm1 = hbp_setAddonsForGo <=> p_on
-buildpackScout1 = hbp_setAddonsForJava <=> p_off
-buildpackScout2 = hbp_setAddonsForScala <=> p_off
-buildpackScout3 = hbp_setAddonsForPython <=> p_on
-buildpackScout4 = hbp_setAddonsForRuby <=> p_on
-buildpackScout5 = hbp_setAddonsForNodejs <=> p_off
-buildpackScout6 = hbp_setAddonsForClojure <=> p_off
-buildpackScout7 = hbp_setAddonsForGradle <=> p_off
-buildpackScout8 = hbp_setAddonsForJvm <=> p_off
-buildpackScout9 = hbp_setAddonsForPhp <=> p_on
-buildpackScoutm1 = hbp_setAddonsForGo <=> p_off
-buildpackNewRelic1 = hbp_setAddonsForJava <=> p_on
-buildpackNewRelic2 = hbp_setAddonsForScala <=> p_off
-buildpackNewRelic3 = hbp_setAddonsForPython <=> p_on
-buildpackNewRelic4 = hbp_setAddonsForRuby <=> p_on
-buildpackNewRelic5 = hbp_setAddonsForNodejs <=> p_on
-buildpackNewRelic6 = hbp_setAddonsForClojure <=> p_off
-buildpackNewRelic7 = hbp_setAddonsForGradle <=> p_off
-buildpackNewRelic8 = hbp_setAddonsForJvm <=> p_on
-buildpackNewRelic9 = hbp_setAddonsForPhp <=> p_on
-buildpackNewRelicm1 = hbp_setAddonsForGo <=> p_off
-synthesisBuildpack1 = ((hbp_setAddonsForJava => (d_setAddonsForJava & cdb_on & p_on & sc_off & nr_on)))
-synthesisBuildpack2 = ((hbp_setAddonsForScala => (d_setAddonsForScala & cdb_on & p_on & sc_off & nr_off)))
-synthesisBuildpack3 = ((hbp_setAddonsForPython => (d_setAddonsForPython & cdb_on & p_on & sc_on & nr_on)))
-synthesisBuildpack4 = ((hbp_setAddonsForRuby => (d_setAddonsForRuby & cdb_on & p_on & sc_on & nr_on)))
-synthesisBuildpack5 = ((hbp_setAddonsForNodejs => (d_setAddonsForNodejs & cdb_on & p_on & sc_off & nr_on)))
-synthesisBuildpack6 = ((hbp_setAddonsForClojure => (d_setAddonsForClojure & cdb_on & p_on & sc_off & nr_off)))
-synthesisBuildpack7 = ((hbp_setAddonsForGradle => (d_setAddonsForGradle & cdb_off & p_off & sc_off & nr_off)))
-synthesisBuildpack8 = ((hbp_setAddonsForJvm => (d_setAddonsForJvm & cdb_on & p_on & sc_off & nr_on)))
-synthesisBuildpack9 = ((hbp_setAddonsForPhp => (d_setAddonsForPhp & cdb_on & p_on & sc_on & nr_on)))
-synthesisBuildpackm1 = ((hbp_setAddonsForGo => (d_setAddonsForGo & cdb_on & p_on & sc_off & nr_off)))
-buildpackdeployer1 = ((d_setAddonsForJava => (hbp_setAddonsForJava)))
-buildpackdeployer2 = ((d_setAddonsForScala => (hbp_setAddonsForScala)))
-buildpackdeployer3 = ((d_setAddonsForPython => (hbp_setAddonsForPython)))
-buildpackdeployer4 = ((d_setAddonsForRuby => (hbp_setAddonsForRuby)))
-buildpackdeployer5 = ((d_setAddonsForNodejs => (hbp_setAddonsForNodejs)))
-buildpackdeployer6 = ((d_setAddonsForClojure => (hbp_setAddonsForClojure)))
-buildpackdeployer7 = ((d_setAddonsForGradle => (hbp_setAddonsForGradle)))
-buildpackdeployer8 = ((d_setAddonsForJvm => (hbp_setAddonsForJvm)))
-buildpackdeployer9 = ((d_setAddonsForPhp => (hbp_setAddonsForPhp)))
-buildpackdeployerm1 = ((d_setAddonsForGo => (hbp_setAddonsForGo)))
-deployFreeAddon1 = ((d_receiveAddonResponse => (p_sendAddonResponse)))
-deployFreeAddon2 = ((p_sub1 => (d_addHerokuPostgres)))
-deployFreeAddon3 = ((p_sub1 => (d_addClearDBMySQL)))
-deployFreeAddon4 = ((p_sub1 => (d_addScoutAPM)))
-deployFreeAddon5 = ((p_sub1 => (d_addNewRelicAPM)))
-resetSetup1 = ((hdt_reset => (d_resetAll)))
-resetSetup2 = ((hr_USreset => (d_resetAll)))
-resetSetup3 = ((hr_EUreset => (d_resetAll)))
-resetSetup4 = ((hbp_removeJava => (d_resetAll)))
-resetSetup5 = ((hbp_removeScala => (d_resetAll)))
-resetSetup6 = ((hbp_removeJvm => (d_resetAll)))
-resetSetup7 = ((hbp_removePython => (d_resetAll)))
-resetSetup8 = ((hbp_removeRuby => (d_resetAll)))
-resetSetup9 = ((hbp_removeNodejs => (d_resetAll)))
-resetSetupm1 = ((hbp_removeClojure => (d_resetAll)))
-resetSetupm2 = ((hbp_removeGradle => (d_resetAll)))
-resetSetupm3 = ((hbp_removePhp => (d_resetAll)))
-resetSetupm4 = ((hbp_removeGo => (d_resetAll)))
-resetAddon1 = ((p_reset => (d_resetAll)))
-resetAddon2 = ((p_off => (d_resetAll)))
-resetAddon3 = ((hr_reset => (d_resetAll)))
-resetAddon4 = ((hbp_off => (d_resetAll)))
-resetAddon5 = ((hbp_reset => (d_resetAll)))
-resetAddon6 = ((hbp_off => (d_resetAll)))
-resetAddon7 = ((hbp_reset => (d_resetAll)))
-resetAddon8 = ((hbp_off => (d_resetAll)))
+deployFreeDyno = dynotype_sub1 <=> deployer_setFreeDyno
+deployResponse = dynotype_sendDynoResponse <=> deployer_receiveDynoResponse
+setUSRegion = region_toUS <=> deployer_setUSRegion
+setEURegion = region_toEU <=> deployer_setEURegion
+availableAddons = ((postgres_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((cleardb_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((scout_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((newrelic_on => (region_setAddonsForEU | region_setAddonsForUS)))
+addonsForUS = ((region_setAddonsForUS => (postgres_on & cleardb_on & scout_on & newrelic_on & deployer_setAddonsForUS)))
+addonsForEU = ((region_setAddonsForEU => (postgres_on & cleardb_on & scout_on & newrelic_on & deployer_setAddonsForEU)))
+setadnsForUS = ((deployer_setAddonsForUS => (region_setAddonsForUS)))
+setadnsForEU = ((deployer_setAddonsForEU => (region_setAddonsForEU)))
+deployersetJava = buildpack_setJava <=> deployer_setJava
+deployersetScala = buildpack_setScala <=> deployer_setScala
+deployersetPython = buildpack_setPython <=> deployer_setPython
+deployersetRuby = buildpack_setRuby <=> deployer_setRuby
+deployersetNodejs = buildpack_setNodejs <=> deployer_setNodejs
+deployersetClojure = buildpack_setClojure <=> deployer_setClojure
+deployersetGradle = buildpack_setGradle <=> deployer_setGradle
+deployersetJvm = buildpack_setJvm <=> deployer_setJvm
+deployersetPhP = buildpack_setPhP <=> deployer_setPhp
+deployersetGo = buildpack_setGo <=> deployer_setGo
+buildpackpostgres1 = buildpack_setAddonsForJava <=> postgres_on
+buildpackpostgres2 = buildpack_setAddonsForScala <=> postgres_on
+buildpackpostgres3 = buildpack_setAddonsForPython <=> postgres_on
+buildpackpostgres4 = buildpack_setAddonsForRuby <=> postgres_on
+buildpackpostgres5 = buildpack_setAddonsForNodejs <=> postgres_on
+buildpackpostgres6 = buildpack_setAddonsForClojure <=> postgres_on
+buildpackpostgres7 = buildpack_setAddonsForGradle <=> postgres_off
+buildpackpostgres8 = buildpack_setAddonsForJvm <=> postgres_on
+buildpackpostgres9 = buildpack_setAddonsForPhp <=> postgres_on
+buildpackpostgresm1 = buildpack_setAddonsForGo <=> postgres_on
+buildpackClearDB1 = buildpack_setAddonsForJava <=> cleardb_on
+buildpackClearDB2 = buildpack_setAddonsForScala <=> cleardb_on
+buildpackClearDB3 = buildpack_setAddonsForPython <=> cleardb_on
+buildpackClearDB4 = buildpack_setAddonsForRuby <=> cleardb_on
+buildpackClearDB5 = buildpack_setAddonsForNodejs <=> cleardb_on
+buildpackClearDB6 = buildpack_setAddonsForClojure <=> cleardb_on
+buildpackClearDB7 = buildpack_setAddonsForGradle <=> cleardb_off
+buildpackClearDB8 = buildpack_setAddonsForJvm <=> cleardb_on
+buildpackClearDB9 = buildpack_setAddonsForPhp <=> cleardb_on
+buildpackClearDBm1 = buildpack_setAddonsForGo <=> cleardb_on
+buildpackScout1 = buildpack_setAddonsForJava <=> scout_off
+buildpackScout2 = buildpack_setAddonsForScala <=> scout_off
+buildpackScout3 = buildpack_setAddonsForPython <=> scout_on
+buildpackScout4 = buildpack_setAddonsForRuby <=> scout_on
+buildpackScout5 = buildpack_setAddonsForNodejs <=> scout_off
+buildpackScout6 = buildpack_setAddonsForClojure <=> scout_off
+buildpackScout7 = buildpack_setAddonsForGradle <=> scout_off
+buildpackScout8 = buildpack_setAddonsForJvm <=> scout_off
+buildpackScout9 = buildpack_setAddonsForPhp <=> scout_on
+buildpackScoutm1 = buildpack_setAddonsForGo <=> scout_off
+buildpackNewRelic1 = buildpack_setAddonsForJava <=> newrelic_on
+buildpackNewRelic2 = buildpack_setAddonsForScala <=> newrelic_off
+buildpackNewRelic3 = buildpack_setAddonsForPython <=> newrelic_on
+buildpackNewRelic4 = buildpack_setAddonsForRuby <=> newrelic_on
+buildpackNewRelic5 = buildpack_setAddonsForNodejs <=> newrelic_on
+buildpackNewRelic6 = buildpack_setAddonsForClojure <=> newrelic_off
+buildpackNewRelic7 = buildpack_setAddonsForGradle <=> newrelic_off
+buildpackNewRelic8 = buildpack_setAddonsForJvm <=> newrelic_on
+buildpackNewRelic9 = buildpack_setAddonsForPhp <=> newrelic_on
+buildpackNewRelicm1 = buildpack_setAddonsForGo <=> newrelic_off
+synthesisBuildpack1 = ((buildpack_setAddonsForJava => (deployer_setAddonsForJava & cleardb_on & postgres_on & scout_off & newrelic_on)))
+synthesisBuildpack2 = ((buildpack_setAddonsForScala => (deployer_setAddonsForScala & cleardb_on & postgres_on & scout_off & newrelic_off)))
+synthesisBuildpack3 = ((buildpack_setAddonsForPython => (deployer_setAddonsForPython & cleardb_on & postgres_on & scout_on & newrelic_on)))
+synthesisBuildpack4 = ((buildpack_setAddonsForRuby => (deployer_setAddonsForRuby & cleardb_on & postgres_on & scout_on & newrelic_on)))
+synthesisBuildpack5 = ((buildpack_setAddonsForNodejs => (deployer_setAddonsForNodejs & cleardb_on & postgres_on & scout_off & newrelic_on)))
+synthesisBuildpack6 = ((buildpack_setAddonsForClojure => (deployer_setAddonsForClojure & cleardb_on & postgres_on & scout_off & newrelic_off)))
+synthesisBuildpack7 = ((buildpack_setAddonsForGradle => (deployer_setAddonsForGradle & cleardb_off & postgres_off & scout_off & newrelic_off)))
+synthesisBuildpack8 = ((buildpack_setAddonsForJvm => (deployer_setAddonsForJvm & cleardb_on & postgres_on & scout_off & newrelic_on)))
+synthesisBuildpack9 = ((buildpack_setAddonsForPhp => (deployer_setAddonsForPhp & cleardb_on & postgres_on & scout_on & newrelic_on)))
+synthesisBuildpackm1 = ((buildpack_setAddonsForGo => (deployer_setAddonsForGo & cleardb_on & postgres_on & scout_off & newrelic_off)))
+buildpackdeployer1 = ((deployer_setAddonsForJava => (buildpack_setAddonsForJava)))
+buildpackdeployer2 = ((deployer_setAddonsForScala => (buildpack_setAddonsForScala)))
+buildpackdeployer3 = ((deployer_setAddonsForPython => (buildpack_setAddonsForPython)))
+buildpackdeployer4 = ((deployer_setAddonsForRuby => (buildpack_setAddonsForRuby)))
+buildpackdeployer5 = ((deployer_setAddonsForNodejs => (buildpack_setAddonsForNodejs)))
+buildpackdeployer6 = ((deployer_setAddonsForClojure => (buildpack_setAddonsForClojure)))
+buildpackdeployer7 = ((deployer_setAddonsForGradle => (buildpack_setAddonsForGradle)))
+buildpackdeployer8 = ((deployer_setAddonsForJvm => (buildpack_setAddonsForJvm)))
+buildpackdeployer9 = ((deployer_setAddonsForPhp => (buildpack_setAddonsForPhp)))
+buildpackdeployerm1 = ((deployer_setAddonsForGo => (buildpack_setAddonsForGo)))
+deployFreeAddon1 = ((deployer_receiveAddonResponse => (postgres_sendAddonResponse)))
+deployFreeAddon2 = ((postgres_sub1 => (deployer_addHerokuPostgres)))
+deployFreeAddon3 = ((cleardb_sub1 => (deployer_addClearDBMySQL)))
+deployFreeAddon4 = ((scout_sub1 => (deployer_addScoutAPM)))
+deployFreeAddon5 = ((newrelic_sub1 => (deployer_addNewRelicAPM)))
+resetSetup1 = ((dynotype_reset => (deployer_resetAll)))
+resetSetup2 = ((region_USreset => (deployer_resetAll)))
+resetSetup3 = ((region_EUreset => (deployer_resetAll)))
+resetSetup4 = ((buildpack_removeJava => (deployer_resetAll)))
+resetSetup5 = ((buildpack_removeScala => (deployer_resetAll)))
+resetSetup6 = ((buildpack_removeJvm => (deployer_resetAll)))
+resetSetup7 = ((buildpack_removePython => (deployer_resetAll)))
+resetSetup8 = ((buildpack_removeRuby => (deployer_resetAll)))
+resetSetup9 = ((buildpack_removeNodejs => (deployer_resetAll)))
+resetSetupm1 = ((buildpack_removeClojure => (deployer_resetAll)))
+resetSetupm2 = ((buildpack_removeGradle => (deployer_resetAll)))
+resetSetupm3 = ((buildpack_removePhp => (deployer_resetAll)))
+resetSetupm4 = ((buildpack_removeGo => (deployer_resetAll)))
+resetAddon1 = ((postgres_reset => (deployer_resetAll)))
+resetAddon2 = ((postgres_off => (deployer_resetAll)))
+resetAddon3 = ((cleardb_reset => (deployer_resetAll)))
+resetAddon4 = ((cleardb_off => (deployer_resetAll)))
+resetAddon5 = ((scout_reset => (deployer_resetAll)))
+resetAddon6 = ((scout_off => (deployer_resetAll)))
+resetAddon7 = ((newrelic_reset => (deployer_resetAll)))
+resetAddon8 = ((newrelic_off => (deployer_resetAll)))

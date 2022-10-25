@@ -1,2 +1,2 @@
-resetAddon3 = ((hr_reset => (d_resetAll)))
+resetAddon3 = ((cleardb_reset => (deployer_resetAll)))
 Main_Exp: resetAddon3

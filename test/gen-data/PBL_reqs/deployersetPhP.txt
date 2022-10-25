@@ -1,2 +1,2 @@
-deployersetPhP = hbp_setPhP <=> d_setPhp
+deployersetPhP = buildpack_setPhP <=> deployer_setPhp
 Main_Exp: deployersetPhP

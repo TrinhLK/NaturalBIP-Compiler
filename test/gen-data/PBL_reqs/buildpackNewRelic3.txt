@@ -1,2 +1,2 @@
-buildpackNewRelic3 = hbp_setAddonsForPython <=> p_on
+buildpackNewRelic3 = buildpack_setAddonsForPython <=> newrelic_on
 Main_Exp: buildpackNewRelic3

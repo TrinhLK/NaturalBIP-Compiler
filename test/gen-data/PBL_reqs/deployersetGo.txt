@@ -1,2 +1,2 @@
-deployersetGo = hbp_setGo <=> d_setGo
+deployersetGo = buildpack_setGo <=> deployer_setGo
 Main_Exp: deployersetGo

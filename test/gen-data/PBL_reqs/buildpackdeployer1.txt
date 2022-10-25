@@ -1,2 +1,2 @@
-buildpackdeployer1 = ((d_setAddonsForJava => (hbp_setAddonsForJava)))
+buildpackdeployer1 = ((deployer_setAddonsForJava => (buildpack_setAddonsForJava)))
 Main_Exp: buildpackdeployer1

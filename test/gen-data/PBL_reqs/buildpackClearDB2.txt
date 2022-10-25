@@ -1,2 +1,2 @@
-buildpackClearDB2 = hbp_setAddonsForScala <=> p_on
+buildpackClearDB2 = buildpack_setAddonsForScala <=> cleardb_on
 Main_Exp: buildpackClearDB2

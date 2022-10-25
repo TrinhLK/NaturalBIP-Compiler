@@ -1,2 +1,2 @@
-addonsForEU = ((hr_setAddonsForEU => (hp_on & cldb_on & scout_on & newrelic_on & depl_setAddonsForEU)))
+addonsForEU = ((region_setAddonsForEU => (postgres_on & cleardb_on & scout_on & newrelic_on & deployer_setAddonsForEU)))
 Main_Exp: addonsForEU

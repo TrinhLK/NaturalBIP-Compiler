@@ -1,2 +1,2 @@
-deployersetClojure = hbp_setClojure <=> d_setClojure
+deployersetClojure = buildpack_setClojure <=> deployer_setClojure
 Main_Exp: deployersetClojure

@@ -1,2 +1,2 @@
-synthesisBuildpack1 = ((hbp_setAddonsForJava => (d_setAddonsForJava & cdb_on & p_on & sc_off & nr_on)))
+synthesisBuildpack1 = ((buildpack_setAddonsForJava => (deployer_setAddonsForJava & cleardb_on & postgres_on & scout_off & newrelic_on)))
 Main_Exp: synthesisBuildpack1

@@ -1,2 +1,2 @@
-resetSetupm1 = ((hbp_removeClojure => (d_resetAll)))
+resetSetupm1 = ((buildpack_removeClojure => (deployer_resetAll)))
 Main_Exp: resetSetupm1

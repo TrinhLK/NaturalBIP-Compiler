@@ -1,2 +1,2 @@
-deployResponse = hdt_sendDynoResponse <=> d_receiveDynoResponse
+deployResponse = dynotype_sendDynoResponse <=> deployer_receiveDynoResponse
 Main_Exp: deployResponse

@@ -1,2 +1,2 @@
-buildpackdeployer7 = ((d_setAddonsForGradle => (hbp_setAddonsForGradle)))
+buildpackdeployer7 = ((deployer_setAddonsForGradle => (buildpack_setAddonsForGradle)))
 Main_Exp: buildpackdeployer7

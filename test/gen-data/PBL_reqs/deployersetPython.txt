@@ -1,2 +1,2 @@
-deployersetPython = hbp_setPython <=> d_setPython
+deployersetPython = buildpack_setPython <=> deployer_setPython
 Main_Exp: deployersetPython

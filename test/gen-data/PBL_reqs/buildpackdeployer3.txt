@@ -1,2 +1,2 @@
-buildpackdeployer3 = ((d_setAddonsForPython => (hbp_setAddonsForPython)))
+buildpackdeployer3 = ((deployer_setAddonsForPython => (buildpack_setAddonsForPython)))
 Main_Exp: buildpackdeployer3

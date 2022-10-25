@@ -1,2 +1,2 @@
-buildpackClearDB8 = hbp_setAddonsForJvm <=> p_on
+buildpackClearDB8 = buildpack_setAddonsForJvm <=> cleardb_on
 Main_Exp: buildpackClearDB8

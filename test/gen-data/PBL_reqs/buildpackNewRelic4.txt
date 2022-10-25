@@ -1,2 +1,2 @@
-buildpackNewRelic4 = hbp_setAddonsForRuby <=> p_on
+buildpackNewRelic4 = buildpack_setAddonsForRuby <=> newrelic_on
 Main_Exp: buildpackNewRelic4

@@ -1,2 +1,2 @@
-buildpackClearDBm1 = hbp_setAddonsForGo <=> p_on
+buildpackClearDBm1 = buildpack_setAddonsForGo <=> cleardb_on
 Main_Exp: buildpackClearDBm1

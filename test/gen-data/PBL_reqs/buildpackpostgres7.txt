@@ -1,2 +1,2 @@
-buildpackpostgres7 = hbp_setAddonsForGradle <=> p_off
+buildpackpostgres7 = buildpack_setAddonsForGradle <=> postgres_off
 Main_Exp: buildpackpostgres7

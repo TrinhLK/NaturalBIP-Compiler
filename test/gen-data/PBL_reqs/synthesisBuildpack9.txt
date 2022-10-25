@@ -1,2 +1,2 @@
-synthesisBuildpack9 = ((hbp_setAddonsForPhp => (d_setAddonsForPhp & cdb_on & p_on & sc_on & nr_on)))
+synthesisBuildpack9 = ((buildpack_setAddonsForPhp => (deployer_setAddonsForPhp & cleardb_on & postgres_on & scout_on & newrelic_on)))
 Main_Exp: synthesisBuildpack9

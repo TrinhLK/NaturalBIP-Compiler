@@ -1,2 +1,2 @@
-deployersetJava = hbp_setJava <=> d_setJava
+deployersetJava = buildpack_setJava <=> deployer_setJava
 Main_Exp: deployersetJava

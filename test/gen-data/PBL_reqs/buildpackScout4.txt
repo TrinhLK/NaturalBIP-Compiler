@@ -1,2 +1,2 @@
-buildpackScout4 = hbp_setAddonsForRuby <=> p_on
+buildpackScout4 = buildpack_setAddonsForRuby <=> scout_on
 Main_Exp: buildpackScout4

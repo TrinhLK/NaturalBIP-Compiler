@@ -1,2 +1,2 @@
-buildpackpostgres9 = hbp_setAddonsForPhp <=> p_on
+buildpackpostgres9 = buildpack_setAddonsForPhp <=> postgres_on
 Main_Exp: buildpackpostgres9

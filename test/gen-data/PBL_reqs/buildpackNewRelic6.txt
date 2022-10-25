@@ -1,2 +1,2 @@
-buildpackNewRelic6 = hbp_setAddonsForClojure <=> p_off
+buildpackNewRelic6 = buildpack_setAddonsForClojure <=> newrelic_off
 Main_Exp: buildpackNewRelic6

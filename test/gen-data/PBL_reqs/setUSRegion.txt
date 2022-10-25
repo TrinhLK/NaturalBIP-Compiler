@@ -1,2 +1,2 @@
-setUSRegion = hr_toUS <=> d_setUSRegion
+setUSRegion = region_toUS <=> deployer_setUSRegion
 Main_Exp: setUSRegion

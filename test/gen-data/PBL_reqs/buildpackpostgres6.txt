@@ -1,2 +1,2 @@
-buildpackpostgres6 = hbp_setAddonsForClojure <=> p_on
+buildpackpostgres6 = buildpack_setAddonsForClojure <=> postgres_on
 Main_Exp: buildpackpostgres6

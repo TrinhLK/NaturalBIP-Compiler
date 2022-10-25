@@ -1,2 +1,2 @@
-buildpackClearDB5 = hbp_setAddonsForNodejs <=> p_on
+buildpackClearDB5 = buildpack_setAddonsForNodejs <=> cleardb_on
 Main_Exp: buildpackClearDB5

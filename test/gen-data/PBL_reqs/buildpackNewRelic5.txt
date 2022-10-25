@@ -1,2 +1,2 @@
-buildpackNewRelic5 = hbp_setAddonsForNodejs <=> p_on
+buildpackNewRelic5 = buildpack_setAddonsForNodejs <=> newrelic_on
 Main_Exp: buildpackNewRelic5

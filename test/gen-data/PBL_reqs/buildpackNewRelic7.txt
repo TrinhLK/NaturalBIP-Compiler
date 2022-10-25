@@ -1,2 +1,2 @@
-buildpackNewRelic7 = hbp_setAddonsForGradle <=> p_off
+buildpackNewRelic7 = buildpack_setAddonsForGradle <=> newrelic_off
 Main_Exp: buildpackNewRelic7

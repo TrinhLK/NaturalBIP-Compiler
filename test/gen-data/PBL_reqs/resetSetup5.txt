@@ -1,2 +1,2 @@
-resetSetup5 = ((hbp_removeScala => (d_resetAll)))
+resetSetup5 = ((buildpack_removeScala => (deployer_resetAll)))
 Main_Exp: resetSetup5

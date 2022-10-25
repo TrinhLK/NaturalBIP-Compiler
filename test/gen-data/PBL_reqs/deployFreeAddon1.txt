@@ -1,2 +1,2 @@
-deployFreeAddon1 = ((d_receiveAddonResponse => (p_sendAddonResponse)))
+deployFreeAddon1 = ((deployer_receiveAddonResponse => (postgres_sendAddonResponse)))
 Main_Exp: deployFreeAddon1

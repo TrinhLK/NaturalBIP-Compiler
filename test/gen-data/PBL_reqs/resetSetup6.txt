@@ -1,2 +1,2 @@
-resetSetup6 = ((hbp_removeJvm => (d_resetAll)))
+resetSetup6 = ((buildpack_removeJvm => (deployer_resetAll)))
 Main_Exp: resetSetup6

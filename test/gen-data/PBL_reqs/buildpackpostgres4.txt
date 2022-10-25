@@ -1,2 +1,2 @@
-buildpackpostgres4 = hbp_setAddonsForRuby <=> p_on
+buildpackpostgres4 = buildpack_setAddonsForRuby <=> postgres_on
 Main_Exp: buildpackpostgres4

@@ -1,2 +1,2 @@
-resetAddon4 = ((hbp_off => (d_resetAll)))
+resetAddon4 = ((cleardb_off => (deployer_resetAll)))
 Main_Exp: resetAddon4

@@ -1,2 +1,2 @@
-resetAddon8 = ((hbp_off => (d_resetAll)))
+resetAddon8 = ((newrelic_off => (deployer_resetAll)))
 Main_Exp: resetAddon8

@@ -1,2 +1,2 @@
-deployersetScala = hbp_setScala <=> d_setScala
+deployersetScala = buildpack_setScala <=> deployer_setScala
 Main_Exp: deployersetScala

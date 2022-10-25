@@ -1,2 +1,2 @@
-synthesisBuildpack2 = ((hbp_setAddonsForScala => (d_setAddonsForScala & cdb_on & p_on & sc_off & nr_off)))
+synthesisBuildpack2 = ((buildpack_setAddonsForScala => (deployer_setAddonsForScala & cleardb_on & postgres_on & scout_off & newrelic_off)))
 Main_Exp: synthesisBuildpack2

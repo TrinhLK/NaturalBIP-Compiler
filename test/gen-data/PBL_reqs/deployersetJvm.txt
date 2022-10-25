@@ -1,2 +1,2 @@
-deployersetJvm = hbp_setJvm <=> d_setJvm
+deployersetJvm = buildpack_setJvm <=> deployer_setJvm
 Main_Exp: deployersetJvm

@@ -1,2 +1,2 @@
-synthesisBuildpack3 = ((hbp_setAddonsForPython => (d_setAddonsForPython & cdb_on & p_on & sc_on & nr_on)))
+synthesisBuildpack3 = ((buildpack_setAddonsForPython => (deployer_setAddonsForPython & cleardb_on & postgres_on & scout_on & newrelic_on)))
 Main_Exp: synthesisBuildpack3

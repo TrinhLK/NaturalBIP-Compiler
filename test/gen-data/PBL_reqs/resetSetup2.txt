@@ -1,2 +1,2 @@
-resetSetup2 = ((hr_USreset => (d_resetAll)))
+resetSetup2 = ((region_USreset => (deployer_resetAll)))
 Main_Exp: resetSetup2

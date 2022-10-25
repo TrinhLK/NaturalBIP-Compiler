@@ -1,2 +1,2 @@
-deployFreeAddon2 = ((p_sub1 => (d_addHerokuPostgres)))
+deployFreeAddon2 = ((postgres_sub1 => (deployer_addHerokuPostgres)))
 Main_Exp: deployFreeAddon2

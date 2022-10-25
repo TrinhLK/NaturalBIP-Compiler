@@ -1,2 +1,2 @@
-synthesisBuildpack4 = ((hbp_setAddonsForRuby => (d_setAddonsForRuby & cdb_on & p_on & sc_on & nr_on)))
+synthesisBuildpack4 = ((buildpack_setAddonsForRuby => (deployer_setAddonsForRuby & cleardb_on & postgres_on & scout_on & newrelic_on)))
 Main_Exp: synthesisBuildpack4

@@ -1,2 +1,2 @@
-availableAddons = ((hp_on => (hr_setAddonsForEU | hr_setAddonsForUS))) & ((cldb_on => (hr_setAddonsForEU | hr_setAddonsForUS))) & ((scout_on => (hr_setAddonsForEU | hr_setAddonsForUS))) & ((newrelic_on => (hr_setAddonsForEU | hr_setAddonsForUS)))
+availableAddons = ((postgres_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((cleardb_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((scout_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((newrelic_on => (region_setAddonsForEU | region_setAddonsForUS)))
 Main_Exp: availableAddons

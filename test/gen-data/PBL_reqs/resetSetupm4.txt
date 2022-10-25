@@ -1,2 +1,2 @@
-resetSetupm4 = ((hbp_removeGo => (d_resetAll)))
+resetSetupm4 = ((buildpack_removeGo => (deployer_resetAll)))
 Main_Exp: resetSetupm4

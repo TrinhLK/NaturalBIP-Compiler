@@ -1,2 +1,2 @@
-buildpackScout6 = hbp_setAddonsForClojure <=> p_off
+buildpackScout6 = buildpack_setAddonsForClojure <=> scout_off
 Main_Exp: buildpackScout6

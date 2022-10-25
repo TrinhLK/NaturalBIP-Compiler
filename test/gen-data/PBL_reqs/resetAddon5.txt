@@ -1,2 +1,2 @@
-resetAddon5 = ((hbp_reset => (d_resetAll)))
+resetAddon5 = ((scout_reset => (deployer_resetAll)))
 Main_Exp: resetAddon5

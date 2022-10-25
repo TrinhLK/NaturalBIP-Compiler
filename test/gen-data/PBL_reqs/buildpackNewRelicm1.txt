@@ -1,2 +1,2 @@
-buildpackNewRelicm1 = hbp_setAddonsForGo <=> p_off
+buildpackNewRelicm1 = buildpack_setAddonsForGo <=> newrelic_off
 Main_Exp: buildpackNewRelicm1

@@ -1,2 +1,2 @@
-resetSetup1 = ((hdt_reset => (d_resetAll)))
+resetSetup1 = ((dynotype_reset => (deployer_resetAll)))
 Main_Exp: resetSetup1

@@ -1,2 +1,2 @@
-buildpackClearDB3 = hbp_setAddonsForPython <=> p_on
+buildpackClearDB3 = buildpack_setAddonsForPython <=> cleardb_on
 Main_Exp: buildpackClearDB3

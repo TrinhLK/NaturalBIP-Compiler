@@ -1,2 +1,2 @@
-deployersetRuby = hbp_setRuby <=> d_setRuby
+deployersetRuby = buildpack_setRuby <=> deployer_setRuby
 Main_Exp: deployersetRuby
