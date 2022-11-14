@@ -1,2 +1,0 @@
-resetAddon2 = ((postgres_off => (deployer_resetAll)))
-Main_Exp: resetAddon2

@@ -1,2 +1,0 @@
-buildpackScout9 = buildpack_setAddonsForPhp <=> scout_on
-Main_Exp: buildpackScout9

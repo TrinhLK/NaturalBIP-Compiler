@@ -1,2 +1,0 @@
-resetAddon6 = ((scout_off => (deployer_resetAll)))
-Main_Exp: resetAddon6

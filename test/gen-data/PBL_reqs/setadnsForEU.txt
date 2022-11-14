@@ -1,2 +1,0 @@
-setadnsForEU = ((deployer_setAddonsForEU => (region_setAddonsForEU)))
-Main_Exp: setadnsForEU

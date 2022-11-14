@@ -1,22 +1,22 @@
-deployFreeDyno = dynotype_sub1 <=> deployer_setFreeDyno
-deployResponse = dynotype_sendDynoResponse <=> deployer_receiveDynoResponse
-setUSRegion = region_toUS <=> deployer_setUSRegion
-setEURegion = region_toEU <=> deployer_setEURegion
+deployFreeDyno = dynotype_sub1 <=> deployer_setFreeDyno & dynotype_is_set_DynoOption_to_deployer
+deployResponse = dynotype_sendDynoResponse <=> deployer_receiveDynoResponse & deployer_has_received_null_data_from_dynotype
+setUSRegion = region_toUS <=> deployer_setUSRegion & deployer_is_set_US
+setEURegion = region_toEU <=> deployer_setEURegion & deployer_is_set_EU
 availableAddons = ((postgres_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((cleardb_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((scout_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((newrelic_on => (region_setAddonsForEU | region_setAddonsForUS)))
 addonsForUS = ((region_setAddonsForUS => (postgres_on & cleardb_on & scout_on & newrelic_on & deployer_setAddonsForUS)))
 addonsForEU = ((region_setAddonsForEU => (postgres_on & cleardb_on & scout_on & newrelic_on & deployer_setAddonsForEU)))
 setadnsForUS = ((deployer_setAddonsForUS => (region_setAddonsForUS)))
 setadnsForEU = ((deployer_setAddonsForEU => (region_setAddonsForEU)))
-deployersetJava = buildpack_setJava <=> deployer_setJava
-deployersetScala = buildpack_setScala <=> deployer_setScala
-deployersetPython = buildpack_setPython <=> deployer_setPython
-deployersetRuby = buildpack_setRuby <=> deployer_setRuby
-deployersetNodejs = buildpack_setNodejs <=> deployer_setNodejs
-deployersetClojure = buildpack_setClojure <=> deployer_setClojure
-deployersetGradle = buildpack_setGradle <=> deployer_setGradle
-deployersetJvm = buildpack_setJvm <=> deployer_setJvm
-deployersetPhP = buildpack_setPhP <=> deployer_setPhp
-deployersetGo = buildpack_setGo <=> deployer_setGo
+deployersetJava = buildpack_setJava <=> deployer_setJava & deployer_is_set_Java_language
+deployersetScala = buildpack_setScala <=> deployer_setScala & deployer_is_set_Scala_language
+deployersetPython = buildpack_setPython <=> deployer_setPython & deployer_is_set_Python_language
+deployersetRuby = buildpack_setRuby <=> deployer_setRuby & deployer_is_set_Ruby_language
+deployersetNodejs = buildpack_setNodejs <=> deployer_setNodejs & deployer_is_set_Nodejs_language
+deployersetClojure = buildpack_setClojure <=> deployer_setClojure & deployer_is_set_Clojure_language
+deployersetGradle = buildpack_setGradle <=> deployer_setGradle & deployer_is_set_Gradle_language
+deployersetJvm = buildpack_setJvm <=> deployer_setJvm & deployer_is_set_Jvm_language
+deployersetPhP = buildpack_setPhP <=> deployer_setPhp & deployer_is_set_Php_language
+deployersetGo = buildpack_setGo <=> deployer_setGo & deployer_is_set_Go_language
 buildpackpostgres1 = buildpack_setAddonsForJava <=> postgres_on
 buildpackpostgres2 = buildpack_setAddonsForScala <=> postgres_on
 buildpackpostgres3 = buildpack_setAddonsForPython <=> postgres_on
@@ -77,11 +77,11 @@ buildpackdeployer7 = ((deployer_setAddonsForGradle => (buildpack_setAddonsForGra
 buildpackdeployer8 = ((deployer_setAddonsForJvm => (buildpack_setAddonsForJvm)))
 buildpackdeployer9 = ((deployer_setAddonsForPhp => (buildpack_setAddonsForPhp)))
 buildpackdeployerm1 = ((deployer_setAddonsForGo => (buildpack_setAddonsForGo)))
-deployFreeAddon1 = ((deployer_receiveAddonResponse => (postgres_sendAddonResponse)))
-deployFreeAddon2 = ((postgres_sub1 => (deployer_addHerokuPostgres)))
-deployFreeAddon3 = ((cleardb_sub1 => (deployer_addClearDBMySQL)))
-deployFreeAddon4 = ((scout_sub1 => (deployer_addScoutAPM)))
-deployFreeAddon5 = ((newrelic_sub1 => (deployer_addNewRelicAPM)))
+deployFreeAddon1 = ((deployer_receiveAddonResponse => (postgres_sendAddonResponse & deployer_can_receive_addon_response_from_postgres)))
+deployFreeAddon2 = ((postgres_sub1 => (deployer_can_add_HerokuPostgres1 & deployer_addHerokuPostgres1)))
+deployFreeAddon3 = ((cleardb_sub1 => (deployer_can_add_ClearDBMySQL1 & deployer_addClearDBMySQL1)))
+deployFreeAddon4 = ((scout_sub1 => (deployer_can_add_ScoutAPM1 & deployer_addScoutAPM1)))
+deployFreeAddon5 = ((newrelic_sub1 => (deployer_can_add_NewRelicAPM1 & deployer_addNewRelicAPM1)))
 resetSetup1 = ((dynotype_reset => (deployer_resetAll)))
 resetSetup2 = ((region_USreset => (deployer_resetAll)))
 resetSetup3 = ((region_EUreset => (deployer_resetAll)))

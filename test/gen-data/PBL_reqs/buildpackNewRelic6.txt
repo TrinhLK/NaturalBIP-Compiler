@@ -1,2 +1,0 @@
-buildpackNewRelic6 = buildpack_setAddonsForClojure <=> newrelic_off
-Main_Exp: buildpackNewRelic6

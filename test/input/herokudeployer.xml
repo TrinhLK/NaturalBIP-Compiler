@@ -243,26 +243,26 @@
 	
 	<annotations name="Specification">
 
-			<annotation id="deployFreeDyno">There is a HerokuDynoType dynotype, a Deployer deployer, dynotype shall sub1 synchronized with deployer shall setFreeDyno.</annotation>
-			<annotation id="deployResponse">There is a HerokuDynoType dynotype, a Deployer deployer, dynotype shall sendDynoResponse synchronized with deployer shall receiveDynoResponse.</annotation>
-			<annotation id="setUSRegion">There is a HerokuRegion region, a Deployer deployer, region shall toUS synchronized with deployer shall setUSRegion.</annotation>
-			<annotation id="setEURegion">There is a HerokuRegion region, a Deployer deployer, region shall toEU synchronized with deployer shall setEURegion.</annotation>
+			<annotation id="deployFreeDyno">There is a HerokuDynoType dynotype, a Deployer deployer, dynotype shall sub1 synchronized with deployer shall setFreeDyno and dynotype is set DynoOption to deployer.</annotation>
+			<annotation id="deployResponse">There is a HerokuDynoType dynotype, a Deployer deployer, dynotype shall sendDynoResponse synchronized with deployer shall receiveDynoResponse and deployer has received null data from dynotype.</annotation>
+			<annotation id="setUSRegion">There is a HerokuRegion region, a Deployer deployer, region shall toUS synchronized with deployer shall setUSRegion and deployer is set US.</annotation>
+			<annotation id="setEURegion">There is a HerokuRegion region, a Deployer deployer, region shall toEU synchronized with deployer shall setEURegion and deployer is set EU.</annotation>
 			<annotation id="availableAddons">There is a HerokuRegion region, there is a HerokuPostgres postgres,  there is a HerokuClearDBMySQL cleardb, there is a HerokuScoutAPM scout,  there is a HerokuNewRelicAPM newrelic, if region executes setAddonsForEU or region executes setAddonsForUS, postgres shall on or cleardb shall on or scout shall on or newrelic shall on.</annotation>
 			<annotation id="addonsForUS">There is a HerokuRegion region, there is a HerokuPostgres postgres,  there is a HerokuClearDBMySQL cleardb, there is a HerokuScoutAPM scout, there is a HerokuNewRelicAPM newrelic, there is a Deployer deployer, if postgres executes on and cleardb executes on and scout executes on and newrelic executes on and deployer executes setAddonsForUS, region shall setAddonsForUS.</annotation>
 			<annotation id="addonsForEU">There is a HerokuRegion region, there is a HerokuPostgres postgres,  there is a HerokuClearDBMySQL cleardb, there is a HerokuScoutAPM scout, there is a HerokuNewRelicAPM newrelic, there is a Deployer deployer, if postgres executes on and cleardb executes on and scout executes on and newrelic executes on and deployer executes setAddonsForEU, region shall setAddonsForEU.</annotation>
 			<annotation id="setadnsForUS">There is a HerokuRegion region, a Deployer deployer, if region executes setAddonsForUS, deployer shall setAddonsForUS.</annotation>
 			<annotation id="setadnsForEU">There is a HerokuRegion region, a Deployer deployer, if region executes setAddonsForEU, deployer shall setAddonsForEU.</annotation>
 
-			<annotation id="deployersetJava">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setJava synchronized with deployer shall setJava.</annotation>
-			<annotation id="deployersetScala">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setScala synchronized with deployer shall setScala.</annotation>
-			<annotation id="deployersetPython">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setPython synchronized with deployer shall setPython.</annotation>
-			<annotation id="deployersetRuby">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setRuby synchronized with deployer shall setRuby.</annotation>
-			<annotation id="deployersetNodejs">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setNodejs synchronized with deployer shall setNodejs.</annotation>
-			<annotation id="deployersetClojure">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setClojure synchronized with deployer shall setClojure.</annotation>
-			<annotation id="deployersetGradle">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setGradle synchronized with deployer shall setGradle.</annotation>
-			<annotation id="deployersetJvm">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setJvm synchronized with deployer shall setJvm.</annotation>
-			<annotation id="deployersetPhP">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setPhP synchronized with deployer shall setPhp.</annotation>
-			<annotation id="deployersetGo">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setGo synchronized with deployer shall setGo.</annotation>
+			<annotation id="deployersetJava">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setJava synchronized with deployer shall setJava and deployer is set Java language.</annotation>
+			<annotation id="deployersetScala">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setScala synchronized with deployer shall setScala and deployer is set Scala language.</annotation>
+			<annotation id="deployersetPython">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setPython synchronized with deployer shall setPython and deployer is set Python language.</annotation>
+			<annotation id="deployersetRuby">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setRuby synchronized with deployer shall setRuby and deployer is set Ruby language.</annotation>
+			<annotation id="deployersetNodejs">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setNodejs synchronized with deployer shall setNodejs and deployer is set Nodejs language.</annotation>
+			<annotation id="deployersetClojure">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setClojure synchronized with deployer shall setClojure and deployer is set Clojure language.</annotation>
+			<annotation id="deployersetGradle">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setGradle synchronized with deployer shall setGradle and deployer is set Gradle language.</annotation>
+			<annotation id="deployersetJvm">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setJvm synchronized with deployer shall setJvm and deployer is set Jvm language.</annotation>
+			<annotation id="deployersetPhP">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setPhP synchronized with deployer shall setPhp and deployer is set Php language.</annotation>
+			<annotation id="deployersetGo">There is a HerokuBuildpack buildpack, a Deployer deployer, buildpack shall setGo synchronized with deployer shall setGo and deployer is set Go language.</annotation>
 
 			<annotation id="buildpackpostgres1">There is a HerokuBuildpack buildpack, a HerokuPostgres postgres, buildpack shall setAddonsForJava synchronized with postgres shall on.</annotation>
 			<annotation id="buildpackpostgres2">There is a HerokuBuildpack buildpack, a HerokuPostgres postgres, buildpack shall setAddonsForScala synchronized with postgres shall on.</annotation>
@@ -328,11 +328,11 @@
 			<annotation id="buildpackdeployer8">There is a HerokuBuildpack buildpack, a Deployer deployer, if buildpack executes setAddonsForJvm, deployer shall setAddonsForJvm.</annotation>
 			<annotation id="buildpackdeployer9">There is a HerokuBuildpack buildpack, a Deployer deployer, if buildpack executes setAddonsForPhp, deployer shall setAddonsForPhp.</annotation>
 			<annotation id="buildpackdeployerm1">There is a HerokuBuildpack buildpack, a Deployer deployer, if buildpack executes setAddonsForGo, deployer shall setAddonsForGo.</annotation>
-			<annotation id="deployFreeAddon1">There is a HerokuPostgres postgres, a Deployer deployer, if postgres executes sendAddonResponse, deployer shall receiveAddonResponse.</annotation>
-			<annotation id="deployFreeAddon2">There is a HerokuPostgres postgres, a Deployer deployer, if deployer executes addHerokuPostgres, postgres shall sub1.</annotation>
-			<annotation id="deployFreeAddon3">There is a HerokuClearDBMySQL cleardb, a Deployer deployer, if deployer executes addClearDBMySQL, cleardb shall sub1.</annotation>
-			<annotation id="deployFreeAddon4">There is a HerokuScoutAPM scout, a Deployer deployer, if deployer executes addScoutAPM, scout shall sub1.</annotation>
-			<annotation id="deployFreeAddon5">There is a HerokuNewRelicAPM newrelic, a Deployer deployer, if deployer executes addNewRelicAPM, newrelic shall sub1.</annotation>
+			<annotation id="deployFreeAddon1">There is a HerokuPostgres postgres, a Deployer deployer, if postgres executes sendAddonResponse and deployer can receive addon response from postgres, deployer shall receiveAddonResponse.</annotation>
+			<annotation id="deployFreeAddon2">There is a HerokuPostgres postgres, a Deployer deployer, if deployer can add HerokuPostgres1 and deployer executes addHerokuPostgres1, postgres shall sub1.</annotation>
+			<annotation id="deployFreeAddon3">There is a HerokuClearDBMySQL cleardb, a Deployer deployer, if deployer can add ClearDBMySQL1 and deployer executes addClearDBMySQL1, cleardb shall sub1.</annotation>
+			<annotation id="deployFreeAddon4">There is a HerokuScoutAPM scout, a Deployer deployer, if deployer can add ScoutAPM1 and deployer executes addScoutAPM1, scout shall sub1.</annotation>
+			<annotation id="deployFreeAddon5">There is a HerokuNewRelicAPM newrelic, a Deployer deployer, if deployer can add NewRelicAPM1 and deployer executes addNewRelicAPM1, newrelic shall sub1.</annotation>
 			<annotation id="resetSetup1">There is a Deployer deployer, a HerokuDynoType dynotype, if deployer executes resetAll, dynotype shall reset.</annotation>
 			<annotation id="resetSetup2">There is a Deployer deployer, a HerokuRegion region, if deployer executes resetAll, region shall USreset.</annotation>
 			<annotation id="resetSetup3">There is a Deployer deployer, a HerokuRegion region, if deployer executes resetAll, region shall EUreset.</annotation>

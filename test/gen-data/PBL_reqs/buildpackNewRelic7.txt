@@ -1,2 +1,0 @@
-buildpackNewRelic7 = buildpack_setAddonsForGradle <=> newrelic_off
-Main_Exp: buildpackNewRelic7

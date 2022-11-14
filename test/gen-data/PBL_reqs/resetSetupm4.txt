@@ -1,2 +1,0 @@
-resetSetupm4 = ((buildpack_removeGo => (deployer_resetAll)))
-Main_Exp: resetSetupm4

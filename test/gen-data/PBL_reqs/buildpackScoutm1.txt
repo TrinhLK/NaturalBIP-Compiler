@@ -1,2 +1,0 @@
-buildpackScoutm1 = buildpack_setAddonsForGo <=> scout_off
-Main_Exp: buildpackScoutm1

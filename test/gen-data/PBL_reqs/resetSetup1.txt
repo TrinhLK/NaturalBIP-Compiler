@@ -1,2 +1,0 @@
-resetSetup1 = ((dynotype_reset => (deployer_resetAll)))
-Main_Exp: resetSetup1

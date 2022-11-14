@@ -1,2 +1,0 @@
-resetSetup8 = ((buildpack_removeRuby => (deployer_resetAll)))
-Main_Exp: resetSetup8

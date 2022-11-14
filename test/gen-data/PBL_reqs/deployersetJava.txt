@@ -1,2 +1,0 @@
-deployersetJava = buildpack_setJava <=> deployer_setJava
-Main_Exp: deployersetJava

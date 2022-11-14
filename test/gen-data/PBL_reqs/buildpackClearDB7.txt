@@ -1,2 +1,0 @@
-buildpackClearDB7 = buildpack_setAddonsForGradle <=> cleardb_off
-Main_Exp: buildpackClearDB7

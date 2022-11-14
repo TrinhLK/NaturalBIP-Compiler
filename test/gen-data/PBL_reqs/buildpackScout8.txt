@@ -1,2 +1,0 @@
-buildpackScout8 = buildpack_setAddonsForJvm <=> scout_off
-Main_Exp: buildpackScout8

@@ -1,2 +1,0 @@
-deployFreeAddon5 = ((newrelic_sub1 => (deployer_addNewRelicAPM)))
-Main_Exp: deployFreeAddon5

@@ -1,2 +1,0 @@
-buildpackpostgres1 = buildpack_setAddonsForJava <=> postgres_on
-Main_Exp: buildpackpostgres1

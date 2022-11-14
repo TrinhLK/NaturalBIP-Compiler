@@ -1,2 +1,0 @@
-resetSetup2 = ((region_USreset => (deployer_resetAll)))
-Main_Exp: resetSetup2

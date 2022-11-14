@@ -1,2 +1,0 @@
-buildpackScout2 = buildpack_setAddonsForScala <=> scout_off
-Main_Exp: buildpackScout2

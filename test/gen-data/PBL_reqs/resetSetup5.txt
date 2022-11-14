@@ -1,2 +1,0 @@
-resetSetup5 = ((buildpack_removeScala => (deployer_resetAll)))
-Main_Exp: resetSetup5

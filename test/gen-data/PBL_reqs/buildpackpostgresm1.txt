@@ -1,2 +1,0 @@
-buildpackpostgresm1 = buildpack_setAddonsForGo <=> postgres_on
-Main_Exp: buildpackpostgresm1

@@ -1,2 +1,0 @@
-deployersetClojure = buildpack_setClojure <=> deployer_setClojure
-Main_Exp: deployersetClojure

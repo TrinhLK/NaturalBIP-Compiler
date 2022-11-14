@@ -1,2 +1,0 @@
-buildpackScout5 = buildpack_setAddonsForNodejs <=> scout_off
-Main_Exp: buildpackScout5

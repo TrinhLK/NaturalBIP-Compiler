@@ -1,0 +1,2 @@
+TP_01_3 = ((p_register => (t_log)) & (p_unregister => (t_log)))
+Main_Exp: TP_01_3

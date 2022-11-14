@@ -1,2 +1,0 @@
-synthesisBuildpack5 = ((buildpack_setAddonsForNodejs => (deployer_setAddonsForNodejs & cleardb_on & postgres_on & scout_off & newrelic_on)))
-Main_Exp: synthesisBuildpack5

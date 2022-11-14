@@ -1,2 +1,0 @@
-buildpackClearDBm1 = buildpack_setAddonsForGo <=> cleardb_on
-Main_Exp: buildpackClearDBm1

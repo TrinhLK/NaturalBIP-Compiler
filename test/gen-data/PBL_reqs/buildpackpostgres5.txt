@@ -1,2 +1,0 @@
-buildpackpostgres5 = buildpack_setAddonsForNodejs <=> postgres_on
-Main_Exp: buildpackpostgres5

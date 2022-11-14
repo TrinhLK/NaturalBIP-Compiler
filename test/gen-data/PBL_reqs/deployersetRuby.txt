@@ -1,2 +1,0 @@
-deployersetRuby = buildpack_setRuby <=> deployer_setRuby
-Main_Exp: deployersetRuby

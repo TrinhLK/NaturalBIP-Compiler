@@ -1,2 +1,0 @@
-buildpackScout4 = buildpack_setAddonsForRuby <=> scout_on
-Main_Exp: buildpackScout4

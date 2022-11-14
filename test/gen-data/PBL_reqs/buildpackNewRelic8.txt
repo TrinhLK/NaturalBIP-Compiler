@@ -1,2 +1,0 @@
-buildpackNewRelic8 = buildpack_setAddonsForJvm <=> newrelic_on
-Main_Exp: buildpackNewRelic8

@@ -1,2 +1,0 @@
-buildpackdeployer6 = ((deployer_setAddonsForClojure => (buildpack_setAddonsForClojure)))
-Main_Exp: buildpackdeployer6

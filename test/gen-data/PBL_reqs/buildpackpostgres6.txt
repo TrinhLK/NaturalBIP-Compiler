@@ -1,2 +1,0 @@
-buildpackpostgres6 = buildpack_setAddonsForClojure <=> postgres_on
-Main_Exp: buildpackpostgres6

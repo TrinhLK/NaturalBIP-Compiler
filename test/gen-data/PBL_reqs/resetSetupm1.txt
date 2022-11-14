@@ -1,2 +1,0 @@
-resetSetupm1 = ((buildpack_removeClojure => (deployer_resetAll)))
-Main_Exp: resetSetupm1

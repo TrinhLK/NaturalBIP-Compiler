@@ -1,2 +1,0 @@
-deployFreeAddon2 = ((postgres_sub1 => (deployer_addHerokuPostgres)))
-Main_Exp: deployFreeAddon2

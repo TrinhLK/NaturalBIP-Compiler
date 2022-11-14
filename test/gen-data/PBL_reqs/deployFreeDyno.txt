@@ -1,2 +1,0 @@
-deployFreeDyno = dynotype_sub1 <=> deployer_setFreeDyno
-Main_Exp: deployFreeDyno

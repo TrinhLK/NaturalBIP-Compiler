@@ -793,10 +793,18 @@ def gen_Boolean_encoding(xmlFile):
 				list_chosen_requirements = main_list
 			else:
 				main_list = new_main_content.split(" & ")
-				list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
-			print ("list_chosen_requirements" + str(list_chosen_requirements))
+				tmp_list_chosen_requirements = re.split(r'[\s]*\,[\s]*', value)
+	for key in requirements.keys():
+		for req in tmp_list_chosen_requirements:
+			# print (key + "\t" + req + "\t" + str(key in req))
+			# print (str(req.find(key)))
+			if req in key:
+				list_chosen_requirements.append(key)
+	print ("tmp_list_chosen_requirements: " + str(tmp_list_chosen_requirements))
+	print ("list_chosen_requirements: " + str(list_chosen_requirements))
 
 	for key, value in requirements.items():
+		print (key + "\t" + str(list_chosen_requirements))
 		if key in list_chosen_requirements:
 			print ("\n\nBEGIN ---- ---- ----")
 			analyzed_req = analyze_requirement(key, value, data)
@@ -1031,17 +1039,17 @@ def gen_Boolean_encoding(xmlFile):
 # print (get_effect_list(test_str))
 # print ("------------------- end test 2")
 
-# print ("------------------- tracker_peer generation")
-# gen_Boolean_encoding('input/tracker_peer.xml')
-# print ("------------------- finished tracker_peer generation")
+print ("------------------- tracker_peer generation")
+gen_Boolean_encoding('input/tracker_peer.xml')
+print ("------------------- finished tracker_peer generation")
 
 # print ("------------------- monitor-switch generation")
 # gen_Boolean_encoding('input/monitorswitch.xml')
 # print ("------------------- finished monitor-switch generation")
 
-print ("------------------- heroku_deployer generation")
-gen_Boolean_encoding('input/herokudeployer.xml')
-print ("------------------- finished heroku_deployer generation")
+# print ("------------------- heroku_deployer generation")
+# gen_Boolean_encoding('input/herokudeployer.xml')
+# print ("------------------- finished heroku_deployer generation")
 
 
 

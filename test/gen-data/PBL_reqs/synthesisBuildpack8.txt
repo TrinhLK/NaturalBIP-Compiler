@@ -1,2 +1,0 @@
-synthesisBuildpack8 = ((buildpack_setAddonsForJvm => (deployer_setAddonsForJvm & cleardb_on & postgres_on & scout_off & newrelic_on)))
-Main_Exp: synthesisBuildpack8

@@ -1,2 +1,0 @@
-buildpackpostgres3 = buildpack_setAddonsForPython <=> postgres_on
-Main_Exp: buildpackpostgres3

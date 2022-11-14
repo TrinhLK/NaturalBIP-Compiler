@@ -1,2 +1,0 @@
-buildpackNewRelic1 = buildpack_setAddonsForJava <=> newrelic_on
-Main_Exp: buildpackNewRelic1

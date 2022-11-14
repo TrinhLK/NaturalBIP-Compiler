@@ -1,2 +1,0 @@
-resetAddon3 = ((cleardb_reset => (deployer_resetAll)))
-Main_Exp: resetAddon3

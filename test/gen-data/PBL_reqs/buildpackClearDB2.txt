@@ -1,2 +1,0 @@
-buildpackClearDB2 = buildpack_setAddonsForScala <=> cleardb_on
-Main_Exp: buildpackClearDB2

@@ -1,2 +1,0 @@
-resetAddon8 = ((newrelic_off => (deployer_resetAll)))
-Main_Exp: resetAddon8

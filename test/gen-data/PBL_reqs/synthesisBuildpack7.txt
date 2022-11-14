@@ -1,2 +1,0 @@
-synthesisBuildpack7 = ((buildpack_setAddonsForGradle => (deployer_setAddonsForGradle & cleardb_off & postgres_off & scout_off & newrelic_off)))
-Main_Exp: synthesisBuildpack7

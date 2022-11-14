@@ -1,0 +1,2 @@
+TP_02_listen = ((p_listen => (p_is_registered_to_TP02listenptt & TP02listenptt_broadcast))) & ((p1_listen => (p1_is_registered_to_TP02listenptt & p1_is_different_with_p & p_is_registered_to_TP02listenptt & TP02listenptt_broadcast)))
+Main_Exp: TP_02_listen

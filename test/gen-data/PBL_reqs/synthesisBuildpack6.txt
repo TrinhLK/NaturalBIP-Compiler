@@ -1,2 +1,0 @@
-synthesisBuildpack6 = ((buildpack_setAddonsForClojure => (deployer_setAddonsForClojure & cleardb_on & postgres_on & scout_off & newrelic_off)))
-Main_Exp: synthesisBuildpack6

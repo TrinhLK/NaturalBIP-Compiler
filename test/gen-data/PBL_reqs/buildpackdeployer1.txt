@@ -1,2 +1,0 @@
-buildpackdeployer1 = ((deployer_setAddonsForJava => (buildpack_setAddonsForJava)))
-Main_Exp: buildpackdeployer1

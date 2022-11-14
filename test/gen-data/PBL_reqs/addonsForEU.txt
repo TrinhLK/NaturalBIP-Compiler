@@ -1,2 +1,0 @@
-addonsForEU = ((region_setAddonsForEU => (postgres_on & cleardb_on & scout_on & newrelic_on & deployer_setAddonsForEU)))
-Main_Exp: addonsForEU

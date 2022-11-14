@@ -489,10 +489,6 @@ def synthesis_cnf_clauses(list_MyClause):
 
 			if (compareList(list_MyClause[i].get_neg_list_str(), list_MyClause[j].get_neg_list_str())):
 				temp.neg = list_MyClause[i].neg
-				# print ("neg_i: " + str(list_MyClause[i].get_neg_list_str()))
-				# print ("neg_j: " + str(list_MyClause[j].get_neg_list_str()))
-				# print("pos_i: " + str(list_MyClause[i].get_pos_list_str()))
-				# print("pos_j: " + str(list_MyClause[j].get_pos_list_str()))
 				list_MyClause[i].pos = merge_two_pos_list(list_MyClause[i].pos, list_MyClause[j].pos)
 				list_MyClause[j].rm = True
 				temp.pos = list_MyClause[i].pos

@@ -1,2 +1,0 @@
-buildpackClearDB4 = buildpack_setAddonsForRuby <=> cleardb_on
-Main_Exp: buildpackClearDB4

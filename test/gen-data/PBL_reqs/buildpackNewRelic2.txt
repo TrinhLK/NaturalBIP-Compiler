@@ -1,2 +1,0 @@
-buildpackNewRelic2 = buildpack_setAddonsForScala <=> newrelic_off
-Main_Exp: buildpackNewRelic2

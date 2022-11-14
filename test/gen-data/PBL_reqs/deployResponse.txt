@@ -1,2 +1,0 @@
-deployResponse = dynotype_sendDynoResponse <=> deployer_receiveDynoResponse
-Main_Exp: deployResponse

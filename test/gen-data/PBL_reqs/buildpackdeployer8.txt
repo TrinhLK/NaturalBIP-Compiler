@@ -1,2 +1,0 @@
-buildpackdeployer8 = ((deployer_setAddonsForJvm => (buildpack_setAddonsForJvm)))
-Main_Exp: buildpackdeployer8

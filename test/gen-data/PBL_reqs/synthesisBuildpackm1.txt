@@ -1,2 +1,0 @@
-synthesisBuildpackm1 = ((buildpack_setAddonsForGo => (deployer_setAddonsForGo & cleardb_on & postgres_on & scout_off & newrelic_off)))
-Main_Exp: synthesisBuildpackm1

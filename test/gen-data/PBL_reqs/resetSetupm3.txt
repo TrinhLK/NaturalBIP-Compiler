@@ -1,2 +1,0 @@
-resetSetupm3 = ((buildpack_removePhp => (deployer_resetAll)))
-Main_Exp: resetSetupm3

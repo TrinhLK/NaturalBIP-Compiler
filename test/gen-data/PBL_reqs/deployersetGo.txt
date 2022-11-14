@@ -1,2 +1,0 @@
-deployersetGo = buildpack_setGo <=> deployer_setGo
-Main_Exp: deployersetGo

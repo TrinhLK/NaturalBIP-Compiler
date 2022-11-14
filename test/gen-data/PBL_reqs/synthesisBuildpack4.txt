@@ -1,2 +1,0 @@
-synthesisBuildpack4 = ((buildpack_setAddonsForRuby => (deployer_setAddonsForRuby & cleardb_on & postgres_on & scout_on & newrelic_on)))
-Main_Exp: synthesisBuildpack4

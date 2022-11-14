@@ -1,2 +1,0 @@
-resetSetup4 = ((buildpack_removeJava => (deployer_resetAll)))
-Main_Exp: resetSetup4

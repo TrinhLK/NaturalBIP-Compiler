@@ -1,2 +1,0 @@
-deployersetPhP = buildpack_setPhP <=> deployer_setPhp
-Main_Exp: deployersetPhP

@@ -1,2 +1,0 @@
-availableAddons = ((postgres_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((cleardb_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((scout_on => (region_setAddonsForEU | region_setAddonsForUS))) & ((newrelic_on => (region_setAddonsForEU | region_setAddonsForUS)))
-Main_Exp: availableAddons

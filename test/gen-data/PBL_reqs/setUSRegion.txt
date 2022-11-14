@@ -1,2 +1,0 @@
-setUSRegion = region_toUS <=> deployer_setUSRegion
-Main_Exp: setUSRegion

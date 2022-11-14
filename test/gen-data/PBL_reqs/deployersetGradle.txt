@@ -1,2 +1,0 @@
-deployersetGradle = buildpack_setGradle <=> deployer_setGradle
-Main_Exp: deployersetGradle

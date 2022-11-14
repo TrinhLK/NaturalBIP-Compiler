@@ -1,2 +1,0 @@
-buildpackScout1 = buildpack_setAddonsForJava <=> scout_off
-Main_Exp: buildpackScout1

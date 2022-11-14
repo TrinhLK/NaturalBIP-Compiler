@@ -1,2 +1,0 @@
-buildpackpostgres2 = buildpack_setAddonsForScala <=> postgres_on
-Main_Exp: buildpackpostgres2

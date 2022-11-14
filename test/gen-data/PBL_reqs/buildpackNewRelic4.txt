@@ -1,2 +1,0 @@
-buildpackNewRelic4 = buildpack_setAddonsForRuby <=> newrelic_on
-Main_Exp: buildpackNewRelic4

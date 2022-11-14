@@ -1,2 +1,0 @@
-buildpackScout3 = buildpack_setAddonsForPython <=> scout_on
-Main_Exp: buildpackScout3

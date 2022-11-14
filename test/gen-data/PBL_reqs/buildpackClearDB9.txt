@@ -1,2 +1,0 @@
-buildpackClearDB9 = buildpack_setAddonsForPhp <=> cleardb_on
-Main_Exp: buildpackClearDB9
