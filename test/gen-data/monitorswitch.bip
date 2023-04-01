@@ -1,0 +1,147 @@
+package monitorswitch
+
+	port type Port()
+
+	atom type Switch()
+		data string occi_core_summary
+		data string occi_core_title
+		data string occi_core_id
+		export port Port addServer()
+		export port Port removeAllServer()
+		export port Port switchServer()
+		export port Port chooseServer()
+		export port Port resetSwitch()
+		export port Port switchConfirm()
+
+		place SwitchInit, SwitchReady, ServerReady
+
+		initial to SwitchInit do {}
+		on addServer from SwitchInit to SwitchReady do {}
+		on chooseServer from SwitchReady to SwitchReady do {}
+		on addServer from SwitchReady to SwitchReady do {}
+		on removeAllServer from SwitchReady to SwitchInit do {}
+		on switchConfirm from SwitchReady to ServerReady do {}
+		on switchServer from ServerReady to ServerReady do {}
+		on resetSwitch from ServerReady to SwitchInit do {}
+	end
+
+	atom type Monitor()
+		data string occi_core_summary
+		data string occi_core_title
+		data string occi_core_id
+		export port Port receiveRandomNumberRequest()
+		export port Port receiveSwitchConfirm()
+		export port Port sendRandomNumberRequest()
+		export port Port switchServer()
+		export port Port resetMonitor()
+
+		place MonitorInit, SwitchReady, RandomNumberRequestReceived
+
+		initial to MonitorInit do {}
+		on receiveSwitchConfirm from MonitorInit to SwitchReady do {}
+		on receiveRandomNumberRequest from SwitchReady to RandomNumberRequestReceived do {}
+		on resetMonitor from SwitchReady to MonitorInit do {}
+		on sendRandomNumberRequest from RandomNumberRequestReceived to SwitchReady do {}
+		on switchServer from RandomNumberRequestReceived to SwitchReady do {}
+	end
+
+	atom type Monitor_2()
+		data string occi_core_summary
+		data string occi_core_title
+		data string occi_core_id
+		export port Port sendRandomNumberRequest()
+		export port Port receiveSwitchConfirm()
+		export port Port receiveRandomNumberRequest()
+		export port Port resetMonitor()
+		export port Port addDatabase()
+		export port Port switchServer()
+
+		place MonitorInit, SwitchReady, AddedDatabase, RandomNumberRequestReceived
+
+		initial to MonitorInit do {}
+		on receiveSwitchConfirm from MonitorInit to SwitchReady do {}
+		on resetMonitor from SwitchReady to MonitorInit do {}
+		on receiveRandomNumberRequest from SwitchReady to RandomNumberRequestReceived do {}
+		on sendRandomNumberRequest from AddedDatabase to SwitchReady do {}
+		on sendRandomNumberRequest from RandomNumberRequestReceived to SwitchReady do {}
+		on addDatabase from RandomNumberRequestReceived to AddedDatabase do {}
+	end
+
+	atom type Monitor_3()
+		data string occi_core_summary
+		data string occi_core_title
+		data string occi_core_id
+		export port Port receiveRandomNumberRequest()
+		export port Port switchServer()
+		export port Port sendRandomNumberRequest()
+		export port Port addDatabase()
+		export port Port resetMonitor()
+		export port Port receiveSwitchConfirm()
+
+		place MonitorInit, SwitchReady, RandomNumberRequestReceived
+
+		initial to MonitorInit do {}
+		on receiveSwitchConfirm from MonitorInit to SwitchReady do {}
+		on resetMonitor from SwitchReady to MonitorInit do {}
+		on addDatabase from SwitchReady to SwitchReady do {}
+		on receiveRandomNumberRequest from SwitchReady to RandomNumberRequestReceived do {}
+		on switchServer from RandomNumberRequestReceived to SwitchReady do {}
+		on sendRandomNumberRequest from RandomNumberRequestReceived to SwitchReady do {}
+	end
+
+	atom type Monitor_4()
+		data string occi_core_summary
+		data string occi_core_title
+		data string occi_core_id
+		export port Port receiveRandomNumberRequest()
+		export port Port sendRandomNumberRequest()
+		export port Port receiveSwitchConfirm()
+		export port Port switchServer()
+		export port Port addDatabase()
+		export port Port resetMonitor()
+
+		place MonitorInit, SwitchReady, RandomNumberRequestReceived
+
+		initial to MonitorInit do {}
+		on receiveSwitchConfirm from MonitorInit to SwitchReady do {}
+		on addDatabase from MonitorInit to MonitorInit do {}
+		on receiveRandomNumberRequest from SwitchReady to RandomNumberRequestReceived do {}
+		on resetMonitor from SwitchReady to MonitorInit do {}
+		on switchServer from RandomNumberRequestReceived to SwitchReady do {}
+		on sendRandomNumberRequest from RandomNumberRequestReceived to SwitchReady do {}
+	end
+
+	atom type HerokuController()
+		data string occi_core_summary
+		data string occi_core_title
+		data string occi_core_id
+		export port Port addDatabase()
+
+		place Init
+
+		initial to Init do {}
+		on addDatabase from Init to Init do {}
+	end
+
+	connector type switchServer_3_root_define(Port p1, Port p2)
+		define p1 p2 
+	end
+	connector type switchConfirm_3_root_define(Port p1, Port p2)
+		define p1 p2 
+	end
+	connector type addDB_3_root_define(Port p1, Port p2)
+		define p1 p2 
+	end
+
+	compound type monitorswitchCompound()
+		component HerokuController herokucontroller()
+		component Monitor monitor()
+		component Switch switch()
+		component Monitor_2 monitor_2()
+		component Monitor_3 monitor_3()
+		component Monitor_4 monitor_4()
+		connector switchServer_3_root_define switchServer_3_root_0(monitor_3.switchServer, switch.switchServer)
+		connector switchConfirm_3_root_define switchConfirm_3_root_0(monitor_3.receiveSwitchConfirm, switch.switchConfirm)
+		connector addDB_3_root_define addDB_3_root_0(monitor_3.addDatabase, herokucontroller.addDatabase)
+	end
+end
