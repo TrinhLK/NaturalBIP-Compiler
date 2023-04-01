@@ -1,2 +1,0 @@
-TP_01_2 = ((TP012ptt_log => (p_is_registered_to_TP012ptt & p_unregister)))
-Main_Exp: TP_01_2

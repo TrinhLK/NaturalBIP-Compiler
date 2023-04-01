@@ -1,2 +1,0 @@
-TP_02_mutex = (p_speak XOR p_listen)
-Main_Exp: TP_02_mutex

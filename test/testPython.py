@@ -415,13 +415,22 @@ def get_all_actions_from_ontology (ontology):
 # ------------------------------------ ------------------------------------
 # PATTERNS: 
 # 	
+# ------------------------------------
 def get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology):
 	result = []
 	# get all actions
 	list_actions = get_all_actions_from_ontology(ontology)
+	cause_elements = re.split(r"\& | \|", cause)
+	# print ("cause list: " +  str(cause_elements))
+	
+	# Normal case
 	for a_clause in disjunction_of_effect_clause:
 		can_interact_element = []
 		list_interacting_clause = []
+		swapped = swapTwoElemsFromTwoList(a_clause, cause_elements)
+		# Case: if p_speak & t_broadcast, ~p1_speak?
+		if swapped != []:
+			a_clause[swapped[0]] , cause_elements[swapped[1]] = cause_elements[swapped[1]], a_clause[swapped[0]]
 
 		for element in a_clause:
 			for action in list_actions:
@@ -430,7 +439,12 @@ def get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology):
 					# print (element + ":\t OK")
 					can_interact_element.append(element)
 		can_interact_element = list(set(can_interact_element))
-		# print ("can_interact_element: " + str(can_interact_element))
+
+		# print ("0 --- cause: " + str(cause_elements) + "\teffects: " + str(a_clause))
+		if swapTwoElemsFromTwoList(cause_elements, a_clause) != []:
+			a_clause[swapped[0]] , cause_elements[swapped[1]] = cause_elements[swapped[1]], a_clause[swapped[0]]
+		# print ("1 --- cause: " + str(cause_elements) + "\teffects: " + str(a_clause))
+		# print ("a_clause: " + str(a_clause))
 
 		for interacting_element_i in can_interact_element:
 			interacting_clause = "(" + interacting_element_i.strip() + " => ("
@@ -440,12 +454,18 @@ def get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology):
 					cause_list.append(interacting_element_j.strip())
 					# interacting_clause += "and " + interacting_element_j
 			# interacting_clause += " and " + cause + ")"
-			cause_list.append(cause.strip())
+			for elm in cause_elements:
+				if elm != interacting_element_i:
+					cause_list.append(elm.strip())
+			# cause_list.append(cause.strip())
 
 			list_interacting_clause.append(interacting_clause + " & ".join(cause_list) + "))")
 		result.append(list_interacting_clause)
 
-	# print (result)
+	
+
+
+	# print ("PRINT OUT: " + str(result))
 	result_str = []
 	for disjunction_clause in result:
 		conjunction_string = " & ".join(disjunction_clause)
@@ -460,6 +480,23 @@ def get_Boolean_formulas_form(disjunction_of_effect_clause, cause, ontology):
 	new_result.append(result)
 	
 	return new_result
+# ------------------------------------
+
+# ------------------------------------
+def swapTwoElemsFromTwoList(effects, cause_list):
+    # checked = False
+    for i in range(len(effects)):
+        for j in range(len(cause_list)):
+            ef_elm_action = effects[i][effects[i].find("_")+1:]
+            cause_elm_action = cause_list[j][cause_list[j].find("_")+1:]
+            if "~" in effects[i] and ef_elm_action == cause_elm_action:
+                # checked = True
+                print("swap: " + effects[i] + "\t" + cause_list[j])
+                return [i,j]
+                # effects[i] , cause_list[j] = cause_list[j], effects[i]
+    # return True
+    return []
+# ------------------------------------
 # ------------------------------------ ------------------------------------
 
 # ------------------------------------ ------------------------------------
@@ -730,6 +767,8 @@ def analyze_requirement(req_name, input_requirement, data):
 	# print (req_name + " = " + handle_pattern(updated_requirement, ontology))
 	if handle_pattern(updated_requirement, ontology) != "":
 		result = [req_name + " = " + handle_pattern(updated_requirement, ontology)]
+	else:
+		result = [req_name + " = False"]
 	result.append(artifacts) #PBL inputs, boolean functions, and data transfer
 	result.append(updated_requirement[3])	#Class_Instances
 	result.append(list(updated_requirement[1].values())) #Conditions/Predicates
@@ -947,22 +986,37 @@ def gen_Boolean_encoding(xmlFile):
 	print(list_pbl_requirements)
 	print(list_chosen_requirements)
 
-	for chosen_req in list_chosen_requirements:
-		output_str = ""
-		list_req_name_main = []
-		for req in list_pbl_requirements:
-			if chosen_req in req:
-				output_str += req + "\n"
-				req_name = req[0:req.index("=")-1]
-				list_req_name_main.append(req_name)
-		output_str += "Main_Exp: " + " & ".join(list_req_name_main)
-		with open('gen-data/PBL_reqs/' + chosen_req + '.txt', 'w') as f:
-			f.write(output_str)
-		# print (output_str)
-	with open('gen-data/PBL_'+fileName+'.txt', 'w') as f:
-		f.write(result)
-	with open('gen-data/system_infor.json', 'w') as f:
-		json.dump(exported_data, f)
+	if tmp_list_chosen_requirements != []:
+		for big_chosen_one in tmp_list_chosen_requirements:
+			output_str = ""
+			list_req_name_main = []
+			for chosen_req in list_chosen_requirements:
+				if big_chosen_one in chosen_req:
+					for req in list_pbl_requirements:
+						if chosen_req in req:
+							output_str += req + "\n"
+							req_name = req[0:req.index("=")-1]
+							list_req_name_main.append(req_name)
+			output_str += "Main_Exp: " + " & ".join(list_req_name_main)
+			with open('gen-data/PBL_reqs/' + big_chosen_one + '.txt', 'w') as f:
+				f.write(output_str)
+	else:
+		for chosen_req in list_chosen_requirements:
+			output_str = ""
+			list_req_name_main = []
+			for req in list_pbl_requirements:
+				if chosen_req in req:
+					output_str += req + "\n"
+					req_name = req[0:req.index("=")-1]
+					list_req_name_main.append(req_name)
+			output_str += "Main_Exp: " + " & ".join(list_req_name_main)
+			with open('gen-data/PBL_reqs/' + chosen_req + '.txt', 'w') as f:
+				f.write(output_str)
+			# print (output_str)
+		with open('gen-data/PBL_'+fileName+'.txt', 'w') as f:
+			f.write(result)
+		with open('gen-data/system_infor.json', 'w') as f:
+			json.dump(exported_data, f)
 	# # print (fileName)
 	# try:
 	# 	with open('gen-data/data_'+fileName+'.json', 'r') as fp:

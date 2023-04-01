@@ -1,2 +1,0 @@
-TP_01_1 = ((t_log => (p_register)))
-Main_Exp: TP_01_1

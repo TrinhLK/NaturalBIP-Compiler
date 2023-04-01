@@ -39,8 +39,10 @@
 			<annotation id="TP_04_3">For any Peer p, there is a Tracker t, t shall log synchronized with p shall unregister.</annotation>
 			<annotation id="TP_04_2">For any Peer p, there is a Tracker t, if t executes log, p shall register or p shall unregister.</annotation>
 
-			<annotation id="TP_02_speak">For any Peer p, there is a Tracker t, such that p is registered to t, if t executes broadcast, p shall speak and for all Peer p1, where p1 is registered to t and p1 is different with p, p1 shall not speak.</annotation>
-			<annotation id="TP_02_mutex">For any Peer p, (p shall either speak or listen).</annotation>
+			<annotation id="TP_05_speak">For any Peer p, there is a Tracker t such that p is registered to t, if t executes broadcast, p shall speak and for all Peer p1, such that p1 is registered to t and p1 is different with p, p1 shall not speak.</annotation>
+			<annotation id="TP_02_speak">For any Peer p, there is a Tracker t such that p is registered to t, if t executes broadcast and p executes speak, for all Peer p1 such that p1 is registered to t and p1 is different with p, p1 shall not speak.</annotation>
+
+			<annotation id="TP_05_mutex">For any Peer p, (p shall either speak or listen).</annotation>
 			<annotation id="TP_02_listen">For any Peer p, there is a Tracker t where p is registered to t, if t executes broadcast, p shall listen or for all Peer p1, such that p1 is registered to t and p1 is different with p, p1 shall listen.</annotation>
 			
 			<annotation id="MAIN">TP_01, TP_02</annotation>

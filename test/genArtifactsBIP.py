@@ -879,6 +879,18 @@ def generate_atomic_interactions_1(dual_horn, list_ports):
 		print ("positive_clause_str: " + str(positive_clause_str))
 		positive_clause_str = list(map(list, set(map(tuple, map(set, positive_clause_str)))))
 		print ("updated_positive_clause_str: " + str(positive_clause_str))
+		positive_clause_port = []
+		for sub_list_port in positive_clause_str:
+			# print ("check sub_list_port:" + str(sub_list_port))
+			sub_sentences = []
+			for elm in sub_list_port:
+				# print ("check elm:" + str(elm))
+				if elm in list_port_str:
+					sub_sentences.append(elm)
+			positive_clause_port.append(sub_sentences)
+
+		print ("\npositive_clause_port: " + str(positive_clause_port))
+		positive_clause_str = positive_clause_port
 		# positive_clause_str = list(set(positive_clause_str))
 		# for elm in positive_clause_str:
 		# 	checked = False
