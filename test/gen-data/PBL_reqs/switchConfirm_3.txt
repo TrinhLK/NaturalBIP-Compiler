@@ -1,0 +1,2 @@
+switchConfirm_3 = m_receiveSwitchConfirm <=> s_switchConfirm
+Main_Exp: switchConfirm_3

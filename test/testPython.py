@@ -1015,8 +1015,9 @@ def gen_Boolean_encoding(xmlFile):
 			# print (output_str)
 		with open('gen-data/PBL_'+fileName+'.txt', 'w') as f:
 			f.write(result)
-		with open('gen-data/system_infor.json', 'w') as f:
-			json.dump(exported_data, f)
+	# print ("exported_data: " + str(exported_data))
+	with open('gen-data/system_infor.json', 'w') as f:
+		json.dump(exported_data, f)
 	# # print (fileName)
 	# try:
 	# 	with open('gen-data/data_'+fileName+'.json', 'r') as fp:
@@ -1093,13 +1094,13 @@ def gen_Boolean_encoding(xmlFile):
 # print (get_effect_list(test_str))
 # print ("------------------- end test 2")
 
-print ("------------------- tracker_peer generation")
-gen_Boolean_encoding('input/tracker_peer.xml')
-print ("------------------- finished tracker_peer generation")
+# print ("------------------- tracker_peer generation")
+# gen_Boolean_encoding('input/tracker_peer.xml')
+# print ("------------------- finished tracker_peer generation")
 
-# print ("------------------- monitor-switch generation")
-# gen_Boolean_encoding('input/monitorswitch.xml')
-# print ("------------------- finished monitor-switch generation")
+print ("------------------- monitor-switch generation")
+gen_Boolean_encoding('input/monitorswitch.xml')
+print ("------------------- finished monitor-switch generation")
 
 # print ("------------------- heroku_deployer generation")
 # gen_Boolean_encoding('input/herokudeployer.xml')
