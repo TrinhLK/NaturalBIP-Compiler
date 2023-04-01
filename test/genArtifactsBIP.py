@@ -1421,11 +1421,15 @@ def main():
 		macro_code += dt
 	print("\n------------------------ -------------------------- ------------------------")
 	print (macro_code)
-
+	macro_code += "\n/*\n"
 	print("\n------------------------")
 	boolean_functions = list(set(system_info['boolean_functions']))
 	for bl in boolean_functions:
+		macro_code += bl
 		print (bl)
+	macro_code += "\n*/\n"
+	with open('gen-data/JavaBIP_GlueBuilder.txt', 'w') as f:
+			f.write(macro_code)
 	print("\nBIP connectors ------------------------")
 	for k,v in allowed_interactions.items():
 		req_name = k[k.rindex("/")+1:k.index(".txt")]
