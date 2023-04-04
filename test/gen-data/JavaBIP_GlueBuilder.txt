@@ -1,23 +1,22 @@
-port(Switch.class, "switchServer").requires(Monitor_3.class, "switchServer");
-port(Monitor_3.class, "switchServer").requires(Switch.class, "switchServer");
-port(Monitor_3.class, "switchServer").accepts(Switch.class, "switchServer");
-port(Switch.class, "switchServer").accepts(Monitor_3.class, "switchServer");
+port(Peer.class, "listen").requires(Tracker.class, "broadcast");
+port(Peer.class, "speak").requires(Tracker.class, "broadcast");
+port(Peer.class, "listen").accepts(Peer.class, "listen", Peer.class, "speak", Tracker.class, "broadcast");
+port(Peer.class, "speak").accepts(Peer.class, "listen", Tracker.class, "broadcast");
+port(Tracker.class, "broadcast").accepts(Peer.class, "listen", Peer.class, "speak", Tracker.class, "broadcast");
 
-port(Monitor_3.class, "receiveSwitchConfirm").requires(Switch.class, "switchConfirm");
-port(Switch.class, "switchConfirm").requires(Monitor_3.class, "receiveSwitchConfirm");
-port(Switch.class, "switchConfirm").accepts(Monitor_3.class, "receiveSwitchConfirm");
-port(Monitor_3.class, "receiveSwitchConfirm").accepts(Switch.class, "switchConfirm");
+port(Peer.class, "register").requires(Tracker.class, "log");
+port(Peer.class, "unregister").requires(Tracker.class, "log");
+port(Tracker.class, "log").requires(Peer.class, "register");
+port(Tracker.class, "log").requires(Peer.class, "unregister");
+port(Tracker.class, "log").accepts(Peer.class, "register", Peer.class, "unregister", Tracker.class, "log");
+port(Peer.class, "register").accepts(Peer.class, "unregister", Tracker.class, "log");
+port(Peer.class, "unregister").accepts(Peer.class, "register", Tracker.class, "log");
 
-port(Monitor_3.class, "addDatabase").requires(HerokuController.class, "addDatabase");
-port(HerokuController.class, "addDatabase").requires(Monitor_3.class, "addDatabase");
-port(HerokuController.class, "addDatabase").accepts(Monitor_3.class, "addDatabase");
-port(Monitor_3.class, "addDatabase").accepts(HerokuController.class, "addDatabase");
-
-data(HerokuController.class,"HerokuController2Monitor_3_data").to(Monitor_3.class,"HerokuController2Monitor_3_data");
+data(Tracker.class,"Tracker2Peer_data").to(Peer.class,"Tracker2Peer_data");
 /*
-In Monitor_3.java:
-	@Guard(name="can_add_database_through")
-	public boolean can_add_database_through(@Data(name="HerokuController2Monitor_3_data") HerokuController HerokuController_ins) {}In Monitor_3.java:
-	@Guard(name="is_reached_the_threshold")
-	public boolean is_reached_the_threshold() {}
+In Peer.java:
+	@Guard(name="is_registered_to")
+	public boolean is_registered_to(@Data(name="Tracker2Peer_data") Tracker Tracker_ins) {}In Peer.java:
+	@Guard(name="is_different_with")
+	public boolean is_different_with(Peer Peer_ins) {}
 */

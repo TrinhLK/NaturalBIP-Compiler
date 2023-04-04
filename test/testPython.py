@@ -1094,13 +1094,13 @@ def gen_Boolean_encoding(xmlFile):
 # print (get_effect_list(test_str))
 # print ("------------------- end test 2")
 
-# print ("------------------- tracker_peer generation")
-# gen_Boolean_encoding('input/tracker_peer.xml')
-# print ("------------------- finished tracker_peer generation")
+print ("------------------- tracker_peer generation")
+gen_Boolean_encoding('input/tracker_peer.xml')
+print ("------------------- finished tracker_peer generation")
 
-print ("------------------- monitor-switch generation")
-gen_Boolean_encoding('input/monitorswitch.xml')
-print ("------------------- finished monitor-switch generation")
+# print ("------------------- monitor-switch generation")
+# gen_Boolean_encoding('input/monitorswitch.xml')
+# print ("------------------- finished monitor-switch generation")
 
 # print ("------------------- heroku_deployer generation")
 # gen_Boolean_encoding('input/herokudeployer.xml')
