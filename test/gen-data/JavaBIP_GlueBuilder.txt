@@ -1,22 +1,24 @@
-port(Peer.class, "listen").requires(Tracker.class, "broadcast");
 port(Peer.class, "speak").requires(Tracker.class, "broadcast");
+port(Peer.class, "listen").requires(Tracker.class, "broadcast");
+port(Peer.class, "listen").accepts(Tracker.class, "broadcast", Peer.class, "speak", Peer.class, "listen");
 port(Peer.class, "speak").accepts(Tracker.class, "broadcast", Peer.class, "listen");
-port(Tracker.class, "broadcast").accepts(Peer.class, "speak", Tracker.class, "broadcast", Peer.class, "listen");
-port(Peer.class, "listen").accepts(Peer.class, "speak", Tracker.class, "broadcast", Peer.class, "listen");
+port(Tracker.class, "broadcast").accepts(Tracker.class, "broadcast", Peer.class, "speak", Peer.class, "listen");
 
 port(Tracker.class, "log").requires(Peer.class, "unregister");
 port(Peer.class, "unregister").requires(Tracker.class, "log");
-port(Tracker.class, "log").requires(Peer.class, "register");
 port(Peer.class, "register").requires(Tracker.class, "log");
-port(Tracker.class, "log").accepts(Peer.class, "unregister", Peer.class, "register", Tracker.class, "log");
-port(Peer.class, "unregister").accepts(Peer.class, "register", Tracker.class, "log");
-port(Peer.class, "register").accepts(Peer.class, "unregister", Tracker.class, "log");
+port(Tracker.class, "log").requires(Peer.class, "register");
+port(Peer.class, "register").accepts(Tracker.class, "log", Peer.class, "unregister");
+port(Tracker.class, "log").accepts(Tracker.class, "log", Peer.class, "unregister", Peer.class, "register");
+port(Peer.class, "unregister").accepts(Tracker.class, "log", Peer.class, "register");
 
 data(Tracker.class,"Tracker2Peer_data").to(Peer.class,"Tracker2Peer_data");
+
 /*
 In Peer.java:
 	@Guard(name="is_registered_to")
-	public boolean is_registered_to(@Data(name="Tracker2Peer_data") Tracker Tracker_ins) {}In Peer.java:
+	public boolean is_registered_to(@Data(name="Tracker2Peer_data") Tracker Tracker_ins) {}
+In Peer.java:
 	@Guard(name="is_different_with")
 	public boolean is_different_with(Peer Peer_ins) {}
 */
