@@ -30,8 +30,8 @@
 
 
 			<annotation id="TP_01_1">For any Peer p, there is a Tracker t, if p executes register, t shall log.</annotation>
-			<annotation id="TP_01_2">For any Peer p, there is a Tracker t, such that p is registered to t, if p executes unregister, t shall log.</annotation>
-			<annotation id="TP_01_3">For any Peer p, there is a Tracker t, if t executes log, (p shall register or p shall unregister).</annotation>
+			<annotation id="TP_01_2">For any Peer p, there is a Tracker t, if p is registered to t and p executes unregister, t shall log.</annotation>
+			<annotation id="TP_01_3">For any Peer p, there is a Tracker t, if t executes log, p shall register or p shall unregister.</annotation>
 			
 			<annotation id="TP_02_speak">For any Peer p, there is a Tracker t such that p is registered to t, if t executes broadcast and p executes speak, for all Peer p1 such that p1 is registered to t and p1 is different with p, p1 shall not speak.</annotation>
 			<annotation id="TP_02_listen">For any Peer p, there is a Tracker t where p is registered to t, if t executes broadcast, p shall listen or for all Peer p1, such that p1 is registered to t and p1 is different with p, p1 shall listen.</annotation>

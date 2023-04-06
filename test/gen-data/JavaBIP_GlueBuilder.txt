@@ -1,16 +1,16 @@
 port(Peer.class, "listen").requires(Tracker.class, "broadcast");
 port(Peer.class, "speak").requires(Tracker.class, "broadcast");
-port(Peer.class, "listen").accepts(Peer.class, "listen", Peer.class, "speak", Tracker.class, "broadcast");
-port(Peer.class, "speak").accepts(Peer.class, "listen", Tracker.class, "broadcast");
-port(Tracker.class, "broadcast").accepts(Peer.class, "listen", Peer.class, "speak", Tracker.class, "broadcast");
+port(Peer.class, "speak").accepts(Tracker.class, "broadcast", Peer.class, "listen");
+port(Tracker.class, "broadcast").accepts(Peer.class, "speak", Tracker.class, "broadcast", Peer.class, "listen");
+port(Peer.class, "listen").accepts(Peer.class, "speak", Tracker.class, "broadcast", Peer.class, "listen");
 
-port(Peer.class, "register").requires(Tracker.class, "log");
+port(Tracker.class, "log").requires(Peer.class, "unregister");
 port(Peer.class, "unregister").requires(Tracker.class, "log");
 port(Tracker.class, "log").requires(Peer.class, "register");
-port(Tracker.class, "log").requires(Peer.class, "unregister");
-port(Tracker.class, "log").accepts(Peer.class, "register", Peer.class, "unregister", Tracker.class, "log");
-port(Peer.class, "register").accepts(Peer.class, "unregister", Tracker.class, "log");
+port(Peer.class, "register").requires(Tracker.class, "log");
+port(Tracker.class, "log").accepts(Peer.class, "unregister", Peer.class, "register", Tracker.class, "log");
 port(Peer.class, "unregister").accepts(Peer.class, "register", Tracker.class, "log");
+port(Peer.class, "register").accepts(Peer.class, "unregister", Tracker.class, "log");
 
 data(Tracker.class,"Tracker2Peer_data").to(Peer.class,"Tracker2Peer_data");
 /*
