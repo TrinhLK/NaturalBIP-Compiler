@@ -1,4 +1,4 @@
-package monitorswitch
+package trackerpeer
 
 	port type Port()
 
@@ -52,7 +52,7 @@ package monitorswitch
 		define p1' p2' 
 	end
 
-	compound type monitorswitchCompound()
+	compound type trackerpeerCompound()
 		component Tracker t0()
 		component Tracker t1()
 		component Tracker t2()
